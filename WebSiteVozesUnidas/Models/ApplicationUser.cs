@@ -15,7 +15,7 @@ namespace WebSiteVozesUnidas.Models
         public DateOnly? Nascimento { get; set; }
         public string[]? Habilidades { get; set; }
         public string? Objetivos { get; set; }
-        public bool? Jornalista { get; set; }
+        public bool Jornalista { get; set; }
 
         // Propriedades específicas para Empresa
         public string? CNPJ { get; set; }

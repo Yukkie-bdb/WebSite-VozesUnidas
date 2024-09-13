@@ -17,6 +17,81 @@
                 <label asp-for="Input.Email">Email</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
+            <!-- Campo Nome -->
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Nome" class="form-control" placeholder="Nome" />
+                <label asp-for="Input.Nome">Nome do Usuário</label>
+                <span asp-validation-for="Input.Nome" class="text-danger"></span>
+            </div>
+
+            <!-- Campo Foto -->
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Foto" class="form-control" placeholder="Foto" />
+                <label asp-for="Input.Foto">Foto do Usuário</label>
+                <span asp-validation-for="Input.Foto" class="text-danger"></span>
+            </div>
+
+            <!-- Campo Sobre -->
+            <div class="form-floating mb-3">
+                <textarea asp-for="Input.Sobre" class="form-control" placeholder="Sobre"></textarea>
+                <label asp-for="Input.Sobre">Sobre o Usuário</label>
+                <span asp-validation-for="Input.Sobre" class="text-danger"></span>
+            </div>
+
+            <!-- Campo TipoUsuario -->
+            <div class="form-floating mb-3">
+                <select asp-for="Input.Tipo" class="form-select">
+                    <option value="">Selecione o tipo de usuário</option>
+                    <option value="PessoaFisica">Pessoa Física</option>
+                    <option value="Empresa">Empresa</option>
+                    <option value="ADM">Administrador</option>
+                </select>
+                <label asp-for="Input.Tipo">Tipo de Usuário</label>
+                <span asp-validation-for="Input.Tipo" class="text-danger"></span>
+            </div>
+
+            <!-- Campo CPF -->
+            <div class="form-floating mb-3">
+                <input asp-for="Input.CPF" class="form-control" placeholder="CPF" />
+                <label asp-for="Input.CPF">CPF</label>
+                <span asp-validation-for="Input.CPF" class="text-danger"></span>
+            </div>
+
+            <!-- Campo Data de Nascimento -->
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Nascimento" class="form-control" type="date" placeholder="Data de Nascimento" />
+                <label asp-for="Input.Nascimento">Data de Nascimento</label>
+                <span asp-validation-for="Input.Nascimento" class="text-danger"></span>
+            </div>
+
+            <!-- Campo Habilidades -->
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Habilidades" class="form-control" placeholder="Habilidades" />
+                <label asp-for="Input.Habilidades">Habilidades</label>
+                <span asp-validation-for="Input.Habilidades" class="text-danger"></span>
+            </div>
+
+            <!-- Campo Objetivos -->
+            <div class="form-floating mb-3">
+                <textarea asp-for="Input.Objetivos" class="form-control" placeholder="Objetivos"></textarea>
+                <label asp-for="Input.Objetivos">Objetivos Profissionais</label>
+                <span asp-validation-for="Input.Objetivos" class="text-danger"></span>
+            </div>
+
+            <!-- Campo Jornalista -->
+            <div class="form-check mb-3">
+                <input asp-for="Input.Jornalista" class="form-check-input" type="checkbox" value="True"/>
+                <label asp-for="Input.Jornalista" class="form-check-label">É Jornalista?</label>
+                <span asp-validation-for="Input.Jornalista" class="text-danger"></span>
+            </div>
+
+            <!-- Campo CNPJ -->
+            <div class="form-floating mb-3">
+                <input asp-for="Input.CNPJ" class="form-control" placeholder="CNPJ" />
+                <label asp-for="Input.CNPJ">CNPJ</label>
+                <span asp-validation-for="Input.CNPJ" class="text-danger"></span>
+            </div>
+
             <div class="form-floating mb-3">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                 <label asp-for="Input.Password">Password</label>
@@ -28,6 +103,73 @@
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+
+            <!-- Campo para adicionar novas habilidades -->
+            <div class="form-floating mb-3">
+                <input id="newHabilidade" class="form-control" placeholder="Adicionar Habilidade" />
+                <label for="newHabilidade">Adicionar Habilidade</label>
+            </div>
+
+            <!-- Botão para adicionar a nova habilidade -->
+            <div class="mb-3">
+                <button type="button" id="addHabilidade" class="btn btn-primary">Adicionar Habilidade</button>
+            </div>
+
+            <!-- Lista de habilidades -->
+            <div class="mb-3">
+                <ul id="habilidadesList" class="list-group">
+                    <!-- Habilidades serão adicionadas aqui -->
+                </ul>
+            </div>
+
+            <!-- Campo oculto para enviar a lista de habilidades -->
+            <input type="hidden" id="habilidadesHidden" name="Input.Habilidades" />
+
+            <!-- Script para adicionar e gerenciar habilidades -->
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const addButton = document.getElementById('addHabilidade');
+                    const newHabilidadeInput = document.getElementById('newHabilidade');
+                    const habilidadesList = document.getElementById('habilidadesList');
+                    const habilidadesHidden = document.getElementById('habilidadesHidden');
+
+                    addButton.addEventListener('click', function () {
+                        const newHabilidade = newHabilidadeInput.value.trim();
+
+                        if (newHabilidade) {
+                            // Adiciona a habilidade à lista
+                            const listItem = document.createElement('li');
+                            listItem.classList.add('list-group-item');
+                            listItem.textContent = newHabilidade;
+
+                            // Cria um botão para remover a habilidade
+                            const removeButton = document.createElement('button');
+                            removeButton.textContent = 'Remover';
+                            removeButton.classList.add('btn', 'btn-danger', 'btn-sm', 'float-end');
+                            removeButton.addEventListener('click', function () {
+                                listItem.remove();
+                                updateHiddenField();
+                            });
+
+                            listItem.appendChild(removeButton);
+                            habilidadesList.appendChild(listItem);
+
+                            // Limpa o campo de entrada
+                            newHabilidadeInput.value = '';
+
+                            // Atualiza o campo oculto
+                            updateHiddenField();
+                        }
+                    });
+
+                    function updateHiddenField() {
+                        const habilidades = Array.from(habilidadesList.children)
+                            .map(li => li.textContent.replace('Remover', '').trim());
+
+                        habilidadesHidden.value = JSON.stringify(habilidades);
+                    }
+                });
+            </script>
         </form>
     </div>
     <div class="col-md-6 col-md-offset-2">

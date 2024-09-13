@@ -71,33 +71,60 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
+            [Required]
+            [Display(Name = "Nome")]
+            public string Nome { get; set; }
+
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            /////////////////////////////
+
+            [Display(Name = "Foto do Usuário")]
+            public string Foto { get; set; }
+
+            [Display(Name = "Sobre o Usuário")]
+            public string Sobre { get; set; }
+
+            [Required]
+            [Display(Name = "Tipo de Usuário")]
+            public TipoUsuario Tipo { get; set; }
+
+            [Display(Name = "Mídias Sociais")]
+            public List<MidiaSocial> MidiaSocials { get; set; } = new List<MidiaSocial>();
+
+            // Propriedades específicas para PessoaFisica
+            [Display(Name = "CPF")]
+            public string CPF { get; set; }
+
+            [Display(Name = "Data de Nascimento")]
+            public DateOnly Nascimento { get; set; }
+
+            [Display(Name = "Habilidades")]
+            public string[] Habilidades { get; set; }
+
+            [Display(Name = "Objetivos Profissionais")]
+            public string Objetivos { get; set; }
+
+            [Display(Name = "É Jornalista?")]
+            public bool Jornalista { get; set; }
+
+            // Propriedades específicas para Empresa
+            [Display(Name = "CNPJ")]
+            public string CNPJ { get; set; }
         }
 
 
@@ -115,8 +142,19 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                await _userStore.SetUserNameAsync(user, Input.Nome, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
+                user.Foto = Input.Foto;
+                user.Sobre = Input.Sobre;
+                user.Tipo = Input.Tipo;
+                user.CPF = Input.CPF;
+                user.Nascimento = Input.Nascimento;
+                user.Habilidades = Input.Habilidades;
+                user.Objetivos = Input.Objetivos;
+                user.Jornalista = Input.Jornalista;
+                user.CNPJ = Input.CNPJ;
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
