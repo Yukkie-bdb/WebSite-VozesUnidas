@@ -19,6 +19,16 @@ namespace WebSiteVozesUnidas.Models
 
         // Propriedades específicas para Empresa
         public string? CNPJ { get; set; }
+
+        // FK
+        public IEnumerable<Noticia>? Noticias { get; set; }
+        public IEnumerable<AvaliacaoEspecialista>? AvaliacoesEspecialhistas { get; set; }
+        public IEnumerable<Post>? Posts { get; set; }
+        public IEnumerable<Comentario>? Comentarios { get; set; }
+        public IEnumerable<LikesPost>? LikesPosts { get; set; }
+        public IEnumerable<CandidatoVaga>? CandidatoVagas { get; set; }
+        public IEnumerable<VagaEmprego>? VagaEmpregos { get; set; }
+
     }
     public enum TipoUsuario
     {

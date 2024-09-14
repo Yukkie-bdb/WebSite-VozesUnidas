@@ -2,7 +2,7 @@
 {
     public class LikesPost
     {
-        public Guid IdLike {  get; set; }
+        public Guid IdLikesPost { get; set; }
 
 
         public Guid? IdPost { get; set; }

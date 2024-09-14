@@ -2,7 +2,7 @@
 {
     public class VagaEmprego
     {
-        Guid IdVaga {  get; set; }
+        public Guid IdVagaEmprego { get; set; }
         public string Cargo { get; set; }
         public string ResumoVaga { get; set; }
         public string Foto { get; set; }

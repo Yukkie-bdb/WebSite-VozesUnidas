@@ -2,7 +2,7 @@
 {
     public class CandidatoVaga
     {
-        public Guid IdCandidatura {  get; set; }
+        public Guid IdCandidatoVaga { get; set; }
         public Guid? IdUsuario { get; set; }
         public ApplicationUser? Usuario { get; set; }
         public Guid? IdVaga { get; set; }
@@ -10,5 +10,5 @@
         {
             get; set;
         }
-     }
+    }
 }
