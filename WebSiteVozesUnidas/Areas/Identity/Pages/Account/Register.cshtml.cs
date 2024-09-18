@@ -156,7 +156,7 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account
                 user.Tipo = Input.Tipo;
                 user.CPF = Input.CPF;
                 user.Nascimento = Input.Nascimento;
-                user.Habilidades = Input.Habilidades;
+                //user.Habilidades = Input.Habilidades;
                 user.Objetivos = Input.Objetivos;
                 user.Jornalista = Input.Jornalista;
                 user.CNPJ = Input.CNPJ;

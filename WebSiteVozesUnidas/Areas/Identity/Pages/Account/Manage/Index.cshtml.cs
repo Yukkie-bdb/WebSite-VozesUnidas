@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Hosting;
+using NuGet.Packaging;
 using WebSiteVozesUnidas.Models;
 
 namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
@@ -17,13 +19,16 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private string _caminho;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            IWebHostEnvironment hostEnvironment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _caminho = hostEnvironment.WebRootPath;
         }
 
         /// <summary>
@@ -52,13 +57,20 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            public string Foto { get; set; }
+            public string Nome { get; set; }
+            public string Email { get; set; }
+            public string Sobre { get; set; }
+            public TipoUsuario Tipo { get; set; }
+            public DateOnly Nascimento { get; set; }
+            public List<string> Habilidades { get; set; } = new List<string>();
+            public string Objetivos { get; set; }
+            public bool Jornalista { get; set; }
+            public string CPF { get; set; }
+            public string CNPJ { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -70,7 +82,18 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Foto = user.Foto,
+                Nome = user.UserName,
+                Email = user.Email,
+                Sobre = user.Sobre,
+                Tipo = user.Tipo,
+                Nascimento = (DateOnly)user.Nascimento,
+                Habilidades = user.Habilidades,
+                Objetivos = user.Objetivos,
+                Jornalista = user.Jornalista,
+                CPF = user.CPF,
+                CNPJ = user.CNPJ
             };
         }
 
@@ -86,7 +109,7 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(IFormFile imgUp)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -100,6 +123,58 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
+            // Se houver uma ImagemPerfil existente, excluí-la
+            if (Input.Foto != null)
+            {
+                if (!string.IsNullOrEmpty(user.Foto))
+                {
+                    string existingFilePath = Path.Combine(_caminho, "img", user.Foto);
+                    if (System.IO.File.Exists(existingFilePath))
+                    {
+                        System.IO.File.Delete(existingFilePath);
+                    }
+                }
+            }
+
+            if (imgUp != null && imgUp.Length > 0)
+            {
+                string uploadsFolder = Path.Combine(_caminho, "img");
+
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + imgUp.FileName;
+
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await imgUp.CopyToAsync(fileStream);
+                }
+                user.Foto = uniqueFileName;
+            }
+
+            foreach (var item in user.Habilidades)
+            {
+                Input.Habilidades.Add(item);
+            }
+
+
+            // Atualizar todas as propriedades
+            user.UserName = Input.Nome;
+            user.Email = Input.Email;
+            user.Sobre = Input.Sobre;
+            user.Tipo = Input.Tipo;
+            user.Nascimento = Input.Nascimento;
+            user.Habilidades = Input.Habilidades;
+            user.Objetivos = Input.Objetivos;
+            user.Jornalista = Input.Jornalista;
+            user.CPF = Input.CPF;
+            user.CNPJ = Input.CNPJ;
+
+            // Atualizar o telefone separadamente
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
             {
@@ -109,6 +184,13 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
                     StatusMessage = "Unexpected error when trying to set phone number.";
                     return RedirectToPage();
                 }
+            }
+
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                StatusMessage = "Unexpected error when trying to update profile.";
+                return RedirectToPage();
             }
 
             await _signInManager.RefreshSignInAsync(user);
