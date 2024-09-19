@@ -145,11 +145,21 @@
     };
 </script>
 
-<script type="text/javascript">
+<script>
     // Função para remover uma habilidade
     function removeHabilidade(button) {
         var habilidadeItem = button.closest('.habilidade-item');
         habilidadeItem.remove();
+
+        // Reindexa os campos de habilidades restantes
+        var habilidades = document.querySelectorAll('#habilidades-container .habilidade-item');
+        habilidades.forEach((item, index) => {
+            var input = item.querySelector('input');
+            var button = item.querySelector('button');
+            input.setAttribute('id', 'campoHabilidade-' + index);
+            input.setAttribute('name', 'Input.Habilidades[' + index + ']');
+            button.setAttribute('onclick', 'removeHabilidade(this)');
+        });
     }
 
     // Função para adicionar uma nova habilidade
