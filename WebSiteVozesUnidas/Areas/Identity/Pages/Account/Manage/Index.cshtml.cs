@@ -110,6 +110,10 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
+        public static List<string> RemoveItem(List<string> lista)
+        {
+            return (lista);
+        }
         public async Task<IActionResult> OnPostAsync(IFormFile imgUp)
         {
             var user = await _userManager.GetUserAsync(User);
