@@ -105,6 +105,7 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
+
             await LoadAsync(user);
             return Page();
         }
@@ -156,11 +157,7 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
                 user.Foto = uniqueFileName;
             }
 
-            foreach (var item in user.Habilidades)
-            {
-                Input.Habilidades.Add(item);
-            }
-
+            //Input.Habilidades = user.Habilidades;
 
             // Atualizar todas as propriedades
             user.UserName = Input.Nome;

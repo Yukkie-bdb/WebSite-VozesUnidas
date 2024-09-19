@@ -65,27 +65,19 @@
             </div>
 
             <!-- Campo Habilidades -->
-            <div id="habilidades-container" class="mb-3">
-                <label>Habilidades</label>
-                @{
-                    int i = 0;
-                }
-                @foreach (var item in @Model.Input.Habilidades)
+            <div class="form-floating mb-3" id="habilidades-container">
+                @for (int i = 0; i < Model.Input.Habilidades.Count; i++)
                 {
-                    <div class="input-group mb-2" >
-                        <input asp-for="Input.Habilidades[@item]" class="form-control" placeholder="Habilidade @i" />
+                    <div class="habilidade-item">
+                        <input asp-for="Input.Habilidades[i]" class="form-control mb-3" placeholder="Habilidade @i" id="campoHabilidade-@i" />
                         <button type="button" class="btn btn-danger" onclick="removeHabilidade(this)">Remover</button>
                     </div>
-
-                    i++;
                 }
             </div>
 
             <!-- Botão para adicionar nova habilidade -->
-            <button type="button" class="btn btn-primary" onclick="addHabilidade()">Adicionar Habilidade</button>
+            <button type="button" class="btn btn-primary" id="addHabilidadeBtn">Adicionar Habilidade</button>
 
-            <!-- Validação -->
-            <span asp-validation-for="Input.Habilidades" class="text-danger"></span>
 
 
             <!-- Campo Objetivos -->
@@ -153,25 +145,27 @@
     };
 </script>
 
-<script>
-    // Função para adicionar nova habilidade
-    function addHabilidade() {
-        var container = document.getElementById('habilidades-container');
-        var index = container.children.length;
-
-        // Criar um novo campo de input
-        var div = document.createElement('div');
-        div.classList.add('input-group', 'mb-2');
-        div.innerHTML = `
-                                    <input name="Input.Habilidades" class="form-control" placeholder="Habilidade ${index}" />
-                                    <button type="button" class="btn btn-danger" onclick="removeHabilidade(this)">Remover</button>
-                                `;
-
-        container.appendChild(div);
-    }
-
-    // Função para remover um campo de habilidade
+<script type="text/javascript">
+    // Função para remover uma habilidade
     function removeHabilidade(button) {
-        button.parentElement.remove();
+        var habilidadeItem = button.closest('.habilidade-item');
+        habilidadeItem.remove();
     }
+
+    // Função para adicionar uma nova habilidade
+    document.getElementById('addHabilidadeBtn').addEventListener('click', function () {
+        var habilidadesContainer = document.getElementById('habilidades-container');
+
+        // Contador para gerar novos ids para os campos de habilidades
+        var newIndex = habilidadesContainer.getElementsByClassName('habilidade-item').length;
+
+        var newHabilidadeDiv = document.createElement('div');
+        newHabilidadeDiv.classList.add('habilidade-item');
+        newHabilidadeDiv.innerHTML = `
+                    <input name="Input.Habilidades[${newIndex}]" class="form-control mb-3" placeholder="Habilidade ${newIndex}" id="campoHabilidade-${newIndex}" />
+                    <button type="button" class="btn btn-danger" onclick="removeHabilidade(this)">Remover</button>
+                `;
+
+        habilidadesContainer.appendChild(newHabilidadeDiv);
+    });
 </script>
