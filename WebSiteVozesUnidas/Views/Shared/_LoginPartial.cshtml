@@ -6,12 +6,18 @@
     @if (SignInManager.IsSignedIn(User))
     {
         var user = await UserManager.GetUserAsync(User);
-        var fotoUser = user?.Foto;
+        var fotoUser = "default.jpg";
+
+        if (user.Foto != null)
+        {
+            fotoUser = user.Foto;
+        }
 
         <!-- Button trigger modal -->
         <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <img src="~/img/@fotoUser" alt="Foto Usuario" class="rounded-circle" style="width: 8vh; height: 8vh; object-fit: cover;" />
         </button>
+       
 
         <!-- First Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

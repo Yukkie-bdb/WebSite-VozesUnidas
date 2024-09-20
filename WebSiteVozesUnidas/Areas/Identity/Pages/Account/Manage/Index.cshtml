@@ -15,12 +15,13 @@
             <!-- Campo Foto -->
             <div class="form-group mb-3">
             <label asp-for="Input.Foto" class="control-label"></label>
-            <input asp-for="Input.Foto" type="file" class="form-control" value="Input.Foto" name="imgUp" id="imgUp" style="display:none;" />
+                <input asp-for="Input.Foto" type="file" class="form-control" value="Input.Foto" name="imgUp" id="imgUp" style="display:none;"
+                       accept=".jpg,.jpeg,.png, .gif" onchange="validateFileType()" name="image" />
             <span asp-validation-for="Input.Foto" class="text-danger"></span>
             </div>
 
             <!-- Imagem -->
-            <img id="profileImage" src="~/img/@Model.Input.Foto" class="rounded-circle mb-3" style="width: 24vh; height: 24vh; object-fit: cover; cursor:pointer;" />
+            <img id="profileImage" src="@(string.IsNullOrEmpty(Model.Input.Foto) ? Url.Content("~/img/default.jpg") : Url.Content($"~/img/{Model.Input.Foto}"))" class="rounded-circle mb-3" style="width: 24vh; height: 24vh; object-fit: cover; cursor:pointer;" />
 
             <!-- Campo Nome -->
             <div class="form-floating mb-3">
@@ -77,9 +78,6 @@
 
             <!-- Botão para adicionar nova habilidade -->
             <button type="button" class="btn btn-primary" id="addHabilidadeBtn">Adicionar Habilidade</button>
-
-            <!-- Botão para adicionar nova habilidade -->
-            <button type="button" class="btn btn-primary">Adicionar Habilidade</button>
 
 
             <!-- Campo Objetivos -->
@@ -142,10 +140,21 @@
     document.getElementById("imgUp").onchange = function (event) {
         const [file] = event.target.files;
         if (file) {
-            document.getElementById("profileImage").src = URL.createObjectURL(file);
+            // Valida o tipo de arquivo antes de atualizar a imagem
+            var fileName = event.target.value;
+            var idxDot = fileName.lastIndexOf(".") + 1;
+            var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+
+            if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
+                document.getElementById("profileImage").src = URL.createObjectURL(file);
+            } else {
+                alert("Only jpg/jpeg and png files are allowed!");
+                // Limpa o campo de upload
+                document.getElementById("imgUp").value = "";
+            }
         }
     };
-</script>
+</script>   
     
 <script>
     // Função para remover uma habilidade
