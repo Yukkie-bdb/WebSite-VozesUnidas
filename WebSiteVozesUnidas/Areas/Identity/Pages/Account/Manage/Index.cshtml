@@ -16,7 +16,7 @@
             <div class="form-group mb-3">
             <label asp-for="Input.Foto" class="control-label"></label>
                 <input asp-for="Input.Foto" type="file" class="form-control" value="Input.Foto" name="imgUp" id="imgUp" style="display:none;"
-                       accept=".jpg,.jpeg,.png, .gif" onchange="validateFileType()" name="image" />
+                       accept=".jpg,.jpeg,.png, .gif" onchange="validateFileType()"/>
             <span asp-validation-for="Input.Foto" class="text-danger"></span>
             </div>
 
