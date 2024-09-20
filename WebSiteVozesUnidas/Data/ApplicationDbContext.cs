@@ -12,19 +12,16 @@ namespace WebSiteVozesUnidas.Data
         }
 
         public DbSet<MidiaSocial> MidiaSocials { get; set; }
-        public DbSet<Artigo> Artigos { get; set; }
         public DbSet<AvaliacaoEspecialista> AvaliacaoEspecialistas { get; set; }
         public DbSet<CandidatoVaga> CandidatoVagas { get; set; }
         public DbSet<CategoriaPost> CategoriaPosts { get; set; }
         public DbSet<Comentario> Comentarios { get; set; }
-        public DbSet<Direito> Direitos { get; set; }
         public DbSet<Especialista> Especialistas { get; set; }
         public DbSet<LikesPost> LikesPosts { get; set; }
-        public DbSet<Livro> Livros { get; set; }
         public DbSet<Noticia> Noticias { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<VagaEmprego> VagaEmpregos { get; set; }
-        public DbSet<Video> Videos { get; set; }
+        public DbSet<MaterialDidatico> MaterialDidaticos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,10 +30,6 @@ namespace WebSiteVozesUnidas.Data
             modelBuilder.Entity<MidiaSocial>()
                 .ToTable("tbMidiaSocial")
                 .HasKey(u => u.IdMidiaSocial);
-
-            modelBuilder.Entity<Artigo>()
-                .ToTable("tbArtigo")
-                .HasKey(u => u.IdArtigo);
 
             modelBuilder.Entity<AvaliacaoEspecialista>()
                 .ToTable("tbAvaliacaoEspecialista")
@@ -54,10 +47,6 @@ namespace WebSiteVozesUnidas.Data
                 .ToTable("tbComentario")
                 .HasKey(u => u.IdComentario);
 
-            modelBuilder.Entity<Direito>()
-                .ToTable("tbDireito")
-                .HasKey(u => u.IdDireito);
-
             modelBuilder.Entity<Especialista>()
                 .ToTable("tbEspecialista")
                 .HasKey(u => u.IdEspecialista);
@@ -65,10 +54,6 @@ namespace WebSiteVozesUnidas.Data
             modelBuilder.Entity<LikesPost>()
                 .ToTable("tbLikesPost")
                 .HasKey(u => u.IdLikesPost);
-
-            modelBuilder.Entity<Livro>()
-                .ToTable("tbLivro")
-                .HasKey(u => u.IdLivro);
 
             modelBuilder.Entity<Noticia>()
                 .ToTable("tbNoticia")
@@ -82,9 +67,9 @@ namespace WebSiteVozesUnidas.Data
                 .ToTable("tbVagaEmprego")
                 .HasKey(u => u.IdVagaEmprego);
 
-            modelBuilder.Entity<Video>()
-                .ToTable("tbVideo")
-                .HasKey(u => u.IdVideo);
+            modelBuilder.Entity<MaterialDidatico>()
+                .ToTable("tbMaterialDidatico")
+                .HasKey(u => u.IdMaterialDidatico);
 
         }
     }
