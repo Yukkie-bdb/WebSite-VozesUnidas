@@ -9,11 +9,11 @@ using WebSiteVozesUnidas.Data;
 
 #nullable disable
 
-namespace WebSiteVozesUnidas.Data.Migrations
+namespace WebSiteVozesUnidas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240918034420_UserHabilidadesList2")]
-    partial class UserHabilidadesList2
+    [Migration("20240922164704_identityIdGuid")]
+    partial class identityIdGuid
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,10 +25,11 @@ namespace WebSiteVozesUnidas.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -52,7 +53,7 @@ namespace WebSiteVozesUnidas.Data.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,9 +67,8 @@ namespace WebSiteVozesUnidas.Data.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -77,7 +77,7 @@ namespace WebSiteVozesUnidas.Data.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -91,9 +91,8 @@ namespace WebSiteVozesUnidas.Data.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -102,7 +101,7 @@ namespace WebSiteVozesUnidas.Data.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
@@ -115,9 +114,8 @@ namespace WebSiteVozesUnidas.Data.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -126,13 +124,13 @@ namespace WebSiteVozesUnidas.Data.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -141,10 +139,10 @@ namespace WebSiteVozesUnidas.Data.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
@@ -164,8 +162,9 @@ namespace WebSiteVozesUnidas.Data.Migrations
 
             modelBuilder.Entity("WebSiteVozesUnidas.Models.ApplicationUser", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -255,33 +254,6 @@ namespace WebSiteVozesUnidas.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("WebSiteVozesUnidas.Models.Artigo", b =>
-                {
-                    b.Property<Guid>("IdArtigo")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Foto")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Resumo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TextoIntegral")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Titulo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IdArtigo");
-
-                    b.ToTable("tbArtigo", (string)null);
-                });
-
             modelBuilder.Entity("WebSiteVozesUnidas.Models.AvaliacaoEspecialista", b =>
                 {
                     b.Property<Guid>("IdAvaliacaoEspecialista")
@@ -298,8 +270,8 @@ namespace WebSiteVozesUnidas.Data.Migrations
                     b.Property<Guid>("IdUsuario")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("UsuarioId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("IdAvaliacaoEspecialista");
 
@@ -320,8 +292,8 @@ namespace WebSiteVozesUnidas.Data.Migrations
                     b.Property<Guid?>("IdVaga")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("UsuarioId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("VagasEmpregoIdVagaEmprego")
                         .HasColumnType("uniqueidentifier");
@@ -368,8 +340,8 @@ namespace WebSiteVozesUnidas.Data.Migrations
                     b.Property<DateTime>("Publicacao")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UsuarioId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("comentario")
                         .IsRequired()
@@ -382,29 +354,6 @@ namespace WebSiteVozesUnidas.Data.Migrations
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("tbComentario", (string)null);
-                });
-
-            modelBuilder.Entity("WebSiteVozesUnidas.Models.Direito", b =>
-                {
-                    b.Property<Guid>("IdDireito")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Foto")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Texto")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Titulo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IdDireito");
-
-                    b.ToTable("tbDireito", (string)null);
                 });
 
             modelBuilder.Entity("WebSiteVozesUnidas.Models.Especialista", b =>
@@ -445,8 +394,8 @@ namespace WebSiteVozesUnidas.Data.Migrations
                     b.Property<Guid?>("PostIdPost")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("UsuarioId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("IdLikesPost");
 
@@ -457,9 +406,9 @@ namespace WebSiteVozesUnidas.Data.Migrations
                     b.ToTable("tbLikesPost", (string)null);
                 });
 
-            modelBuilder.Entity("WebSiteVozesUnidas.Models.Livro", b =>
+            modelBuilder.Entity("WebSiteVozesUnidas.Models.MaterialDidatico", b =>
                 {
-                    b.Property<Guid>("IdLivro")
+                    b.Property<Guid>("IdMaterialDidatico")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -467,25 +416,25 @@ namespace WebSiteVozesUnidas.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Capa")
+                    b.Property<string>("Conteudo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Nome")
+                    b.Property<string>("Foto")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PDF")
+                    b.Property<string>("Publicação")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Resumo")
+                    b.Property<string>("Titulo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("IdLivro");
+                    b.HasKey("IdMaterialDidatico");
 
-                    b.ToTable("tbLivro", (string)null);
+                    b.ToTable("tbMaterialDidatico", (string)null);
                 });
 
             modelBuilder.Entity("WebSiteVozesUnidas.Models.MidiaSocial", b =>
@@ -496,8 +445,8 @@ namespace WebSiteVozesUnidas.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdMidiaSocial"));
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("ApplicationUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Plataforma")
                         .IsRequired()
@@ -539,8 +488,8 @@ namespace WebSiteVozesUnidas.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UsuarioId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("IdNoticia");
 
@@ -583,8 +532,8 @@ namespace WebSiteVozesUnidas.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UsuarioId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("IdPost");
 
@@ -621,9 +570,6 @@ namespace WebSiteVozesUnidas.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("IdEmpresa")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Requisitos")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -632,8 +578,8 @@ namespace WebSiteVozesUnidas.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UsuarioId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("IdVagaEmprego");
 
@@ -642,39 +588,16 @@ namespace WebSiteVozesUnidas.Data.Migrations
                     b.ToTable("tbVagaEmprego", (string)null);
                 });
 
-            modelBuilder.Entity("WebSiteVozesUnidas.Models.Video", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.Property<Guid>("IdVideo")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Resumo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Titulo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("video")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IdVideo");
-
-                    b.ToTable("tbVideo", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.HasOne("WebSiteVozesUnidas.Models.ApplicationUser", null)
                         .WithMany()
@@ -683,7 +606,7 @@ namespace WebSiteVozesUnidas.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.HasOne("WebSiteVozesUnidas.Models.ApplicationUser", null)
                         .WithMany()
@@ -692,9 +615,9 @@ namespace WebSiteVozesUnidas.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -707,7 +630,7 @@ namespace WebSiteVozesUnidas.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.HasOne("WebSiteVozesUnidas.Models.ApplicationUser", null)
                         .WithMany()
@@ -805,7 +728,9 @@ namespace WebSiteVozesUnidas.Data.Migrations
                 {
                     b.HasOne("WebSiteVozesUnidas.Models.ApplicationUser", "Usuario")
                         .WithMany("VagaEmpregos")
-                        .HasForeignKey("UsuarioId");
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Usuario");
                 });

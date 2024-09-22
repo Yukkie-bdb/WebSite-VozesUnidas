@@ -1,0 +1,56 @@
+﻿@model IEnumerable<WebSiteVozesUnidas.Models.CandidatoVaga>
+
+@{
+    ViewData["Title"] = "Index";
+    var userId = ViewData["userId"];
+    // var tipoUser = ViewData["userTipo"];
+}
+
+
+@* @if (tipoUser == "Empresa")
+{
+    <h1>Suas Vagas de Empregos</h1>
+
+}
+@if (tipoUser == "PessoaFisica")
+{
+    <h1>Suas Candidaturas</h1>
+} *@
+
+<h1>Suas Candidaturas</h1>
+
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+ <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdUsuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdVaga)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Where(i => i.IdUsuario.ToString() == userId.ToString())) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdUsuario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdVaga)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdCandidatoVaga">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdCandidatoVaga">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdCandidatoVaga">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+ 

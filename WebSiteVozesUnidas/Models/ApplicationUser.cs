@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace WebSiteVozesUnidas.Models
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser<Guid>
     {
         public string? Foto { get; set; }
         public string? Sobre { get; set; }

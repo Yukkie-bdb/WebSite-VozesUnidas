@@ -10,7 +10,7 @@
         public string Beneficios { get; set; }
         public string Requisitos { get; set; }
         public string DescricaoVaga { get; set; }
-        public Guid? IdEmpresa { get; set; }
+        public Guid UsuarioId { get; set; }
         public ApplicationUser? Usuario { get; set; }
         public IEnumerable<CandidatoVaga>? Vagas { get; set; }
 
