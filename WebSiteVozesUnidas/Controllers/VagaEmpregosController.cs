@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebSiteVozesUnidas.Data;
 using WebSiteVozesUnidas.Models;
+using WebSiteVozesUnidas.ViewModels;
 
 namespace WebSiteVozesUnidas.Controllers
 {
@@ -23,9 +24,73 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: VagaEmpregos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(FiltroVagaEmprego filtroVagaEmprego)
         {
-            var applicationDbContext = _context.VagaEmpregos.Include(v => v.Usuario);
+            var applicationDbContext = _context.VagaEmpregos.Include(v => v.Usuario).AsQueryable();
+
+            if (!string.IsNullOrEmpty(filtroVagaEmprego.Cargo))
+                applicationDbContext = applicationDbContext.Where(v => v.Cargo.Contains(filtroVagaEmprego.Cargo));
+
+            if (filtroVagaEmprego.NumeroVagas.HasValue)
+            {
+                applicationDbContext = applicationDbContext.Where(v => v.NumeroVagas == filtroVagaEmprego.NumeroVagas.Value);
+            }
+
+            if (!string.IsNullOrEmpty(filtroVagaEmprego.HorarioExpediente))
+            {
+                applicationDbContext = applicationDbContext.Where(v => v.HorarioExpediente == filtroVagaEmprego.HorarioExpediente);
+            }
+
+            if (!string.IsNullOrEmpty(filtroVagaEmprego.Beneficios))
+            {
+                applicationDbContext = applicationDbContext.Where(v => v.Beneficios.Contains(filtroVagaEmprego.Beneficios));
+            }
+
+            if (!string.IsNullOrEmpty(filtroVagaEmprego.Requisitos))
+            {
+                applicationDbContext = applicationDbContext.Where(v => v.Requisitos.Contains(filtroVagaEmprego.Requisitos));
+            }
+
+            if (!string.IsNullOrEmpty(filtroVagaEmprego.RegimeContratacao))
+            {
+                applicationDbContext = applicationDbContext.Where(v => v.RegimeContratacao == filtroVagaEmprego.RegimeContratacao);
+            }
+
+            if (filtroVagaEmprego.SalarioMin.HasValue)
+            {
+                applicationDbContext = applicationDbContext.Where(v => v.Salario >= filtroVagaEmprego.SalarioMin.Value);
+            }
+
+            if (filtroVagaEmprego.SalarioMax.HasValue)
+            {
+                applicationDbContext = applicationDbContext.Where(v => v.Salario <= filtroVagaEmprego.SalarioMax.Value);
+            }
+
+            if (!string.IsNullOrEmpty(filtroVagaEmprego.LocalTrabalho))
+            {
+                applicationDbContext = applicationDbContext.Where(v => v.LocalTrabalho.Contains(filtroVagaEmprego.LocalTrabalho));
+            }
+
+            if (!string.IsNullOrEmpty(filtroVagaEmprego.Estado))
+            {
+                applicationDbContext = applicationDbContext.Where(v => v.Estado.Contains(filtroVagaEmprego.Estado));
+            }
+
+            if (!string.IsNullOrEmpty(filtroVagaEmprego.Cidade))
+            {
+                applicationDbContext = applicationDbContext.Where(v => v.Cidade.Contains(filtroVagaEmprego.Cidade));
+            }
+
+            if (filtroVagaEmprego.DataPublicacao.HasValue)
+            {
+                applicationDbContext = applicationDbContext.Where(v => v.Publicacao.Date == filtroVagaEmprego.DataPublicacao.Value.Date);
+            }
+
+            if (!string.IsNullOrEmpty(filtroVagaEmprego.Usuario))
+            {
+                applicationDbContext = applicationDbContext.Where(v => v.Usuario.UserName.Contains(filtroVagaEmprego.Usuario));
+            }
+
             return View(await applicationDbContext.ToListAsync());
         }
 
