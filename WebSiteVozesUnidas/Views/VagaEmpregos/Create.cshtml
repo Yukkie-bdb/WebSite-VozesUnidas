@@ -9,51 +9,138 @@
 <h4>VagaEmprego</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div>
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h4>Informações da Vaga</h4>
+
             <div class="form-group">
                 <label asp-for="Cargo" class="control-label"></label>
-                <input asp-for="Cargo" class="form-control" />
+                <input asp-for="Cargo" class="form-control" placeholder="Digite aqui o cargo" />
                 <span asp-validation-for="Cargo" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ResumoVaga" class="control-label"></label>
-                <input asp-for="ResumoVaga" class="form-control" />
-                <span asp-validation-for="ResumoVaga" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Foto" class="control-label"></label>
-                <input asp-for="Foto" class="form-control" />
-                <span asp-validation-for="Foto" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HorarioExpediente" class="control-label"></label>
-                <input asp-for="HorarioExpediente" class="form-control" />
-                <span asp-validation-for="HorarioExpediente" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Beneficios" class="control-label"></label>
-                <input asp-for="Beneficios" class="form-control" />
-                <span asp-validation-for="Beneficios" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Requisitos" class="control-label"></label>
-                <input asp-for="Requisitos" class="form-control" />
-                <span asp-validation-for="Requisitos" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <label asp-for="DescricaoVaga" class="control-label"></label>
-                <input asp-for="DescricaoVaga" class="form-control" />
+                <input asp-for="DescricaoVaga" class="form-control" placeholder="Trabalhara atendendo no balcão..." />
                 <span asp-validation-for="DescricaoVaga" class="text-danger"></span>
             </div>
-            @* <div class="form-group">
-                <label asp-for="UsuarioId" class="control-label"></label>
-                <select asp-for="UsuarioId" class ="form-control" asp-items="ViewBag.UsuarioId"></select>
-            </div> *@
+
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <label asp-for="NumeroVagas" class="control-label"></label>
+                <input asp-for="NumeroVagas" class="form-control" placeholder="Ex.: 1" />
+                <span asp-validation-for="NumeroVagas" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="Beneficios" class="control-label"></label>
+                <input asp-for="Beneficios" class="form-control" placeholder="Ex.: Vale alimentação, Vale refeição..." />
+                <span asp-validation-for="Beneficios" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Requisitos" class="control-label"></label>
+                <input asp-for="Requisitos" class="form-control" placeholder="Ex.: Inglês basico, Horário flexivel..." />
+                <span asp-validation-for="Requisitos" class="text-danger"></span>
+            </div>
+
+            <h4>Qual o regime de contratação?</h4>
+
+            <div class="form-group">
+                <div class="form-check form-check-inline">
+                    <input asp-for="NumeroVagas" class="form-check-input" type="radio" name="regimeContratacao" id="autonomo" value="Autônomo">
+                    <label asp-for="NumeroVagas" class="form-check-label" for="autonomo">Autônomo</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input asp-for="NumeroVagas" class="form-check-input" type="radio" name="regimeContratacao" id="clt" value="CLT">
+                    <label asp-for="NumeroVagas" class="form-check-label" for="clt">CLT (Efetivo)</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input asp-for="NumeroVagas" class="form-check-input" type="radio" name="regimeContratacao" id="cooperado" value="Cooperado">
+                    <label asp-for="NumeroVagas" class="form-check-label" for="cooperado">Cooperado</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input asp-for="NumeroVagas" class="form-check-input" type="radio" name="regimeContratacao" id="freelancer" value="Free-lancer">
+                    <label asp-for="NumeroVagas" class="form-check-label" for="freelancer">Free-lancer</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input asp-for="NumeroVagas" class="form-check-input" type="radio" name="regimeContratacao" id="pj" value="PJ">
+                    <label asp-for="NumeroVagas" class="form-check-label" for="pj">Prestador de serviços (PJ)</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input asp-for="NumeroVagas" class="form-check-input" type="radio" name="regimeContratacao" id="temporario" value="Temporário">
+                    <label asp-for="NumeroVagas" class="form-check-label" for="temporario">Temporário</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input asp-for="NumeroVagas" class="form-check-input" type="radio" name="regimeContratacao" id="trainee" value="Trainee">
+                    <label asp-for="NumeroVagas" class="form-check-label" for="trainee">Trainee</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input asp-for="NumeroVagas" class="form-check-input" type="radio" name="regimeContratacao" id="estagio" value="Estágio">
+                    <label asp-for="NumeroVagas" class="form-check-label" for="estagio">Estágio</label>
+                </div>
+            </div>
+
+            <h4>
+                Qual a jornada de trabalho?
+            </h4>
+
+            <div class="form-group">
+                <label asp-for="HorarioExpediente" class="control-label"></label>
+                <input asp-for="HorarioExpediente" class="form-control" placeholder="Ex.: De degunda a sexta, das 09h ás 18h" />
+                <span asp-validation-for="HorarioExpediente" class="text-danger"></span>
+            </div>
+
+            <h4>Qual o local de trabalho?</h4>
+
+            <div class="form-group">
+                <div class="form-check form-check-inline">
+                    <input asp-for="LocalTrabalho" class="form-check-input" type="radio" name="LocalTrabalho" id="Presencial" value="Presencial">
+                    <label asp-for="LocalTrabalho" class="form-check-label" for="Presencial">Presencial</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input asp-for="LocalTrabalho" class="form-check-input" type="radio" name="LocalTrabalho" id="Remoto" value="Remoto">
+                    <label asp-for="LocalTrabalho" class="form-check-label" for="Remoto">Remoto</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input asp-for="LocalTrabalho" class="form-check-input" type="radio" name="LocalTrabalho" id="Hibrido" value="Hibrido">
+                    <label asp-for="LocalTrabalho" class="form-check-label" for="Hibrido">Híbrido</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Salario" class="control-label"></label>
+                <input asp-for="Salario" class="form-control" placeholder="1233,00"/>
+                <span asp-validation-for="Salario" class="text-danger"></span>
+            </div>
+
+            <div>
+                <select class="form-select" aria-label="Default select example" asp-for="Estado">
+                    <option selected>Selecione o Estado</option>
+                    <option value="SP">SP</option>
+                    <option value="RJ">RJ</option>
+                    <option value="BH">BH</option>
+                </select>
+            </div>
+
+            <div>
+                <select class="form-select" aria-label="Default select example" asp-for="Cidade">
+                    <option selected>Selecione o Estado</option>
+                    <option value="BR">BROTAS</option>
+                    <option value="TR">TORRINHA</option>
+                    <option value="MG">MINAS GERAIS</option>
+                </select>
+            </div>
+
+            <button type="submit"></button>
         </form>
     </div>
 </div>

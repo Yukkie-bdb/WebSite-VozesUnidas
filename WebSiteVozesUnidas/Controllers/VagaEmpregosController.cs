@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,13 +14,12 @@ namespace WebSiteVozesUnidas.Controllers
     public class VagaEmpregosController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public VagaEmpregosController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public VagaEmpregosController(ApplicationDbContext context, SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
-            _userManager = userManager;
-
+            _signInManager = signInManager;
         }
 
         // GET: VagaEmpregos
@@ -29,26 +27,6 @@ namespace WebSiteVozesUnidas.Controllers
         {
             var applicationDbContext = _context.VagaEmpregos.Include(v => v.Usuario);
             return View(await applicationDbContext.ToListAsync());
-        }
-
-        public async Task<IActionResult> userCandidato()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            var userId = user.Id; // Obtém o ID do usuário logado
-
-            // Obtém os candidatos associados ao usuário
-            var userCandidatos = await _context.CandidatoVagas
-                .Where(i => i.IdUsuario == userId)
-                .Select(c => c.IdVaga) // Seleciona apenas o IdVaga
-                .ToListAsync();
-
-            // Obtém as vagas de emprego correspondentes
-            var applicationDbContext = await _context.VagaEmpregos
-                .Include(v => v.Usuario)
-                .Where(ii => userCandidatos.Contains(ii.IdVagaEmprego)) // Filtra usando Contains
-                .ToListAsync();
-
-            return View(applicationDbContext);
         }
 
         // GET: VagaEmpregos/Details/5
@@ -82,14 +60,14 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdVagaEmprego,Cargo,ResumoVaga,Foto,HorarioExpediente,Beneficios,Requisitos,DescricaoVaga")] VagaEmprego vagaEmprego)
+        public async Task<IActionResult> Create([Bind("IdVagaEmprego,Cargo,NumeroVagas,HorarioExpediente,Beneficios,Requisitos,RegimeContratacao,DescricaoVaga,Salario,Estado,Cidade,Publicacao,LocalTrabalho")] VagaEmprego vagaEmprego)
         {
             if (ModelState.IsValid)
             {
-                vagaEmprego.IdVagaEmprego = Guid.NewGuid();
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
+                var userId = _signInManager.UserManager.GetUserId(User);
                 vagaEmprego.UsuarioId = Guid.Parse(userId);
+                vagaEmprego.Publicacao = DateTime.Now;
+                vagaEmprego.IdVagaEmprego = Guid.NewGuid();
                 _context.Add(vagaEmprego);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -120,7 +98,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdVagaEmprego,Cargo,ResumoVaga,Foto,HorarioExpediente,Beneficios,Requisitos,DescricaoVaga,UsuarioId")] VagaEmprego vagaEmprego)
+        public async Task<IActionResult> Edit(Guid id, [Bind("IdVagaEmprego,Cargo,NumeroVagas,HorarioExpediente,Beneficios,Requisitos,RegimeContratacao,DescricaoVaga,Salario,Estado,Cidade,Publicacao,UsuarioId")] VagaEmprego vagaEmprego)
         {
             if (id != vagaEmprego.IdVagaEmprego)
             {
@@ -189,14 +167,5 @@ namespace WebSiteVozesUnidas.Controllers
         {
             return _context.VagaEmpregos.Any(e => e.IdVagaEmprego == id);
         }
-
-        //public async Task<IActionResult> userCandidatura()
-        //{
-        //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        //    var applicationDbContext = _context.VagaEmpregos.Include(v => v.Usuario);
-        //    return View(await applicationDbContext.ToListAsync());
-        //}
-
     }
 }
