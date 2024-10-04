@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +15,13 @@ namespace WebSiteVozesUnidas.Controllers
     public class NoticiasController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private string _caminho;
 
-        public NoticiasController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
+        public NoticiasController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment, SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
+            _signInManager = signInManager;
             _caminho = hostEnvironment.WebRootPath;
 
         }
@@ -47,7 +50,15 @@ namespace WebSiteVozesUnidas.Controllers
                     ViewData[$"{i}Id"] = item.IdNoticia;
                     i++;
                 }
-            
+            var userid = _signInManager.UserManager.GetUserId(User);
+            var Jornalista = await _context.Users.FirstOrDefaultAsync(x => x.Id.ToString() == userid);
+
+            if (userid != null)
+            {
+                ViewBag.UserId = userid;
+                ViewBag.UserJorn = Jornalista.Jornalista;
+            }
+
 
             return View(await _context.Noticias.ToListAsync());
         }
@@ -68,6 +79,17 @@ namespace WebSiteVozesUnidas.Controllers
             {
                 return NotFound();
             }
+                
+            var autor = await _context.Users.FirstOrDefaultAsync(x => x.Id == noticia.IdUsuario);
+            var userid = _signInManager.UserManager.GetUserId(User);
+            var tipo = await _context.Users.FirstOrDefaultAsync(x => x.Id.ToString() == userid);
+            ViewBag.AutorId = autor.Id;
+            if(userid != null)
+            {
+                ViewBag.UserId = userid;
+                ViewBag.UserTipo = tipo.Tipo;
+            }
+            ViewData["Autor"] = autor.UserName;    
 
             return View(noticia);
         }

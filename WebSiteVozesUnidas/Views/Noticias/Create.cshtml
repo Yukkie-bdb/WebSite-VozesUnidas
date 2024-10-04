@@ -9,7 +9,7 @@
 <h4>Noticia</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-12">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -22,10 +22,9 @@
                 <input asp-for="Imagem" type="file" class="form-control" name="imgUp" />
                 <span asp-validation-for="Imagem" class="text-danger"></span>
             </div>
-
-            <div class="form-group">
+            <div class="form-group w-100">
                 <label asp-for="Conteudo" class="control-label"></label>
-                <input asp-for="Conteudo" class="form-control" />
+                <textarea asp-for="Conteudo" class="form-control" rows="20"></textarea>
                 <span asp-validation-for="Conteudo" class="text-danger"></span>
             </div>
             <div class="form-group">
