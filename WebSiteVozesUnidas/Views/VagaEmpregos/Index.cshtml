@@ -1,4 +1,5 @@
-﻿@model IEnumerable<WebSiteVozesUnidas.Models.VagaEmprego>
+﻿@using WebSiteVozesUnidas.ViewModels
+@model IEnumerable<WebSiteVozesUnidas.Models.VagaEmprego>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,39 +11,47 @@
     <a asp-action="Create">Create New</a>
 </p>
 
+@Html.Partial("_FiltroVagaEmprego", new FiltroVagaEmprego())
+
 <div class="">
     @foreach (var item in Model)
     {
         <div class="d-flex border mb-5 shadow p-2 rounded col-6 m-auto">
             <div>
                 <h2 class="text-primary">@item.Cargo</h2>
-                <h6>NOME DA EMPRESA</h6>
+                <h6>@item.Usuario.UserName</h6>
                 <div class="d-flex">
                     <p class="fw-bold m-0">Média Salarial:</p>
                     <p class="px-1 m-0">R$ @item.Salario</p>
                 </div>
                 <div class="d-flex">
                     <p class="fw-bold m-0">@item.NumeroVagas Vagas em:</p>
-                    <p class="px-1 m-0">@item.Estado-@item.Cidade</p>
+                    <p class="px-1 m-0">@item.Estado - @item.Cidade</p>
                 </div>
                 <div class="d-flex">
-                    <p class="fw-bold m-0">Publicado em: @item.Publicacao</p>
+                    <p class="fw-bold m-0">Expediente:</p>
+                    <p class="px-1 m-0 text-truncate w-100">@item.HorarioExpediente</p>
                 </div>
-
-                <p>RegimeContratacao</p>
-                <p>@item.RegimeContratacao</p>
-                <p>DescricaoVaga</p>
-                <p>@item.DescricaoVaga</p>
-                <p>Publicacao</p>
-                <p>@item.Publicacao</p>
-                <p>NumeroVagas</p>
-                <p></p>
-                <p>Beneficios</p>
-                <p>@item.Beneficios</p>
-                <p>Cidade</p>
-                <p>@item.Cidade</p>
-                <p>Estado</p>
-                <p>@item.Estado</p>
+                <div class="d-flex">
+                    <p class="fw-bold m-0">Requisitos:</p>
+                    <p class="px-1 m-0">@item.Requisitos</p>
+                </div>
+                <div class="d-flex">
+                    <p class="fw-bold m-0">Publicado em:</p>
+                    <p class="px-1 m-0">@item.Publicacao.ToString("dd/MM/yyyy")</p> <!-- Formatação da data -->
+                </div>
+                <div class="d-flex">
+                    <p class="fw-bold m-0">Regime de Contratação:</p>
+                    <p class="px-1 m-0">@item.RegimeContratacao</p>
+                </div>
+                <div class="d-flex">
+                    <p class="fw-bold m-0">Descrição da Vaga:</p>
+                    <p class="px-1 m-0">@item.DescricaoVaga</p>
+                </div>
+                <div class="d-flex">
+                    <p class="fw-bold m-0">Benefícios:</p>
+                    <p class="px-1 m-0">@item.Beneficios</p>
+                </div>
             </div>
         </div>
     }

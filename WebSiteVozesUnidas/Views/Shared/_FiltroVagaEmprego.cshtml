@@ -1,0 +1,118 @@
+﻿@model WebSiteVozesUnidas.ViewModels.FiltroVagaEmprego
+
+<form asp-controller="VagaEmpregos" asp-action="Index" method="GET">
+    <div class="row">
+
+        <!-- Primeira linha: Cargo, Número de Vagas, Horário -->
+        <div class="col-md-4 mb-3">
+            <div class="input-group">
+                <span class="input-group-text">Cargo</span>
+                <input type="text" class="form-control" placeholder="Digite o cargo" asp-for="Cargo" aria-label="Cargo">
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="input-group">
+                <span class="input-group-text">Número de Vagas</span>
+                <input type="number" class="form-control" placeholder="Mínimo de vagas" asp-for="NumeroVagas" min="1" aria-label="Número de Vagas">
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="input-group">
+                <span class="input-group-text">Horário</span>
+                <select class="form-control" asp-for="HorarioExpediente" aria-label="Horário de Expediente">
+                    <option value="">Selecione</option>
+                    <option value="integral">Integral</option>
+                    <option value="parcial">Parcial</option>
+                    <option value="remoto">Remoto</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Segunda linha: Benefícios, Requisitos, Regime -->
+        <div class="col-md-4 mb-3">
+            <div class="input-group">
+                <span class="input-group-text">Benefícios</span>
+                <input type="text" class="form-control" placeholder="Ex: Plano de Saúde, Vale Transporte" asp-for="Beneficios" aria-label="Benefícios">
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="input-group">
+                <span class="input-group-text">Requisitos</span>
+                <input type="text" class="form-control" placeholder="Ex: Experiência, Certificações" asp-for="Requisitos" aria-label="Requisitos">
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="input-group">
+                <span class="input-group-text">Regime</span>
+                <select class="form-control" asp-for="RegimeContratacao" aria-label="Regime de Contratação">
+                    <option value="">Selecione</option>
+                    <option value="CLT">CLT</option>
+                    <option value="PJ">PJ</option>
+                    <option value="estagio">Estágio</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Terceira linha: Salário Mín., Salário Máx., Local -->
+        <div class="col-md-4 mb-3">
+            <div class="input-group">
+                <span class="input-group-text">Salário Mín.</span>
+                <input type="number" class="form-control" placeholder="R$" asp-for="SalarioMin" aria-label="Salário Mínimo">
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="input-group">
+                <span class="input-group-text">Salário Máx.</span>
+                <input type="number" class="form-control" placeholder="R$" asp-for="SalarioMax" aria-label="Salário Máximo">
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="input-group">
+                <span class="input-group-text">Local</span>
+                <input type="text" class="form-control" placeholder="Cidade ou Estado" asp-for="LocalTrabalho" aria-label="Local de Trabalho">
+            </div>
+        </div>
+
+        <!-- Quarta linha: Estado, Cidade, Data de Publicação -->
+        <div class="col-md-4 mb-3">
+            <div class="input-group">
+                <span class="input-group-text">Estado</span>
+                <input type="text" class="form-control" placeholder="Ex: SP, RJ, MG" asp-for="Estado" aria-label="Estado">
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="input-group">
+                <span class="input-group-text">Cidade</span>
+                <input type="text" class="form-control" placeholder="Digite a cidade" asp-for="Cidade" aria-label="Cidade">
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="input-group">
+                <span class="input-group-text">Data</span>
+                <input type="date" class="form-control" asp-for="DataPublicacao" aria-label="Data de Publicação">
+            </div>
+        </div>
+
+        <!-- Quinta linha: Usuário -->
+        <div class="col-md-4 mb-3">
+            <div class="input-group">
+                <span class="input-group-text">Usuário</span>
+                <input type="text" class="form-control" placeholder="Nome do usuário" asp-for="Usuario" aria-label="Usuário">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="d-flex justify-content-start">
+        <button type="submit" class="btn btn-primary me-2">Filtrar</button>
+        <button type="reset" class="btn btn-secondary">Limpar Filtros</button>
+    </div>
+</form>
