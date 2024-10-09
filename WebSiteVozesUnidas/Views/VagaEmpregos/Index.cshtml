@@ -13,46 +13,56 @@
 
 @Html.Partial("_FiltroVagaEmprego", new FiltroVagaEmprego())
 
-<div class="">
+<div class="d-flex flex-wrap">
     @foreach (var item in Model)
     {
-        <div class="d-flex border mb-5 shadow p-2 rounded col-6 m-auto">
-            <div>
-                <h2 class="text-primary">@item.Cargo</h2>
-                <h6>@item.Usuario.UserName</h6>
-                <div class="d-flex">
-                    <p class="fw-bold m-0">Média Salarial:</p>
-                    <p class="px-1 m-0">R$ @item.Salario</p>
-                </div>
-                <div class="d-flex">
-                    <p class="fw-bold m-0">@item.NumeroVagas Vagas em:</p>
-                    <p class="px-1 m-0">@item.Estado - @item.Cidade</p>
-                </div>
-                <div class="d-flex">
-                    <p class="fw-bold m-0">Expediente:</p>
-                    <p class="px-1 m-0 text-truncate w-100">@item.HorarioExpediente</p>
-                </div>
-                <div class="d-flex">
-                    <p class="fw-bold m-0">Requisitos:</p>
-                    <p class="px-1 m-0">@item.Requisitos</p>
-                </div>
-                <div class="d-flex">
-                    <p class="fw-bold m-0">Publicado em:</p>
-                    <p class="px-1 m-0">@item.Publicacao.ToString("dd/MM/yyyy")</p> <!-- Formatação da data -->
-                </div>
-                <div class="d-flex">
-                    <p class="fw-bold m-0">Regime de Contratação:</p>
-                    <p class="px-1 m-0">@item.RegimeContratacao</p>
-                </div>
-                <div class="d-flex">
-                    <p class="fw-bold m-0">Descrição da Vaga:</p>
-                    <p class="px-1 m-0">@item.DescricaoVaga</p>
-                </div>
-                <div class="d-flex">
-                    <p class="fw-bold m-0">Benefícios:</p>
-                    <p class="px-1 m-0">@item.Beneficios</p>
+            <div class="d-flex border mb-5 shadow p-2 rounded col-6 m-auto"
+                 onclick="location.href='@Url.Action("Details", new { id = item.IdVagaEmprego })';"
+                 style="cursor: pointer;">
+
+                <div>
+                    <h2 class="text-primary">@item.Cargo</h2>
+                    <h6>@item.Usuario.UserName</h6>
+                    <div class="d-flex">
+                        <p class="fw-bold m-0">Média Salarial:</p>
+                        <p class="px-1 m-0">R$ @item.Salario</p>
+                    </div>
+                    <div class="d-flex">
+                        <p class="fw-bold m-0">@item.NumeroVagas Vagas em:</p>
+                        <p class="px-1 m-0">@item.Estado - @item.Cidade</p>
+                    </div>
+                    <div class="d-flex">
+                        <p class="fw-bold m-0">Expediente:</p>
+                        <p class="px-1 m-0 text-truncate w-100">@item.HorarioExpediente</p>
+                    </div>
+                    <div class="d-flex">
+                        <p class="fw-bold m-0">Requisitos:</p>
+                        <p class="px-1 m-0">@item.Requisitos</p>
+                    </div>
+                    <div class="d-flex">
+                        <p class="fw-bold m-0">Publicado em:</p>
+                        <p class="px-1 m-0">@item.Publicacao.ToString("dd/MM/yyyy")</p> <!-- Formatação da data -->
+                    </div>
+                    <div class="d-flex">
+                        <p class="fw-bold m-0">Regime de Contratação:</p>
+                        <p class="px-1 m-0">@item.RegimeContratacao</p>
+                    </div>
+                    <div class="d-flex">
+                        <p class="fw-bold m-0">Descrição da Vaga:</p>
+                        <p class="px-1 m-0">@item.DescricaoVaga</p>
+                    </div>
+                    <div class="d-flex">
+                        <p class="fw-bold m-0">Benefícios:</p>
+                        <p class="px-1 m-0">@item.Beneficios</p>
+                    </div>
                 </div>
             </div>
-        </div>
+       
+    }
+    @if (Model.Count() == 0)
+    {
+        <h3 class="text-secondary">Não ha vagas</h3>
+        <h1>Não ha vagas com base no seu filtro</h1>
+        <h3 class="text-secondary">Não ha vagas</h3>
     }
 </div>
