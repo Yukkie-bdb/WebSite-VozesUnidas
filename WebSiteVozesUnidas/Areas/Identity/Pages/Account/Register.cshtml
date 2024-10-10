@@ -38,6 +38,9 @@
     <input asp-for="Input.Foto" value="empresa.jpg" style="display: none;" />
     <input asp-for="Input.Sobre" value="Somos uma empresa de tecnologia" style="display: none;" />
     <input asp-for="Input.Tipo" value="Empresa" style="display: none;" />
+    <input asp-for="Input.Ramo" value="Ramo de Catar Latinha" style="display: none;" />
+    <input asp-for="Input.Funcionarios" value="32" style="display: none;" />
+    <input asp-for="Input.Portifolio" value="www.sitebom.com" style="display: none;" />
 
     <input asp-for="Input.CNPJ" value="12345678000195" style="display: none;" />
     <input asp-for="Input.Password" value="Aa@123" style="display: none;" />
@@ -151,6 +154,20 @@
                 <span asp-validation-for="Input.CPF" class="text-danger"></span>
             </div>
 
+            <!-- Campo Funcionarios -->
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Funcionarios" class="form-control" placeholder="Funcionarios" />
+                <label asp-for="Input.Funcionarios">Funcionarios</label>
+                <span asp-validation-for="Input.Funcionarios" class="text-danger"></span>
+            </div>
+
+            <!-- Campo Portifolio -->
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Portifolio" class="form-control" placeholder="Portifolio" />
+                <label asp-for="Input.Portifolio">CPF</label>
+                <span asp-validation-for="Input.Portifolio" class="text-danger"></span>
+            </div>
+
             <!-- Campo Data de Nascimento -->
             <div class="form-floating mb-3">
                 <input asp-for="Input.Nascimento" class="form-control" type="date" placeholder="Data de Nascimento" />
@@ -170,6 +187,13 @@
                 <textarea asp-for="Input.Objetivos" class="form-control" placeholder="Objetivos"></textarea>
                 <label asp-for="Input.Objetivos">Objetivos Profissionais</label>
                 <span asp-validation-for="Input.Objetivos" class="text-danger"></span>
+            </div>
+
+            <!-- Campo Ramo -->
+            <div class="form-floating mb-3">
+                <textarea asp-for="Input.Ramo" class="form-control" placeholder="Ramo"></textarea>
+                <label asp-for="Input.Ramo">Ramo Profissionail</label>
+                <span asp-validation-for="Input.Ramo" class="text-danger"></span>
             </div>
 
             <!-- Campo Jornalista -->

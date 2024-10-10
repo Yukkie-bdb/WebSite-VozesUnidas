@@ -7,6 +7,7 @@ namespace WebSiteVozesUnidas.Models
     {
         public string? Foto { get; set; }
         public string? Sobre { get; set; }
+        public string? Portifolio { get; set; }
         public TipoUsuario Tipo { get; set; }
         public List<MidiaSocial> MidiaSocials { get; set; } = new List<MidiaSocial>();
 
@@ -19,6 +20,8 @@ namespace WebSiteVozesUnidas.Models
 
         // Propriedades específicas para Empresa
         public string? CNPJ { get; set; }
+        public string? Ramo { get; set; }
+        public int? Funcionarios { get; set; }
 
         // FK
         public IEnumerable<Noticia>? Noticias { get; set; }
