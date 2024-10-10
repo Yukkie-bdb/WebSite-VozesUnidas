@@ -5,11 +5,13 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+@if (User.IsInRole("Empresa"))
+{
+    <p>
+        <a class="btn btn-success" asp-action="Create">Create New</a>
+    </p>
+}
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 
 @Html.Partial("_FiltroVagaEmprego", new FiltroVagaEmprego())
 

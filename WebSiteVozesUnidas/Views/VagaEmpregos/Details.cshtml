@@ -3,206 +3,190 @@
 @{
     ViewData["Title"] = "Detalhes da Vaga";
 }
-<h1>Vaga de @Html.DisplayFor(model => model.Cargo)</h1>
 
-<div class="d-flex flex-column">
-    <p>
-        @Html.DisplayFor(model => model.NumeroVagas) Vagas |
-        @Html.DisplayFor(model => model.RegimeContratacao) |
-        @Model.Publicacao.ToString("dd/MM")
-    </p>
+<div class="d-flex justify-content-between">
+    <div class="col-6">
 
-    <p>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-coin" viewBox="0 0 16 16">
-            <path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518z" />
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-            <path d="M8 13.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11m0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12" />
-        </svg>
-        @Model.Salario
+        <h1>Vaga de @Html.DisplayFor(model => model.Cargo)</h1>
 
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-balloon-fill" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M8.48 10.901C11.211 10.227 13 7.837 13 5A5 5 0 0 0 3 5c0 2.837 1.789 5.227 4.52 5.901l-.244.487a.25.25 0 1 0 .448.224l.04-.08c.009.17.024.315.051.45.068.344.208.622.448 1.102l.013.028c.212.422.182.85.05 1.246-.135.402-.366.751-.534 1.003a.25.25 0 0 0 .416.278l.004-.007c.166-.248.431-.646.588-1.115.16-.479.212-1.051-.076-1.629-.258-.515-.365-.732-.419-1.004a2 2 0 0 1-.037-.289l.008.017a.25.25 0 1 0 .448-.224zM4.352 3.356a4 4 0 0 1 3.15-2.325C7.774.997 8 1.224 8 1.5s-.226.496-.498.542c-.95.162-1.749.78-2.173 1.617a.6.6 0 0 1-.52.341c-.346 0-.599-.329-.457-.644" />
-        </svg>
-        @Model.Cidade
-        -
-        @Model.Estado
-    </p>
-
-</div>
-
-<h3 class="mb-4">Sobre a Vaga</h3>
-
-<p>Descrição da vaga</p>
-
-<p>@Html.DisplayFor(Model => Model.DescricaoVaga)</p>
-
-<div class="me-5">
-        <h6>Requisitos</h6>
-        <p>
-            @Html.DisplayFor(model => model.Requisitos)
-        </p>
-    </div>
-
-<div class="d-flex ">
-    <div class="me-5">
-        <h6>Beneficios</h6>
-        <p>
-            @Html.DisplayFor(model => model.Beneficios)
-        </p>
-    </div>
-    <div>
-        <h6>Horário</h6>
-        <p>
-            @Html.DisplayFor(model => model.HorarioExpediente)
-        </p>
-    </div>
- 
-</div>
-
-<div class="me-5">
-    <h6>Regime de contratração</h6>
-    <p>
-        @Html.DisplayFor(model => model.RegimeContratacao)
-    </p>
-</div>
-
-<hr />
-
-<div class="me-5">
-    <h6>Dados da Empresa</h6>
-    <div class="d-flex">
-
-        <img style="height: 10vw; width: 10vw;" class="rounded"
-             src="@(string.IsNullOrEmpty(Model.Usuario.Foto) ? Url.Content("~/img/empresa.png") : Url.Content("~/img/" + Model.Usuario.Foto))"
-             alt="Imagem do Usuário" />
-
-        <div class="ms-3 ">
-            <h6>
-            @Html.DisplayFor(model => model.Usuario.UserName)
-            </h6>
+        <div class="d-flex flex-column">
+            <p>
+                @Html.DisplayFor(model => model.NumeroVagas) Vagas |
+                @Html.DisplayFor(model => model.RegimeContratacao) |
+                @Model.Publicacao.ToString("dd/MM")
+            </p>
 
             <p>
-                @Html.DisplayFor(model => model.Usuario.Ramo)
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-coin" viewBox="0 0 16 16">
+                    <path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518z" />
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                    <path d="M8 13.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11m0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12" />
+                </svg>
+                @Model.Salario
 
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-balloon-fill" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8.48 10.901C11.211 10.227 13 7.837 13 5A5 5 0 0 0 3 5c0 2.837 1.789 5.227 4.52 5.901l-.244.487a.25.25 0 1 0 .448.224l.04-.08c.009.17.024.315.051.45.068.344.208.622.448 1.102l.013.028c.212.422.182.85.05 1.246-.135.402-.366.751-.534 1.003a.25.25 0 0 0 .416.278l.004-.007c.166-.248.431-.646.588-1.115.16-.479.212-1.051-.076-1.629-.258-.515-.365-.732-.419-1.004a2 2 0 0 1-.037-.289l.008.017a.25.25 0 1 0 .448-.224zM4.352 3.356a4 4 0 0 1 3.15-2.325C7.774.997 8 1.224 8 1.5s-.226.496-.498.542c-.95.162-1.749.78-2.173 1.617a.6.6 0 0 1-.52.341c-.346 0-.599-.329-.457-.644" />
+                </svg>
+                @Model.Cidade
+                -
+                @Model.Estado
             </p>
 
         </div>
+
+        <h3 class="mb-4">Sobre a Vaga</h3>
+
+        <p>Descrição da vaga</p>
+
+        <p>@Html.DisplayFor(Model => Model.DescricaoVaga)</p>
+
+        <div class="me-5">
+            <h6>Requisitos</h6>
+            <p>
+                @Html.DisplayFor(model => model.Requisitos)
+            </p>
+        </div>
+
+        <div class="d-flex ">
+            <div class="me-5">
+                <h6>Beneficios</h6>
+                <p>
+                    @Html.DisplayFor(model => model.Beneficios)
+                </p>
+            </div>
+            <div>
+                <h6>Horário</h6>
+                <p>
+                    @Html.DisplayFor(model => model.HorarioExpediente)
+                </p>
+            </div>
+
+        </div>
+
+        <div class="me-5">
+            <h6>Regime de contratração</h6>
+            <p>
+                @Html.DisplayFor(model => model.RegimeContratacao)
+            </p>
+        </div>
+
+        <hr />
+
+        <div class="me-5">
+            <h6>Dados da Empresa</h6>
+            <div class="d-flex">
+
+                <img style="height: 10vw; width: 10vw;" class="rounded"
+                     src="@(string.IsNullOrEmpty(Model.Usuario.Foto) ? Url.Content("~/img/empresa.png") : Url.Content("~/img/" + Model.Usuario.Foto))"
+                     alt="Imagem do Usuário" />
+
+                <div class="ms-3 ">
+                    <h6>
+                        @Html.DisplayFor(model => model.Usuario.UserName)
+                    </h6>
+
+                    <p>
+                        @Html.DisplayFor(model => model.Usuario.Ramo)
+
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="">
+                <h6>Porte:</h6>
+                <p>
+                    Empresa de
+                    @(Model.Usuario.Funcionarios < 8
+                        ? "Pequeno porte"
+                        : Model.Usuario.Funcionarios <= 16
+                        ? "Médio porte"
+                        : "Grande porte"),
+                    @Html.DisplayFor(model => model.Usuario.Funcionarios) Funcionarios.
+                </p>
+            </div>
+
+            <div class="">
+                <h6>
+                    SITE:
+                </h6>
+                <p>
+                    @Html.DisplayFor(model => model.Usuario.Portifolio)
+                </p>
+            </div>
+        </div>
     </div>
 
-    <div class="">
-        <h6>Porte:</h6>
-        <p>
-            Empresa de
-            @(Model.Usuario.Funcionarios < 8
-                ? "Pequeno porte"
-                : Model.Usuario.Funcionarios <= 16
-                ? "Médio porte"
-                : "Grande porte"),
-            @Html.DisplayFor(model => model.Usuario.Funcionarios) Funcionarios.
-        </p>
+    <div class="bg-black col-3 justify-content-center text-center">
+
+        <button class="btn btn-danger mt-5 col-12">Me Candedatar</button>
     </div>
 
-    <div class="">
-        <h6>
-            SITE:
-        </h6>
-        <p>
-            @Html.DisplayFor(model => model.Usuario.Portifolio)
-        </p>
+</div>
+
+
+<div class="side-buttons">
+    <!-- Botão azul com ícone de prancheta -->
+    <a href="#" class="side-button btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+        </svg>
+    </a>
+    <!-- Botão vermelho com ícone de lixeira -->
+    <a class="side-button btn-danger" data-bs-toggle="modal" data-bs-target="#ModalTrash">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+        </svg>
+    </a>
+</div>
+
+
+
+<div class="modal fade" id="ModalTrash" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center border-0">
+                <h5 class="modal-title text-center volt px-5 py-1 fs">Apagar</h5>
+            </div>
+            <div class="modal-body text-center border-0">
+                <p class="text-dark fs-3 fst-normal">Tem certeza que deseja apagar os dados dessa notícia?</p>
+            </div>
+            <div class="modal-footer d-flex flex-column justify-content-center border-0">
+                <form asp-action="Delete" asp-route-id="@Model.IdVagaEmprego">
+                    <input type="hidden" asp-for="@Model.IdVagaEmprego" />
+                    <button type="submit" class="btn btn-danger apag text-white">Deletar</button>
+                </form>
+                <button data-bs-dismiss="modal" class="btn volt2">Cancelar</button>
+            </div>
+        </div>
     </div>
 </div>
-@* <div class="container">
-    <h4 class="mb-3">Informações da Vaga</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-4 fw-bold">
-            @Html.DisplayNameFor(model => model.Cargo)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.Cargo)
-        </dd>
 
-        <dt class="col-sm-4 fw-bold">
-            @Html.DisplayNameFor(model => model.NumeroVagas)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.NumeroVagas)
-        </dd>
+<style>
+    /* Estilo para os botões fixos na lateral esquerda */
+    .side-buttons {
+        position: fixed;
+        top: 50%;
+        left: -80px; /* Escondido fora da tela */
+        transform: translateY(-50%);
+        transition: left 0.3s ease-in-out;
+    }
 
-        <dt class="col-sm-4 fw-bold">
-            @Html.DisplayNameFor(model => model.HorarioExpediente)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.HorarioExpediente)
-        </dd>
+    .side-button {
+        height: 120px;
+        display: block;
+        width: 100px;
+        padding: 10px;
+        margin-bottom: 10px;
+        color: white;
+        text-align: center;
+        align-content:center;
+        border: none;
+        border-radius: 0 5px 5px 0; /* Borda arredondada apenas à direita */
+    }
 
-        <dt class="col-sm-4 fw-bold">
-            @Html.DisplayNameFor(model => model.Beneficios)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.Beneficios)
-        </dd>
-
-        <dt class="col-sm-4 fw-bold">
-            @Html.DisplayNameFor(model => model.Requisitos)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.Requisitos)
-        </dd>
-
-        <dt class="col-sm-4 fw-bold">
-            @Html.DisplayNameFor(model => model.RegimeContratacao)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.RegimeContratacao)
-        </dd>
-
-        <dt class="col-sm-4 fw-bold">
-            @Html.DisplayNameFor(model => model.DescricaoVaga)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.DescricaoVaga)
-        </dd>
-
-        <dt class="col-sm-4 fw-bold">
-            @Html.DisplayNameFor(model => model.Salario)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.Salario)
-        </dd>
-
-        <dt class="col-sm-4 fw-bold">
-            @Html.DisplayNameFor(model => model.Estado)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.Estado)
-        </dd>
-
-        <dt class="col-sm-4 fw-bold">
-            @Html.DisplayNameFor(model => model.Cidade)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.Cidade)
-        </dd>
-
-        <dt class="col-sm-4 fw-bold">
-            @Html.DisplayNameFor(model => model.Publicacao)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.Publicacao)
-        </dd>
-
-        <dt class="col-sm-4 fw-bold">
-            @Html.DisplayNameFor(model => model.Usuario)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.Usuario.Id)
-        </dd>
-    </dl>
-</div>
-
-<div class="text-center mt-4">
-    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model?.IdVagaEmprego">Editar</a>
-    <a class="btn btn-secondary" asp-action="Index">Voltar para a Lista</a>
-</div>
- *@
+    .side-buttons:hover {
+        left: 0; /* Botões aparecem ao passar o mouse */
+    }
+</style>
