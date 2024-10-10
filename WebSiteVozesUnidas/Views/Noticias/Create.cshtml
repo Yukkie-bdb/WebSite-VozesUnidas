@@ -4,40 +4,46 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1 class="d-flex justify-content-center fw-bold my-5">Adicionar Notícia</h1>
 
-<h4>Noticia</h4>
-<hr />
+
 <div class="row">
     <div class="col-12">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Titulo" class="control-label"></label>
-                <input asp-for="Titulo" class="form-control" />
+            <div class="form-group my-3">
+                <label class="control-label fw-bold mb-3">Título</label>
+                <input asp-for="Titulo" class="form-control border-1 border-dark" placeholder="Insira o título da notícia aqui." />
                 <span asp-validation-for="Titulo" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Imagem" class="control-label"></label>
-                <input asp-for="Imagem" type="file" class="form-control" name="imgUp" />
+            <div class="form-group my-3 d-flex justify-content-center">
+                <img src="~/img/AddImageTop.png" id="inputImage" class="w-50"/>
+                <input asp-for="Imagem" type="file" class="form-control border-1 border-dark d-none" id="inputCampus" placeholder="Insira a foto da notícia aqui." name="imgUp"/>
                 <span asp-validation-for="Imagem" class="text-danger"></span>
             </div>
-            <div class="form-group w-100">
-                <label asp-for="Conteudo" class="control-label"></label>
-                <textarea asp-for="Conteudo" class="form-control" rows="20"></textarea>
+            <div class="form-group my-3 w-100">
+                <label class="control-label fw-bold my-3">Conteúdo</label>
+                <textarea asp-for="Conteudo" class="form-control border-1 border-dark" placeholder="Insira o conteúdo da notícia aqui." rows="20"></textarea>
                 <span asp-validation-for="Conteudo" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group my-3 d-flex justify-content-center align-content-center w-100 flex-wrap flex-column ">
+                <input type="submit" value="Publicar" class="btn border-2 bg-white border-dark my-2 w-25  " />
+                <a asp-action="Index" class="btn border-1 border-dark text-black my-2 d-flex align-self-center justify-content-center   " style="background-color:darkgray;width:10%">Cancelar</a>
             </div>
-        </form>
+        </form> 
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    const fileInput = document.getElementById('inputCampus');
+    const uploadImage = document.getElementById('inputImage');
+
+    uploadImage.addEventListener('click', () => {
+        fileInput.click(); 
+    });
+</script>

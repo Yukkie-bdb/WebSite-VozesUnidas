@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebSiteVozesUnidas.Data;
@@ -147,31 +148,57 @@ namespace WebSiteVozesUnidas.Controllers
             {
                 return NotFound();
             }
-
             var noticia = await _context.Noticias.FindAsync(id);
             if (noticia == null)
             {
                 return NotFound();
             }
+            ViewBag.id = noticia.Imagem;
             return View(noticia);
         }
 
         // POST: Noticias/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdNoticia,Titulo,Imagem,Conteudo,Publicacao,IdUsuario")] Noticia noticia)
+        public async Task<IActionResult> Edit(Guid id, [Bind("IdNoticia,Titulo,Imagem,Conteudo,Publicacao,IdUsuario")] Noticia noticia, IFormFile? imgUp)
         {
             if (id != noticia.IdNoticia)
             {
                 return NotFound();
             }
-
+ 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    if (imgUp != null && imgUp.Length > 0)
+                    {
+                        string uploadsFolder = Path.Combine(_caminho, "img");
+
+                        if (!Directory.Exists(uploadsFolder))
+                        {
+                            Directory.CreateDirectory(uploadsFolder);
+                        }
+
+                        string uniqueFileName = Guid.NewGuid().ToString() + "_" + imgUp.FileName;
+
+                        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await imgUp.CopyToAsync(fileStream);
+                        }
+                        noticia.Imagem = uniqueFileName;
+                    }
+                    else
+                    {
+                        var noticinha = await _context.Noticias.AsNoTracking().FirstOrDefaultAsync(n => n.IdNoticia == id);
+                        noticia.Imagem = noticinha.Imagem;
+                    }
+                    
                     _context.Update(noticia);
                     await _context.SaveChangesAsync();
                 }
