@@ -131,6 +131,12 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account
             // Propriedades específicas para Empresa
             [Display(Name = "CNPJ")]
             public string CNPJ { get; set; }
+            [Display(Name = "Ramo")]
+            public string Ramo { get; set; }
+            [Display(Name = "Funcionarios")]
+            public int Funcionarios { get; set; }
+            [Display(Name = "Portifolio")]
+            public string Portifolio { get; set; }
         }
 
 
@@ -156,6 +162,9 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account
                 user.Tipo = Input.Tipo;
                 user.CPF = Input.CPF;
                 user.Nascimento = Input.Nascimento;
+                user.Ramo = Input.Ramo;
+                user.Funcionarios = Input.Funcionarios;
+                user.Portifolio = Input.Portifolio;
                 //user.Habilidades = Input.Habilidades;
                 user.Objetivos = Input.Objetivos;
                 user.Jornalista = Input.Jornalista;
