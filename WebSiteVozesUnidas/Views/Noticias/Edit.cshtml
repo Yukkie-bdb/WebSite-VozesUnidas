@@ -2,54 +2,80 @@
 
 @{
     ViewData["Title"] = "Edit";
+    if(ViewBag.UserOk is null)
+    {
+        ViewBag.UserOk = new ApplicationUser();
+        ViewBag.UserOk.Id = new Guid();
+        ViewBag.UserOk.Tipo = TipoUsuario.PessoaFisica;
+    }
 }
+@if (ViewBag.UserOk.Tipo == TipoUsuario.ADM || ViewBag.UserOk.Id == Model.IdUsuario)
+{
+    <h1 class="d-flex justify-content-center fw-bold my-5">Editar Notícia</h1>
 
-<h1>Edit</h1>
-
-<h4>Noticia</h4>
-<hr />
-<div class="row">
-    <div class="col-12">
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdNoticia" />
-            <div class="form-group">
-                <label asp-for="Titulo" class="control-label"></label>
-                <input asp-for="Titulo" class="form-control" />
-                <span asp-validation-for="Titulo" class="text-danger"></span>
-            </div>
-            <img src="~/img/@ViewBag.id" alt="Imagem da Notícia" />
-            <div class="form-group">
-                <label asp-for="Imagem" class="control-label"></label>
-                <input asp-for="Imagem" type="file" class="form-control" name="imgUp" />
-                <span asp-validation-for="Imagem" class="text-danger"></span>
-            </div>
-            <div class="form-group w-100">
-                <label asp-for="Conteudo" class="control-label"></label>
-                <textarea asp-for="Conteudo" class="form-control" rows="20"></textarea>
-                <span asp-validation-for="Conteudo" class="text-danger"></span>
-            </div>
-            <div class="form-group d-none">
-                <label asp-for="Publicacao" class="control-label"></label>
-                <input asp-for="Publicacao" class="form-control" />
-                <span asp-validation-for="Publicacao" class="text-danger"></span>
-            </div>
-            <div class="form-group d-none">
-                <label asp-for="IdUsuario" class="control-label"></label>
-                <input asp-for="IdUsuario" class="form-control" />
-                <span asp-validation-for="IdUsuario" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="row">
+        <div class="col-12">
+            <form asp-action="Edit" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="IdNoticia" />
+                <div class="form-group my-3 w-100">
+                    <label class="control-label fw-bold mb-3">Título</label>
+                    <input asp-for="Titulo" class="form-control border-1 border-dark" placeholder="Insira o título da notícia aqui." />
+                    <span asp-validation-for="Titulo" class="text-danger"></span>
+                </div>
+                <div class="form-group my-3 w-100 d-flex justify-content-center">
+                    <img src="~/img/@ViewBag.id" id="inputImage" class="w-50" />
+                    <input asp-for="Imagem" type="file" class="form-control border-1 border-dark d-none" id="inputCampus" placeholder="Insira a foto da notícia aqui." name="imgUp" />
+                    <span asp-validation-for="Imagem" class="text-danger"></span>
+                </div>
+                <div class="form-group my-3 w-100">
+                    <label class="control-label fw-bold my-3">Conteúdo</label>
+                    <textarea asp-for="Conteudo" class="form-control border-1 border-dark" placeholder="Insira o conteúdo da notícia aqui." rows="20"></textarea>
+                    <span asp-validation-for="Conteudo" class="text-danger"></span>
+                </div>
+                <div class="form-group d-none">
+                    <label asp-for="Publicacao" class="control-label"></label>
+                    <input asp-for="Publicacao" class="form-control" />
+                    <span asp-validation-for="Publicacao" class="text-danger"></span>
+                </div>
+                <div class="form-group d-none">
+                    <label asp-for="IdUsuario" class="control-label"></label>
+                    <input asp-for="IdUsuario" class="form-control" />
+                    <span asp-validation-for="IdUsuario" class="text-danger"></span>
+                </div>
+                <div class="form-group my-3 d-flex justify-content-center align-content-center w-100 flex-wrap flex-column ">
+                    <input type="submit" value="Salvar" class="btn border-2 bg-white border-dark my-2 w-25  " />
+                    <a asp-action="Index" class="btn border-1 border-dark text-black my-2 d-flex align-self-center justify-content-center   " style="background-color:darkgray;width:10%">Cancelar</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    @section Scripts {
+    @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        const fileInput = document.getElementById('inputCampus');
+        const uploadImage = document.getElementById('inputImage');
+
+        uploadImage.addEventListener('click', () => {
+            fileInput.click();
+        });
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    uploadImage.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 }
+
+            
+            

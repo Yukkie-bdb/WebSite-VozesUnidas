@@ -12,22 +12,22 @@
 }
 
 <h1 class="fw-bold justify-content-center d-flex my-4">Principais Notícias</h1>
-<div class="col-12 d-flex" style="background-image:url(/img/gettyimages-1299146426-612x612.jpg)">
+<div class="col-12 d-flex">
     <div class="col-8 me-3">
-        <div class="mb-3" style="background-image:url(/img/gettyimages-1299146426-612x612.jpg)">
+        <div class="mb-3" style="background-color:#ededed;max-height:250px;">
             <a asp-action="Details" asp-route-id="@ViewData["0Id"]" class="text-decoration-none" style="color: inherit;">
-                <img src="~/img/@ViewData["0"]" alt="Imagem da Notícia" style="max-height:250px;border-radius:25px;" class="align-self-center w-100 mw-100" />
+                <img src="~/img/@ViewData["0"]" alt="Imagem da Notícia" style="max-height:250px;border-radius:25px;" class="align-self-center w-100 h-100" />
             </a>
         </div>
-        <div class="mt-3" style="background-image:url(/img/gettyimages-1299146426-612x612.jpg)">
+        <div class="mt-3" style="background-color:#ededed;max-height:250px;">
             <a asp-action="Details" asp-route-id="@ViewData["1Id"]" class="text-decoration-none" style="color: inherit;">
-                <img src="~/img/@ViewData["1"]" alt="Imagem da Notícia" style="max-height:250px;border-radius:25px;" class="align-self-center w-100 mw-100" />
+                <img src="~/img/@ViewData["1"]" alt="Imagem da Notícia" style="max-height:250px;border-radius:25px;" class="align-self-center w-100 h-100" />
             </a>
         </div>
     </div>
-    <div class="col-4 justify-content-center align-items-center d-flex mh-100" style="background-image:url(/img/gettyimages-1299146426-612x612.jpg)">
+    <div class="col-4 justify-content-center align-items-center d-flex mh-100" style="background-color:#ededed;max-height:500px;">
         <a asp-action="Details" asp-route-id="@ViewData["2Id"]" class="text-decoration-none" style="color: inherit;">
-            <img src="~/img/@ViewData["2"]" alt="Imagem da Notícia" style="border-radius:25px;" class="align-self-center mw-100 h-100" />
+            <img src="~/img/@ViewData["2"]" alt="Imagem da Notícia" style="border-radius:25px;" class="align-self-center w-100 h-100" />
         </a>
     </div>
 </div>

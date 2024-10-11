@@ -2,48 +2,69 @@
 
 @{
     ViewData["Title"] = "Create";
+    if (ViewBag.UserOk is null)
+    {
+        ViewBag.UserOk = new ApplicationUser();
+        ViewBag.UserOk.Id = new Guid();
+        ViewBag.UserOk.Tipo = TipoUsuario.PessoaFisica;
+        ViewBag.UserOk.Jornalista = false;
+    }
 }
+@if (ViewBag.UserOk.Tipo == TipoUsuario.ADM || ViewBag.UserOk.Jornalista == true)
+{
+    <h1 class="d-flex justify-content-center fw-bold my-5">Adicionar Notícia</h1>
 
-<h1 class="d-flex justify-content-center fw-bold my-5">Adicionar Notícia</h1>
 
-
-<div class="row">
-    <div class="col-12">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group my-3">
-                <label class="control-label fw-bold mb-3">Título</label>
-                <input asp-for="Titulo" class="form-control border-1 border-dark" placeholder="Insira o título da notícia aqui." />
-                <span asp-validation-for="Titulo" class="text-danger"></span>
-            </div>
-            <div class="form-group my-3 d-flex justify-content-center">
-                <img src="~/img/AddImageTop.png" id="inputImage" class="w-50"/>
-                <input asp-for="Imagem" type="file" class="form-control border-1 border-dark d-none" id="inputCampus" placeholder="Insira a foto da notícia aqui." name="imgUp"/>
-                <span asp-validation-for="Imagem" class="text-danger"></span>
-            </div>
-            <div class="form-group my-3 w-100">
-                <label class="control-label fw-bold my-3">Conteúdo</label>
-                <textarea asp-for="Conteudo" class="form-control border-1 border-dark" placeholder="Insira o conteúdo da notícia aqui." rows="20"></textarea>
-                <span asp-validation-for="Conteudo" class="text-danger"></span>
-            </div>
-            <div class="form-group my-3 d-flex justify-content-center align-content-center w-100 flex-wrap flex-column ">
-                <input type="submit" value="Publicar" class="btn border-2 bg-white border-dark my-2 w-25  " />
-                <a asp-action="Index" class="btn border-1 border-dark text-black my-2 d-flex align-self-center justify-content-center   " style="background-color:darkgray;width:10%">Cancelar</a>
-            </div>
-        </form> 
+    <div class="row">
+        <div class="col-12">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group my-3">
+                    <label class="control-label fw-bold mb-3">Título</label>
+                    <input asp-for="Titulo" class="form-control border-1 border-dark" placeholder="Insira o título da notícia aqui." />
+                    <span asp-validation-for="Titulo" class="text-danger"></span>
+                </div>
+                <div class="form-group my-3 d-flex justify-content-center">
+                    <img src="~/img/AddImageTop.png" id="inputImage" class="w-50" />
+                    <input asp-for="Imagem" type="file" class="form-control border-1 border-dark d-none" id="inputCampus" placeholder="Insira a foto da notícia aqui." name="imgUp" />
+                    <span asp-validation-for="Imagem" class="text-danger"></span>
+                </div>
+                <div class="form-group my-3 w-100">
+                    <label class="control-label fw-bold my-3">Conteúdo</label>
+                    <textarea asp-for="Conteudo" class="form-control border-1 border-dark" placeholder="Insira o conteúdo da notícia aqui." rows="20"></textarea>
+                    <span asp-validation-for="Conteudo" class="text-danger"></span>
+                </div>
+                <div class="form-group my-3 d-flex justify-content-center align-content-center w-100 flex-wrap flex-column ">
+                    <input type="submit" value="Publicar" class="btn border-2 bg-white border-dark my-2 w-25  " />
+                    <a asp-action="Index" class="btn border-1 border-dark text-black my-2 d-flex align-self-center justify-content-center   " style="background-color:darkgray;width:10%">Cancelar</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @section Scripts {
+    @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+
+    <script>
+        const fileInput = document.getElementById('inputCampus');
+        const uploadImage = document.getElementById('inputImage');
+
+        uploadImage.addEventListener('click', () => {
+            fileInput.click();
+        });
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    uploadImage.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 }
-
-<script>
-    const fileInput = document.getElementById('inputCampus');
-    const uploadImage = document.getElementById('inputImage');
-
-    uploadImage.addEventListener('click', () => {
-        fileInput.click(); 
-    });
-</script>

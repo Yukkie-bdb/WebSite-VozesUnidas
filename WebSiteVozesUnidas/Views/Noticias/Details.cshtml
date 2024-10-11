@@ -51,14 +51,17 @@
                 <h5 class="modal-title text-center volt px-5 py-1 fs">Apagar</h5>
             </div>
             <div class="modal-body text-center border-0">
-                <p class="text-dark fs-3 fst-normal">Tem certeza que deseja apagar os dados dessa notícia?</p>
+                <p class="text-dark fs-3 fst-normal alert-danger">Tem certeza que deseja apagar os dados dessa notícia?</p>
             </div>
-            <div class="modal-footer d-flex flex-column justify-content-center border-0">
-                <form asp-action="Delete" asp-route-id="@ViewData["Id"]" >
+            <div class="modal-footer d-flex flex-column justify-content-center border-0 w-100">
+                <form asp-action="Delete" asp-route-id="@ViewData["Id"]" class="d-flex flex-column justify-content-center align-items-center w-100">
                     <input type="hidden" asp-for="@ViewData["Id"]" />
-                    <button type="submit" class="btn btn-danger apag text-white">Deletar</button>
+                    <input type="text" name="name" placeholder="Digite 'Quero Apagar' para apagar a notícia" class="form-control border-1 border-dark w-100 my-2" />
+                    <p class="h1" style="color:red;">@ViewBag.erro</p>
+                    <button type="submit" class="btn btn-danger apag text-white w-25 my-2">Deletar</button>
                 </form>
-                <button data-bs-dismiss="modal" class="btn volt2">Cancelar</button>
+                <button data-bs-dismiss="modal" class="btn volt2 w-25 my-2">Cancelar</button>
+
             </div>
         </div>
     </div>

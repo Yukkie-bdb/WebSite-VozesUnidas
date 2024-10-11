@@ -1,15 +1,20 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using WebSiteVozesUnidas.Data;
 using WebSiteVozesUnidas.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebSiteVozesUnidas.Controllers
 {
@@ -84,20 +89,36 @@ namespace WebSiteVozesUnidas.Controllers
             var autor = await _context.Users.FirstOrDefaultAsync(x => x.Id == noticia.IdUsuario);
             var userid = _signInManager.UserManager.GetUserId(User);
             var tipo = await _context.Users.FirstOrDefaultAsync(x => x.Id.ToString() == userid);
-            ViewBag.AutorId = autor.Id;
-            if(userid != null)
+            if(autor != null)
+            {
+                ViewBag.AutorId = autor.Id;
+                ViewData["Autor"] = autor.UserName;
+
+            }
+            if (userid != null)
             {
                 ViewBag.UserId = userid;
                 ViewBag.UserTipo = tipo.Tipo;
             }
-            ViewData["Autor"] = autor.UserName;    
 
             return View(noticia);
         }
 
         // GET: Noticias/Create
-        public IActionResult Create()
+        //[Authorize(Roles = "Admin,Jornalista")]
+        public async Task<IActionResult> Create()
         {
+            var userId = _signInManager.UserManager.GetUserId(User);
+
+            if (!string.IsNullOrEmpty(userId) && Guid.TryParse(userId, out var parsedUserId))
+            {
+                var user = await _context.Users.FindAsync(parsedUserId);
+                if (user != null)
+                {
+                    ViewBag.UserOk = user;
+                }
+            }
+
             return View();
         }
 
@@ -139,9 +160,11 @@ namespace WebSiteVozesUnidas.Controllers
             }
             return View(noticia);
         }
-    
+
 
         // GET: Noticias/Edit/5
+        //[Authorize(Roles = "Admin,Jornalista")]
+        
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -154,6 +177,17 @@ namespace WebSiteVozesUnidas.Controllers
                 return NotFound();
             }
             ViewBag.id = noticia.Imagem;
+            var userid = _signInManager.UserManager.GetUserId(User);
+
+            if (userid != null)
+            {
+                var userok = await _context.Users.FirstOrDefaultAsync(x => x.Id.ToString() == userid);
+                if (userok != null)
+                {
+                    ViewBag.UserOk = userok;
+                }
+            }
+            
             return View(noticia);
         }
 
@@ -239,16 +273,39 @@ namespace WebSiteVozesUnidas.Controllers
         // POST: Noticias/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id,string? name)
         {
+            
             var noticia = await _context.Noticias.FindAsync(id);
-            if (noticia != null)
+            if(name == "Quero Apagar")
             {
-                _context.Noticias.Remove(noticia);
+                if (noticia != null)
+                {
+                    _context.Noticias.Remove(noticia);
+                }
+                string uploadsFolder = Path.Combine(_caminho, "img");
+
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                string uniqueFileName = noticia.Imagem;
+                
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                noticia.Imagem = uniqueFileName;
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return NoContent();
         }
 
         private bool NoticiaExists(Guid id)
