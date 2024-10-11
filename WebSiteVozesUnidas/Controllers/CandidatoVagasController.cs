@@ -20,7 +20,8 @@ namespace WebSiteVozesUnidas.Controllers
         public CandidatoVagasController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
-            _userManager = userManager;
+
+                _userManager = userManager;
         }
 
         // GET: CandidatoVagas
