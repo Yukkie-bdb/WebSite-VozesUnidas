@@ -110,6 +110,10 @@ namespace WebSiteVozesUnidas.Controllers
                 return NotFound();
             }
 
+            ViewData["VagasEmpregos"] = await _context.VagaEmpregos
+                .OrderByDescending(vagaEmprego => vagaEmprego.Salario)
+                .ToListAsync();
+
             return View(vagaEmprego);
         }
 
