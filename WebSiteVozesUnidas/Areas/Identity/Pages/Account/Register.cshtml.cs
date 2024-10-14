@@ -120,7 +120,7 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account
             public DateOnly Nascimento { get; set; }
 
             [Display(Name = "Habilidades")]
-            public string[] Habilidades { get; set; }
+            public List<string> Habilidades { get; set; }
 
             [Display(Name = "Objetivos Profissionais")]
             public string Objetivos { get; set; }
@@ -137,6 +137,10 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account
             public int Funcionarios { get; set; }
             [Display(Name = "Portifolio")]
             public string Portifolio { get; set; }
+            [Display(Name = "Estado")]
+            public string Estado { get; set; }
+            [Display(Name = "Cidade")]
+            public string Cidade { get; set; }
         }
 
 
@@ -165,7 +169,9 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account
                 user.Ramo = Input.Ramo;
                 user.Funcionarios = Input.Funcionarios;
                 user.Portifolio = Input.Portifolio;
-                //user.Habilidades = Input.Habilidades;
+                user.Cidade = Input.Cidade;
+                user.Estado = Input.Estado;
+                user.Habilidades = Input.Habilidades;
                 user.Objetivos = Input.Objetivos;
                 user.Jornalista = Input.Jornalista;
                 user.CNPJ = Input.CNPJ;

@@ -4,323 +4,597 @@
     ViewData["Title"] = "Register";
 }
 
-@* DEBUG *@
-@* DEBUG *@
-@* DEBUG *@
+<h1 class="text-center">CADASTRO</h1>
 
-<form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
-    <input asp-for="Input.Email" value="admin@gmail.com" style="display: none;" />
-    <input asp-for="Input.Nome" value="Admin" style="display: none;" />
-    <input asp-for="Input.Foto" value="adm.jpg" style="display: none;" />
-    <input asp-for="Input.Sobre" value="Sou o ADM do sistema" style="display: none;"/>
-    <input asp-for="Input.Tipo" value="ADM" style="display: none;" />
+<!-- Campo TipoUsuario -->
+<div class="mb-3">
+    <div class="btn-group col-12" role="group">
+        <input asp-for="Input.Tipo" type="radio" class="btn-check" value="PessoaFisica" id="pessoaFisica" checked>
+        <label class="btn btn-outline-secondary col-6" for="pessoaFisica">Pessoa Física</label>
 
-    <input asp-for="Input.CPF" value="14911631279" style="display: none;" />
-    <input asp-for="Input.Nascimento" type="date" value="1999-01-01" style="display: none;" />
-    <input asp-for="Input.Habilidades" value="Programar" style="display: none;" />
-
-    <input asp-for="Input.Objetivos" value="BANANA" style="display: none;" />
-
-    <input asp-for="Input.Jornalista" type="checkbox" value="True" style="display: none;" />
-
-    <input asp-for="Input.CNPJ" value="28064155000100" style="display: none;" />
-    <input asp-for="Input.Password" value="Aa@123" style="display: none;" />
-    <input asp-for="Input.ConfirmPassword" value="Aa@123" style="display: none;" />
-
-    <div>
-        <button id="login-submit" type="submit" class="w-100 mb-2">Login - ADM -</button>
+        <input asp-for="Input.Tipo" type="radio" class="btn-check" value="Empresa" id="empresa">
+        <label class="btn btn-outline-secondary col-6" for="empresa">Empresa</label>
     </div>
-</form>
+    <span asp-validation-for="Input.Tipo" class="text-danger"></span>
+</div>
 
-<form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
-    <input asp-for="Input.Email" value="empresa@gmail.com" style="display: none;" />
-    <input asp-for="Input.Nome" value="EmpresaXYZ" style="display: none;" />
-    <input asp-for="Input.Foto" value="empresa.jpg" style="display: none;" />
-    <input asp-for="Input.Sobre" value="Somos uma empresa de tecnologia" style="display: none;" />
-    <input asp-for="Input.Tipo" value="Empresa" style="display: none;" />
-    <input asp-for="Input.Ramo" value="Ramo de Catar Latinha" style="display: none;" />
-    <input asp-for="Input.Funcionarios" value="32" style="display: none;" />
-    <input asp-for="Input.Portifolio" value="www.sitebom.com" style="display: none;" />
+<form id="registerFormPf" style="display:none;" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
-    <input asp-for="Input.CNPJ" value="12345678000195" style="display: none;" />
-    <input asp-for="Input.Password" value="Aa@123" style="display: none;" />
-    <input asp-for="Input.ConfirmPassword" value="Aa@123" style="display: none;" />
+    <div class="d-flex justify-content-between col-12 mt-5">
 
-    <div>
-        <button id="login-submit" type="submit" class="w-100 mb-2">Login - Empresa -</button>
-    </div>
-</form>
+        <!-- Campo Foto -->
+        <div class=" d-flex col-6 justify-content-center align-items-stretch">
+            <img src="~/img/default.jpg" id="profileImage" class="rounded-circle mb-3 img-fluid" style="width: 48vh; height: 48vh; object-fit: cover; cursor:pointer;" />
 
-<form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
-    <input asp-for="Input.Email" value="usuario@gmail.com" style="display: none;" />
-    <input asp-for="Input.Nome" value="Usuario" style="display: none;" />
-    <input asp-for="Input.Foto" value="usuario.jpg" style="display: none;" />
-    <input asp-for="Input.Sobre" value="Sou um usuário do sistema" style="display: none;" />
-    <input asp-for="Input.Tipo" value="PessoaFisica" style="display: none;" />
+            @* <label asp-for="Input.Foto" class="control-label"></label> *@
+            <input asp-for="Input.Foto" type="file" class="form-control d-none" value="Input.Foto" name="imgUp" id="imgUp" accept=".jpg,.jpeg,.png, .gif" onchange="validateFileType()" />
+            <span asp-validation-for="Input.Foto" class="text-danger"></span>
+        </div>
 
-    <input asp-for="Input.CPF" value="12345678901" style="display: none;" />
-    <input asp-for="Input.Nascimento" type="date" value="1990-01-01" style="display: none;" />
-    <input asp-for="Input.Habilidades" value="Desenvolver" style="display: none;" />
+        
 
-    <input asp-for="Input.Objetivos" value="BANANA" style="display: none;" />
-    <input asp-for="Input.Jornalista" type="checkbox" value="False" style="display: none;" />
+        <div class="d-flex flex-column col-6 ">
 
-    <input asp-for="Input.Password" value="Aa@123" style="display: none;" />
-    <input asp-for="Input.ConfirmPassword" value="Aa@123" style="display: none;" />
-
-    <div>
-        <button id="login-submit" type="submit" class="w-100 mb-2">Login - Usuário -</button>
-    </div>
-</form>
-
-<form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
-    <input asp-for="Input.Email" value="jornalista@gmail.com" style="display: none;" />
-    <input asp-for="Input.Nome" value="Jornalista" style="display: none;" />
-    <input asp-for="Input.Foto" value="jornalista.jpg" style="display: none;" />
-    <input asp-for="Input.Sobre" value="Sou um jornalista" style="display: none;" />
-    <input asp-for="Input.Tipo" value="PessoaFisica" style="display: none;" />
-
-    <input asp-for="Input.CPF" value="09876543210" style="display: none;" />
-    <input asp-for="Input.Nascimento" type="date" value="1985-05-15" style="display: none;" />
-    <input asp-for="Input.Habilidades" value="Escrever" style="display: none;" />
-
-    <input asp-for="Input.Objetivos" value="BANANA" style="display: none;" />
-    <input asp-for="Input.Jornalista" type="checkbox" value="True" style="display: none;" />
-
-    <input asp-for="Input.Password" value="Aa@123" style="display: none;" />
-    <input asp-for="Input.ConfirmPassword" value="Aa@123" style="display: none;" />
-
-    <div>
-        <button id="login-submit" type="submit" class="w-100 mb-2">Login - Jornalista -</button>
-    </div>
-</form>
-
-
-@* DEBUG *@
-@* DEBUG *@
-@* DEBUG *@
-
-
-<h1>@ViewData["Title"]</h1>
-
-<div class="row">
-    <div class="col-md-4">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
-            <h2>Create a new account.</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
             <!-- Campo Nome -->
-            <div class="form-floating mb-3">
+            <div class="form-floating mb-3 col-12">
                 <input asp-for="Input.Nome" class="form-control" placeholder="Nome" />
                 <label asp-for="Input.Nome">Nome do Usuário</label>
                 <span asp-validation-for="Input.Nome" class="text-danger"></span>
             </div>
 
-            <!-- Campo Foto -->
-            <div class="form-group mb-3">
-                <label asp-for="Input.Foto" class="control-label"></label>
-                <input asp-for="Input.Foto" type="file" class="form-control" name="imgUp" />
-                <span asp-validation-for="Input.Foto" class="text-danger"></span>
-            </div>
-
-            <!-- Campo Sobre -->
-            <div class="form-floating mb-3">
-                <textarea asp-for="Input.Sobre" class="form-control" placeholder="Sobre"></textarea>
-                <label asp-for="Input.Sobre">Sobre o Usuário</label>
-                <span asp-validation-for="Input.Sobre" class="text-danger"></span>
-            </div>
-
-            <!-- Campo TipoUsuario -->
-            <div class="form-floating mb-3">
-                <select asp-for="Input.Tipo" class="form-select">
-                    <option value="">Selecione o tipo de usuário</option>
-                    <option value="PessoaFisica">Pessoa Física</option>
-                    <option value="Empresa">Empresa</option>
-                    <option value="ADM">Administrador</option>
-                </select>
-                <label asp-for="Input.Tipo">Tipo de Usuário</label>
-                <span asp-validation-for="Input.Tipo" class="text-danger"></span>
-            </div>
-
             <!-- Campo CPF -->
-            <div class="form-floating mb-3">
+            <div class="form-floating mb-3 col-12">
                 <input asp-for="Input.CPF" class="form-control" placeholder="CPF" />
                 <label asp-for="Input.CPF">CPF</label>
                 <span asp-validation-for="Input.CPF" class="text-danger"></span>
             </div>
 
-            <!-- Campo Funcionarios -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Funcionarios" class="form-control" placeholder="Funcionarios" />
-                <label asp-for="Input.Funcionarios">Funcionarios</label>
-                <span asp-validation-for="Input.Funcionarios" class="text-danger"></span>
+            <div class="form-floating mb-3 col-12">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <label asp-for="Input.Email">Email</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
 
+
             <!-- Campo Portifolio -->
-            <div class="form-floating mb-3">
+            <div class="form-floating mb-3 col-12">
                 <input asp-for="Input.Portifolio" class="form-control" placeholder="Portifolio" />
-                <label asp-for="Input.Portifolio">CPF</label>
+                <label asp-for="Input.Portifolio">Portifolio</label>
                 <span asp-validation-for="Input.Portifolio" class="text-danger"></span>
             </div>
 
-            <!-- Campo Data de Nascimento -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Nascimento" class="form-control" type="date" placeholder="Data de Nascimento" />
-                <label asp-for="Input.Nascimento">Data de Nascimento</label>
-                <span asp-validation-for="Input.Nascimento" class="text-danger"></span>
-            </div>
+        </div>
+    </div>
 
-            <!-- Campo Habilidades -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Habilidades" class="form-control" placeholder="Habilidades" />
-                <label asp-for="Input.Habilidades">Habilidades</label>
-                <span asp-validation-for="Input.Habilidades" class="text-danger"></span>
-            </div>
+    <!-- Campo Sobre -->
+    <div class="form-floating mb-3">
+        <textarea asp-for="Input.Sobre" class="form-control" placeholder="Sobre"></textarea>
+        <label asp-for="Input.Sobre">Sobre</label>
+        <span asp-validation-for="Input.Sobre" class="text-danger"></span>
+    </div>
 
-            <!-- Campo Objetivos -->
-            <div class="form-floating mb-3">
-                <textarea asp-for="Input.Objetivos" class="form-control" placeholder="Objetivos"></textarea>
-                <label asp-for="Input.Objetivos">Objetivos Profissionais</label>
-                <span asp-validation-for="Input.Objetivos" class="text-danger"></span>
-            </div>
+    <!-- Campo Funcionarios -->
+    @*   <div class="form-floating mb-3">
+    <input asp-for="Input.Funcionarios" class="form-control" placeholder="Funcionarios" />
+    <label asp-for="Input.Funcionarios">Funcionarios</label>
+    <span asp-validation-for="Input.Funcionarios" class="text-danger"></span>
+    </div> *@
 
-            <!-- Campo Ramo -->
-            <div class="form-floating mb-3">
-                <textarea asp-for="Input.Ramo" class="form-control" placeholder="Ramo"></textarea>
-                <label asp-for="Input.Ramo">Ramo Profissionail</label>
-                <span asp-validation-for="Input.Ramo" class="text-danger"></span>
-            </div>
+    <div class="d-flex col-12">
 
-            <!-- Campo Jornalista -->
-            <div class="form-check mb-3">
-                <input asp-for="Input.Jornalista" class="form-check-input" type="checkbox" value="True"/>
-                <label asp-for="Input.Jornalista" class="form-check-label">É Jornalista?</label>
-                <span asp-validation-for="Input.Jornalista" class="text-danger"></span>
+        @* <!-- Campo Estado -->
+        <div class="form-floating mb-3 me-1 col">
+            <input asp-for="Input.Estado" class="form-control" type="text" placeholder="Estado" />
+            <label asp-for="Input.Estado">Estado</label>
+            <span asp-validation-for="Input.Estado" class="text-danger"></span>
+        </div>
+
+        <!-- Campo Cidade -->
+        <div class="form-floating mb-3 mx-1 col">
+            <input asp-for="Input.Cidade" class="form-control" type="text" placeholder="Cidade" />
+            <label asp-for="Input.Cidade">Cidade</label>
+            <span asp-validation-for="Input.Cidade" class="text-danger"></span>
+        </div> *@
+
+        <div class="form-floating mb-3 me-1 col">
+            <input asp-for="Input.Estado" type="text" id="estado-pf" class="form-control" placeholder="Digite um estado" autocomplete="off">
+            <label asp-for="Input.Estado" for="estado-pf">Estado</label>
+            <ul asp-for="Input.Estado" id="sugestoes-estados-pf" class="list-group" style="display: none;"></ul>
+        </div>
+
+        <div class="form-floating mb-3 me-1 col">
+            <input type="text" id="cidade-pf" class="form-control" placeholder="Digite uma cidade" disabled autocomplete="off">
+            <label for="cidade-pf">Cidade</label>
+            <ul id="sugestoes-cidades-pf" class="list-group" style="display: none;"></ul>
+        </div>
+
+        <!-- Campo Data de Nascimento -->
+        <div class="form-floating mb-3 ms-1 col">
+            <input asp-for="Input.Nascimento" class="form-control" type="date" placeholder="Data de Nascimento" />
+            <label asp-for="Input.Nascimento">Data de Nascimento</label>
+            <span asp-validation-for="Input.Nascimento" class="text-danger"></span>
+        </div>
+
+    </div>
+    <!-- Campo Objetivos -->
+    <div class="form-floating mb-3">
+        <textarea asp-for="Input.Objetivos" class="form-control" placeholder="Objetivos"></textarea>
+        <label asp-for="Input.Objetivos">Objetivos Profissionais</label>
+        <span asp-validation-for="Input.Objetivos" class="text-danger"></span>
+    </div>
+
+    <div class="justify-content-between">
+        <div class="col-12">
+            <!-- Campo para adicionar novas habilidades -->
+            <div class="d-flex form-floating mb-3">
+                <input id="newHabilidade" class="form-control rounded-start rounded-0" placeholder="Adicionar Habilidade" />
+                <label for="newHabilidade">Adicionar Habilidade</label>
+                <button type="button" id="addHabilidade" class="btn btn-primary col-1 rounded-end rounded-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Lista de habilidades -->
+        <div class="mb-3" style="max-height: 200px; overflow-y: auto;" id="habilidadesContainer">
+            <ul id="habilidadesList" class="list-group d-flex flex-column bg-danger">
+                <!-- Habilidades serão adicionadas aqui -->
+            </ul>
+        </div>
+
+        <!-- Campo oculto para enviar a lista de habilidades -->
+        <input type="hidden" id="habilidadesHidden" name="Input.Habilidades" />
+    </div>
+
+    <!-- Script para adicionar e gerenciar habilidades -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const addButton = document.getElementById('addHabilidade');
+            const newHabilidadeInput = document.getElementById('newHabilidade');
+            const habilidadesList = document.getElementById('habilidadesList');
+            const habilidadesHidden = document.getElementById('habilidadesHidden');
+
+            addButton.addEventListener('click', function () {
+                const newHabilidade = newHabilidadeInput.value.trim();
+
+                if (newHabilidade) {
+                    // Adiciona a habilidade à lista
+                    const listItem = document.createElement('li');
+                    listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+
+                    // Adiciona o texto da habilidade
+                    listItem.textContent = newHabilidade;
+
+                    // Cria um botão para remover a habilidade
+                    const removeButton = document.createElement('button');
+                    removeButton.textContent = 'Remover';
+                    removeButton.classList.add('btn', 'btn-danger', 'btn-sm');
+                    removeButton.addEventListener('click', function () {
+                        listItem.remove();
+                        updateHiddenField();
+                    });
+
+                    listItem.appendChild(removeButton);
+                    habilidadesList.appendChild(listItem);
+
+                    // Limpa o campo de entrada
+                    newHabilidadeInput.value = '';
+
+                    // Atualiza o campo oculto
+                    updateHiddenField();
+
+                    // Rola para a última habilidade adicionada
+                    habilidadesContainer.scrollTop = habilidadesContainer.scrollHeight;
+                }
+            });
+
+            function updateHiddenField() {
+                const habilidades = Array.from(habilidadesList.children)
+                    .map(li => li.textContent.replace('Remover', '').trim());
+
+                habilidadesHidden.value = JSON.stringify(habilidades);
+            }
+        });
+    </script>
+
+    @*  <!-- Campo Ramo -->
+    <div class="form-floating mb-3">
+    <textarea asp-for="Input.Ramo" class="form-control" placeholder="Ramo"></textarea>
+    <label asp-for="Input.Ramo">Ramo Profissionail</label>
+    <span asp-validation-for="Input.Ramo" class="text-danger"></span>
+    </div> *@
+
+    @* <!-- Campo Jornalista -->
+    <div class="form-check mb-3">
+    <input asp-for="Input.Jornalista" class="form-check-input" type="checkbox" value="True" />
+    <label asp-for="Input.Jornalista" class="form-check-label">É Jornalista?</label>
+    <span asp-validation-for="Input.Jornalista" class="text-danger"></span>
+    </div> *@
+
+    @* <!-- Campo CNPJ -->
+    <div class="form-floating mb-3">
+    <input asp-for="Input.CNPJ" class="form-control" placeholder="CNPJ" />
+    <label asp-for="Input.CNPJ">CNPJ</label>
+    <span asp-validation-for="Input.CNPJ" class="text-danger"></span>
+    </div> *@
+
+    <div class="d-flex col-12">
+        <div class="form-floating mb-3 col me-2">
+            <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+            <label asp-for="Input.Password">Password</label>
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3 col ms-2">
+            <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+            <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+        </div>
+    </div>
+    <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+
+
+</form>
+
+
+<style>
+    .tamanhoH {
+        width: 200px
+    }
+</style>
+
+
+<form id="registerFormEm" style="display:none;" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+    <div class="d-flex justify-content-between col-12 mt-5">
+
+        <!-- Campo Foto -->
+        <div class=" d-flex col-6 justify-content-center align-items-stretch">
+            <img src="~/img/default.jpg" id="profileImage" class="rounded-circle mb-3 img-fluid" style="width: 48vh; height: 48vh; object-fit: cover; cursor:pointer;" />
+           
+            @* <label asp-for="Input.Foto" class="control-label"></label> *@
+            <input asp-for="Input.Foto" type="file" class="form-control d-none" value="Input.Foto" name="imgUp" id="imgUp" accept=".jpg,.jpeg,.png, .gif" onchange="validateFileType()" />
+            <span asp-validation-for="Input.Foto" class="text-danger"></span>
+        </div>
+
+
+
+        <div class="d-flex flex-column col-6 ">
+
+            <!-- Campo Nome -->
+            <div class="form-floating mb-3 col-12">
+                <input asp-for="Input.Nome" class="form-control" placeholder="Nome" />
+                <label asp-for="Input.Nome">Nome da Empresa</label>
+                <span asp-validation-for="Input.Nome" class="text-danger"></span>
             </div>
 
             <!-- Campo CNPJ -->
-            <div class="form-floating mb-3">
+            <div class="form-floating mb-3 col-12">
                 <input asp-for="Input.CNPJ" class="form-control" placeholder="CNPJ" />
                 <label asp-for="Input.CNPJ">CNPJ</label>
                 <span asp-validation-for="Input.CNPJ" class="text-danger"></span>
             </div>
 
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Password</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-
-            <!-- Campo para adicionar novas habilidades -->
-            <div class="form-floating mb-3">
-                <input id="newHabilidade" class="form-control" placeholder="Adicionar Habilidade" />
-                <label for="newHabilidade">Adicionar Habilidade</label>
+            <div class="form-floating mb-3 col-12">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <label asp-for="Input.Email">Email</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
 
-            <!-- Botão para adicionar a nova habilidade -->
-            <div class="mb-3">
-                <button type="button" id="addHabilidade" class="btn btn-primary">Adicionar Habilidade</button>
+
+            <!-- Campo Portifolio -->
+            <div class="form-floating mb-3 col-12">
+                <input asp-for="Input.Portifolio" class="form-control" placeholder="Site da Empresa" />
+                <label asp-for="Input.Portifolio">Site da Empresa</label>
+                <span asp-validation-for="Input.Portifolio" class="text-danger"></span>
             </div>
 
-            <!-- Lista de habilidades -->
-            <div class="mb-3">
-                <ul id="habilidadesList" class="list-group">
-                    <!-- Habilidades serão adicionadas aqui -->
-                </ul>
-            </div>
-
-            <!-- Campo oculto para enviar a lista de habilidades -->
-            <input type="hidden" id="habilidadesHidden" name="Input.Habilidades" />
-
-            <!-- Script para adicionar e gerenciar habilidades -->
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const addButton = document.getElementById('addHabilidade');
-                    const newHabilidadeInput = document.getElementById('newHabilidade');
-                    const habilidadesList = document.getElementById('habilidadesList');
-                    const habilidadesHidden = document.getElementById('habilidadesHidden');
-
-                    addButton.addEventListener('click', function () {
-                        const newHabilidade = newHabilidadeInput.value.trim();
-
-                        if (newHabilidade) {
-                            // Adiciona a habilidade à lista
-                            const listItem = document.createElement('li');
-                            listItem.classList.add('list-group-item');
-                            listItem.textContent = newHabilidade;
-
-                            // Cria um botão para remover a habilidade
-                            const removeButton = document.createElement('button');
-                            removeButton.textContent = 'Remover';
-                            removeButton.classList.add('btn', 'btn-danger', 'btn-sm', 'float-end');
-                            removeButton.addEventListener('click', function () {
-                                listItem.remove();
-                                updateHiddenField();
-                            });
-
-                            listItem.appendChild(removeButton);
-                            habilidadesList.appendChild(listItem);
-
-                            // Limpa o campo de entrada
-                            newHabilidadeInput.value = '';
-
-                            // Atualiza o campo oculto
-                            updateHiddenField();
-                        }
-                    });
-
-                    function updateHiddenField() {
-                        const habilidades = Array.from(habilidadesList.children)
-                            .map(li => li.textContent.replace('Remover', '').trim());
-
-                        habilidadesHidden.value = JSON.stringify(habilidades);
-                    }
-                });
-            </script>
-        </form>
+        </div>
     </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to register.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
-                    </div>
+
+    <!-- Campo Sobre -->
+    <div class="form-floating mb-3">
+        <textarea asp-for="Input.Sobre" class="form-control" placeholder="Sobre"></textarea>
+        <label asp-for="Input.Sobre">Sobre</label>
+        <span asp-validation-for="Input.Sobre" class="text-danger"></span>
+    </div>
+
+    <!-- Campo Funcionarios -->
+    @*   <div class="form-floating mb-3">
+    <input asp-for="Input.Funcionarios" class="form-control" placeholder="Funcionarios" />
+    <label asp-for="Input.Funcionarios">Funcionarios</label>
+    <span asp-validation-for="Input.Funcionarios" class="text-danger"></span>
+    </div> *@
+
+    <div class="d-flex col-12">
+
+       @*  <!-- Campo Estado -->
+        <div class="form-floating mb-3 me-1 col">
+            <input asp-for="Input.Estado" class="form-control" type="text" placeholder="Estado" />
+            <label asp-for="Input.Estado">Estado</label>
+            <span asp-validation-for="Input.Estado" class="text-danger"></span>
+        </div>
+
+        <!-- Campo Cidade -->
+        <div class="form-floating mb-3 mx-1 col">
+            <input asp-for="Input.Cidade" class="form-control" type="text" placeholder="Cidade" />
+            <label asp-for="Input.Cidade">Cidade</label>
+            <span asp-validation-for="Input.Cidade" class="text-danger"></span>
+        </div> *@
+
+        <style>
+            #sugestoes-estados, #sugestoes-cidades {
+                position: absolute;
+                z-index: 1000;
+                max-height: 200px;
+                overflow-y: auto;
+            }
+        </style>
+
+        <div class="form-floating mb-3 me-1 col">
+            <input asp-for="Input.Estado" type="text" id="estado-empresa" class="form-control" placeholder="Digite um estado" autocomplete="off">
+            <label asp-for="Input.Estado" for="estado-empresa">Estado</label>
+            <ul asp-for="Input.Estado" id="sugestoes-estados-empresa" class="list-group" style="display: none;"></ul>
+        </div>
+
+        <div class="form-floating mb-3 me-1 col">
+            <input type="text" id="cidade-empresa" class="form-control" placeholder="Digite uma cidade" disabled autocomplete="off">
+            <label for="cidade-empresa">Cidade</label>
+            <ul id="sugestoes-cidades-empresa" class="list-group" style="display: none;"></ul>
+        </div>
+
+        <script>
+            let estados = [];
+            let cidades = {};
+
+            // Função para carregar os estados do IBGE
+            function carregarEstados() {
+                fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome')
+                    .then(response => response.json())
+                    .then(data => {
+                        estados = data.map(estado => ({
+                            id: estado.id,
+                            nome: estado.nome,
+                            sigla: estado.sigla
+                        })); // Armazena IDs, nomes e siglas dos estados
+                        console.log('Estados carregados!');
+                    });
+            }
+
+            // Função para carregar as cidades do IBGE baseado no estado selecionado
+            function carregarCidades(estadoId, formId) {
+                fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoId}/municipios`)
+                    .then(response => response.json())
+                    .then(data => {
+                        cidades[formId] = data.map(cidade => cidade.nome); // Armazena cidades por formulário
+                        console.log('Cidades carregadas para ' + formId);
+                    });
+            }
+
+            // Função para normalizar a string (remover acentos e converter para minúsculas)
+            function normalizarTexto(texto) {
+                return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            }
+
+            // Função para filtrar e mostrar as sugestões de estados
+            function mostrarSugestoesEstados(valor, formId) {
+                const sugestoesContainer = document.getElementById('sugestoes-estados-' + formId);
+                sugestoesContainer.innerHTML = ''; // Limpa sugestões anteriores
+                const filtro = normalizarTexto(valor);
+
+                const sugestoesFiltradas = estados.filter(estado => {
+                    const nomeNormalizado = normalizarTexto(estado.nome);
+                    const siglaNormalizada = estado.sigla.toLowerCase();
+                    return nomeNormalizado.includes(filtro) || siglaNormalizada.includes(filtro);
+                });
+
+                // Se o campo de texto estiver vazio, mostra todos os estados
+                if (filtro.length === 0) {
+                    sugestoesFiltradas.push(...estados);
                 }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
+
+                if (sugestoesFiltradas.length > 0) {
+                    sugestoesFiltradas.forEach(estado => {
+                        const li = document.createElement('li');
+                        li.className = 'list-group-item';
+                        li.textContent = estado.nome + ` (${estado.sigla})`;
+                        li.onclick = () => {
+                            document.getElementById('estado-' + formId).value = estado.nome;
+                            sugestoesContainer.style.display = 'none'; // Ocultar sugestões
+                            carregarCidades(estado.id, formId); // Carregar cidades para o estado selecionado
+                            document.getElementById('cidade-' + formId).disabled = false; // Habilitar campo de cidade
+                        };
+                        sugestoesContainer.appendChild(li);
+                    });
+                    sugestoesContainer.style.display = 'block'; // Mostrar sugestões
+                } else {
+                    sugestoesContainer.style.display = 'none'; // Ocultar se não houver sugestões
                 }
             }
-        </section>
+
+            // Função para filtrar e mostrar as sugestões de cidades
+            function mostrarSugestoesCidades(valor, formId) {
+                const sugestoesContainer = document.getElementById('sugestoes-cidades-' + formId);
+                sugestoesContainer.innerHTML = ''; // Limpa sugestões anteriores
+                const filtro = normalizarTexto(valor);
+                const sugestoesFiltradas = cidades[formId]?.filter(cidade => normalizarTexto(cidade).includes(filtro)) || []; // Mudança para incluir
+
+                if (sugestoesFiltradas.length > 0) {
+                    sugestoesFiltradas.forEach(cidade => {
+                        const li = document.createElement('li');
+                        li.className = 'list-group-item';
+                        li.textContent = cidade;
+                        li.onclick = () => {
+                            document.getElementById('cidade-' + formId).value = cidade;
+                            sugestoesContainer.style.display = 'none'; // Ocultar sugestões
+                        };
+                        sugestoesContainer.appendChild(li);
+                    });
+                    sugestoesContainer.style.display = 'block'; // Mostrar sugestões
+                } else {
+                    sugestoesContainer.style.display = 'none'; // Ocultar se não houver sugestões
+                }
+            }
+
+            // Adicionar evento de input ao campo de estado para Pessoa Física
+            document.getElementById('estado-pf').addEventListener('input', function () {
+                const valor = this.value;
+                mostrarSugestoesEstados(valor, 'pf');
+            });
+
+            // Adicionar evento de input ao campo de cidade para Pessoa Física
+            document.getElementById('cidade-pf').addEventListener('input', function () {
+                const valor = this.value;
+                if (valor.length >= 2) { // Começa a buscar após 2 caracteres
+                    mostrarSugestoesCidades(valor, 'pf');
+                } else {
+                    document.getElementById('sugestoes-cidades-pf').style.display = 'none'; // Ocultar se menos de 2 caracteres
+                }
+            });
+
+            // Adicionar evento de input ao campo de estado para Empresa
+            document.getElementById('estado-empresa').addEventListener('input', function () {
+                const valor = this.value;
+                mostrarSugestoesEstados(valor, 'empresa');
+            });
+
+            // Adicionar evento de input ao campo de cidade para Empresa
+            document.getElementById('cidade-empresa').addEventListener('input', function () {
+                const valor = this.value;
+                if (valor.length >= 2) { // Começa a buscar após 2 caracteres
+                    mostrarSugestoesCidades(valor, 'empresa');
+                } else {
+                    document.getElementById('sugestoes-cidades-empresa').style.display = 'none'; // Ocultar se menos de 2 caracteres
+                }
+            });
+
+            // Carregar os estados ao iniciar a página
+            document.addEventListener('DOMContentLoaded', carregarEstados);
+        </script>
+
+        <!-- Campo Funcionarios -->
+        <div class="form-floating mb-3 ms-1 col">
+            <input asp-for="Input.Funcionarios" class="form-control" type="number" placeholder="Funcionarios" />
+            <label asp-for="Input.Funcionarios">Númerio de Funcionarios</label>
+            <span asp-validation-for="Input.Funcionarios" class="text-danger"></span>
+        </div>
+
     </div>
-</div>
+
+    @* <!-- Campo Objetivos -->
+    <div class="form-floating mb-3">
+        <textarea asp-for="Input.Objetivos" class="form-control" placeholder="Objetivos"></textarea>
+        <label asp-for="Input.Objetivos">Objetivos Profissionais</label>
+        <span asp-validation-for="Input.Objetivos" class="text-danger"></span>
+    </div> *@
+
+    <!-- Campo Ramo -->
+    <div class="form-floating mb-3">
+    <textarea asp-for="Input.Ramo" class="form-control" placeholder="Ramo"></textarea>
+    <label asp-for="Input.Ramo">Ramo Profissionail</label>
+    <span asp-validation-for="Input.Ramo" class="text-danger"></span>
+    </div> 
+
+    @* <!-- Campo Jornalista -->
+    <div class="form-check mb-3">
+    <input asp-for="Input.Jornalista" class="form-check-input" type="checkbox" value="True" />
+    <label asp-for="Input.Jornalista" class="form-check-label">É Jornalista?</label>
+    <span asp-validation-for="Input.Jornalista" class="text-danger"></span>
+    </div> *@
+
+    @* <!-- Campo CNPJ -->
+    <div class="form-floating mb-3">
+    <input asp-for="Input.CNPJ" class="form-control" placeholder="CNPJ" />
+    <label asp-for="Input.CNPJ">CNPJ</label>
+    <span asp-validation-for="Input.CNPJ" class="text-danger"></span>
+    </div> *@
+
+    <div class="d-flex col-12">
+        <div class="form-floating mb-3 col me-2">
+            <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password"/>
+            <label asp-for="Input.Password">Password</label>
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3 col ms-2">
+            <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+            <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+        </div>
+    </div>
+    <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+
+
+    <style>
+        #sugestoes-estados-empresa, #sugestoes-cidades-empresa, #sugestoes-estados-pf, #sugestoes-cidades-pf {
+            position: absolute;
+            z-index: 1000;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+
+</form>
+
+<!-- JavaScript para o clique na imagem -->
+<script>
+    // Ao clicar na imagem, abre o campo de upload
+    document.getElementById("profileImage").onclick = function () {
+        document.getElementById("imgUp").click();
+    };
+
+    // Quando uma nova imagem for selecionada, atualiza a visualização da imagem
+    document.getElementById("imgUp").onchange = function (event) {
+        const [file] = event.target.files;
+        if (file) {
+            // Valida o tipo de arquivo antes de atualizar a imagem
+            var fileName = event.target.value;
+            var idxDot = fileName.lastIndexOf(".") + 1;
+            var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+
+            if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
+                document.getElementById("profileImage").src = URL.createObjectURL(file);
+            } else {
+                alert("Only jpg/jpeg and png files are allowed!");
+                // Limpa o campo de upload
+                document.getElementById("imgUp").value = "";
+            }
+        }
+    };
+
+
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Referências aos formulários
+        var formPf = document.getElementById('registerFormPf');
+        var formEm = document.getElementById('registerFormEm');
+
+        // Função para alternar os formulários com base na seleção
+        function alternarFormularios() {
+            if (document.getElementById('pessoaFisica').checked) {
+                formPf.style.display = 'block'; // Mostrar formulário Pessoa Física
+                formEm.style.display = 'none';  // Ocultar formulário Empresa
+            } else if (document.getElementById('empresa').checked) {
+                formPf.style.display = 'none';  // Ocultar formulário Pessoa Física
+                formEm.style.display = 'block'; // Mostrar formulário Empresa
+            }
+        }
+
+        // Verifica a seleção inicial ao carregar a página
+        alternarFormularios();
+
+        // Adiciona eventos de mudança (change) aos botões de rádio
+        document.getElementById('pessoaFisica').addEventListener('change', alternarFormularios);
+        document.getElementById('empresa').addEventListener('change', alternarFormularios);
+    });
+</script>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

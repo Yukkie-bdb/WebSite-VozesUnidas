@@ -10,6 +10,8 @@ namespace WebSiteVozesUnidas.Models
         public string? Portifolio { get; set; }
         public TipoUsuario Tipo { get; set; }
         public List<MidiaSocial> MidiaSocials { get; set; } = new List<MidiaSocial>();
+        public string? Estado { get; set; }
+        public string? Cidade { get; set; }
 
         // Propriedades específicas para PessoaFisica
         public string? CPF { get; set; }
