@@ -7,18 +7,12 @@
 <h1 class="text-center">CADASTRO</h1>
 
 <!-- Campo TipoUsuario -->
-<div class="mb-3">
-    <div class="btn-group col-12" role="group">
-        <input asp-for="Input.Tipo" type="radio" class="btn-check" value="PessoaFisica" id="pessoaFisica" checked>
-        <label class="btn btn-outline-secondary col-6" for="pessoaFisica">Pessoa Física</label>
-
-        <input asp-for="Input.Tipo" type="radio" class="btn-check" value="Empresa" id="empresa">
-        <label class="btn btn-outline-secondary col-6" for="empresa">Empresa</label>
-    </div>
-    <span asp-validation-for="Input.Tipo" class="text-danger"></span>
+<div class="col-12 d-flex">
+    <button class="bg-black border col-6 text-center text-white" onclick="trocarFormulario('PF')" id="formCampoPF">Pessoa Fisica</button>
+    <button class="bg-white border col-6 text-center" onclick="trocarFormulario('E')" id="formCampoE">Empresa</button>
 </div>
 
-<form id="registerFormPf" style="display:none;" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+<form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
     <div class="d-flex justify-content-between col-12 mt-5">
@@ -37,20 +31,27 @@
         <div class="d-flex flex-column col-6 ">
 
             <!-- Campo Nome -->
-            <div class="form-floating mb-3 col-12">
+            <div class="form-floating mb-3 col-12" id="name">
                 <input asp-for="Input.Nome" class="form-control" placeholder="Nome" />
                 <label asp-for="Input.Nome">Nome do Usuário</label>
                 <span asp-validation-for="Input.Nome" class="text-danger"></span>
             </div>
 
             <!-- Campo CPF -->
-            <div class="form-floating mb-3 col-12">
+            <div class="form-floating mb-3 col-12" id="cpfCNPJ">
                 <input asp-for="Input.CPF" class="form-control" placeholder="CPF" />
                 <label asp-for="Input.CPF">CPF</label>
                 <span asp-validation-for="Input.CPF" class="text-danger"></span>
             </div>
 
-            <div class="form-floating mb-3 col-12">
+            <!-- Campo CNPJ -->
+            <div class="form-floating mb-3" id="cnpj">
+                <input asp-for="Input.CNPJ" class="form-control" placeholder="CNPJ" />
+                <label asp-for="Input.CNPJ">CNPJ</label>
+                <span asp-validation-for="Input.CNPJ" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3 col-12" id="email">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                 <label asp-for="Input.Email">Email</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
@@ -58,7 +59,7 @@
 
 
             <!-- Campo Portifolio -->
-            <div class="form-floating mb-3 col-12">
+            <div class="form-floating mb-3 col-12" id="portifolio">
                 <input asp-for="Input.Portifolio" class="form-control" placeholder="Portifolio" />
                 <label asp-for="Input.Portifolio">Portifolio</label>
                 <span asp-validation-for="Input.Portifolio" class="text-danger"></span>
@@ -68,49 +69,35 @@
     </div>
 
     <!-- Campo Sobre -->
-    <div class="form-floating mb-3">
+    <div class="form-floating mb-3" id="sobre">
         <textarea asp-for="Input.Sobre" class="form-control" placeholder="Sobre"></textarea>
         <label asp-for="Input.Sobre">Sobre</label>
         <span asp-validation-for="Input.Sobre" class="text-danger"></span>
     </div>
 
     <!-- Campo Funcionarios -->
-    @*   <div class="form-floating mb-3">
+    <div class="form-floating mb-3" id="funcionarios">
     <input asp-for="Input.Funcionarios" class="form-control" placeholder="Funcionarios" />
     <label asp-for="Input.Funcionarios">Funcionarios</label>
     <span asp-validation-for="Input.Funcionarios" class="text-danger"></span>
-    </div> *@
+    </div>
 
     <div class="d-flex col-12">
 
-        @* <!-- Campo Estado -->
-        <div class="form-floating mb-3 me-1 col">
-            <input asp-for="Input.Estado" class="form-control" type="text" placeholder="Estado" />
-            <label asp-for="Input.Estado">Estado</label>
-            <span asp-validation-for="Input.Estado" class="text-danger"></span>
-        </div>
-
-        <!-- Campo Cidade -->
-        <div class="form-floating mb-3 mx-1 col">
-            <input asp-for="Input.Cidade" class="form-control" type="text" placeholder="Cidade" />
-            <label asp-for="Input.Cidade">Cidade</label>
-            <span asp-validation-for="Input.Cidade" class="text-danger"></span>
-        </div> *@
-
-        <div class="form-floating mb-3 me-1 col">
+        <div class="form-floating mb-3 me-1 col" id="cidade">
             <input asp-for="Input.Estado" type="text" id="estado-pf" class="form-control" placeholder="Digite um estado" autocomplete="off">
             <label asp-for="Input.Estado" for="estado-pf">Estado</label>
             <ul asp-for="Input.Estado" id="sugestoes-estados-pf" class="list-group" style="display: none;"></ul>
         </div>
 
-        <div class="form-floating mb-3 me-1 col">
+        <div class="form-floating mb-3 me-1 col" id="estado">
             <input type="text" id="cidade-pf" class="form-control" placeholder="Digite uma cidade" disabled autocomplete="off">
             <label for="cidade-pf">Cidade</label>
             <ul id="sugestoes-cidades-pf" class="list-group" style="display: none;"></ul>
         </div>
 
         <!-- Campo Data de Nascimento -->
-        <div class="form-floating mb-3 ms-1 col">
+        <div class="form-floating mb-3 ms-1 col" id="nasciento">
             <input asp-for="Input.Nascimento" class="form-control" type="date" placeholder="Data de Nascimento" />
             <label asp-for="Input.Nascimento">Data de Nascimento</label>
             <span asp-validation-for="Input.Nascimento" class="text-danger"></span>
@@ -118,13 +105,13 @@
 
     </div>
     <!-- Campo Objetivos -->
-    <div class="form-floating mb-3">
+    <div class="form-floating mb-3" id="objetivos">
         <textarea asp-for="Input.Objetivos" class="form-control" placeholder="Objetivos"></textarea>
         <label asp-for="Input.Objetivos">Objetivos Profissionais</label>
         <span asp-validation-for="Input.Objetivos" class="text-danger"></span>
     </div>
 
-    <div class="justify-content-between">
+    <div class="justify-content-between" id="habilidades">
         <div class="col-12">
             <!-- Campo para adicionar novas habilidades -->
             <div class="d-flex form-floating mb-3">
@@ -200,28 +187,23 @@
         });
     </script>
 
-    @*  <!-- Campo Ramo -->
-    <div class="form-floating mb-3">
+    <!-- Campo Ramo -->
+    <div class="form-floating mb-3" id="ramo">
     <textarea asp-for="Input.Ramo" class="form-control" placeholder="Ramo"></textarea>
     <label asp-for="Input.Ramo">Ramo Profissionail</label>
     <span asp-validation-for="Input.Ramo" class="text-danger"></span>
-    </div> *@
+    </div>
 
-    @* <!-- Campo Jornalista -->
-    <div class="form-check mb-3">
+    <!-- Campo Jornalista -->
+    <div class="form-check mb-3" id="jornalista">
     <input asp-for="Input.Jornalista" class="form-check-input" type="checkbox" value="True" />
     <label asp-for="Input.Jornalista" class="form-check-label">É Jornalista?</label>
     <span asp-validation-for="Input.Jornalista" class="text-danger"></span>
-    </div> *@
+    </div>
 
-    @* <!-- Campo CNPJ -->
-    <div class="form-floating mb-3">
-    <input asp-for="Input.CNPJ" class="form-control" placeholder="CNPJ" />
-    <label asp-for="Input.CNPJ">CNPJ</label>
-    <span asp-validation-for="Input.CNPJ" class="text-danger"></span>
-    </div> *@
 
-    <div class="d-flex col-12">
+
+    <div class="d-flex col-12" id="senha">
         <div class="form-floating mb-3 col me-2">
             <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
             <label asp-for="Input.Password">Password</label>
@@ -599,3 +581,69 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Armazenar elementos pelo ID
+        var name = document.getElementById('name');
+        var cpfCNPJ = document.getElementById('cpfCNPJ');
+        var email = document.getElementById('email');
+        var portifolio = document.getElementById('portifolio');
+        var sobre = document.getElementById('sobre');
+        var funcionarios = document.getElementById('funcionarios');
+        var cidade = document.getElementById('cidade');
+        var estado = document.getElementById('estado');
+        var nasciento = document.getElementById('nasciento');
+        var objetivos = document.getElementById('objetivos');
+        var habilidades = document.getElementById('habilidades');
+        var ramo = document.getElementById('ramo');
+        var jornalista = document.getElementById('jornalista');
+        var cnpj = document.getElementById('cnpj');
+        var senha = document.getElementById('senha');
+        var registerSubmit = document.getElementById('registerSubmit');
+
+        // Função para trocar formulário
+        window.trocarFormulario = function (tipo) {
+            let PF = document.getElementById("formCampoPF");
+            let E = document.getElementById("formCampoE");
+
+            if (tipo === 'PF') {
+                PF.classList.remove("bg-black", "text-white");
+                PF.classList.add("bg-white", "text-black");
+                E.classList.remove("bg-white", "text-black");
+                E.classList.add("bg-black", "text-white");
+                formularioPF();
+            } else {
+                E.classList.remove("bg-black", "text-white");
+                E.classList.add("bg-white", "text-black");
+                PF.classList.remove("bg-white", "text-black");
+                PF.classList.add("bg-black", "text-white");
+                formularioE();
+            }
+        };
+
+        if (tipo === 'PF') {
+            // Mostrar campos Pessoa Física
+            cpfCNPJ.classList.remove("d-none");
+            nasciento.classList.remove("d-none");
+            jornalista.classList.remove("d-none");
+            habilidades.classList.remove("d-none");
+
+            // Ocultar campos Empresa
+            cnpj.classList.add("d-none");
+            ramo.classList.add("d-none");
+            funcionarios.classList.add("d-none");
+        } else {
+            // Mostrar campos Empresa
+            cnpj.classList.remove("d-none");
+            ramo.classList.remove("d-none");
+            funcionarios.classList.remove("d-none");
+
+            // Ocultar campos Pessoa Física
+            cpfCNPJ.classList.add("d-none");
+            nasciento.classList.add("d-none");
+            jornalista.classList.add("d-none");
+            habilidades.classList.add("d-none");
+        }
+    });
+</script>
