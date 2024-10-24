@@ -8,6 +8,14 @@ namespace WebSiteVozesUnidas.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
+        public TipoUsuario Tipo { get; set; }
         public string? ReturnUrl { get; internal set; }
+
+        public enum TipoUsuario
+        {
+            PessoaFisica,
+            Empresa,
+            ADM
+        }
     }
 }
