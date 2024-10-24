@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<WebSiteVozesUnidas.Models.Noticia>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Notícias";
     if (ViewBag.UserJorn is null)
     {
         ViewBag.UserJorn = false;
@@ -12,28 +12,24 @@
 }
 
 <h1 class="fw-bold justify-content-center d-flex my-4">Principais Notícias</h1>
-<div class="col-12 d-flex">
-    <div class="col-8 me-3">
-        <div class="mb-3" style="background-color:#ededed;max-height:250px;">
-            <a asp-action="Details" asp-route-id="@ViewData["0Id"]" class="text-decoration-none" style="color: inherit;">
-                <img src="~/img/@ViewData["0"]" alt="Imagem da Notícia" style="max-height:250px;border-radius:25px;" class="align-self-center w-100 h-100" />
+<div class="col-12 d-flex ">
+    <div class="col-6 col-md-8 me-3">
+            <a asp-action="Details" asp-route-id="@ViewData["0Id"]" class="text-decoration-none mb-3 align-content-end flex-wrap Img0 d-flex" style="color: inherit;">
+                <p class="text-white BorderTexto Letratas m-1" >@ViewData["0Titulo"]</p>
             </a>
-        </div>
-        <div class="mt-3" style="background-color:#ededed;max-height:250px;">
-            <a asp-action="Details" asp-route-id="@ViewData["1Id"]" class="text-decoration-none" style="color: inherit;">
-                <img src="~/img/@ViewData["1"]" alt="Imagem da Notícia" style="max-height:250px;border-radius:25px;" class="align-self-center w-100 h-100" />
+            <a asp-action="Details" asp-route-id="@ViewData["1Id"]" class="text-decoration-none align-content-end flex-wrap Img1 d-flex" style="color: inherit;">
+                <p class="text-white BorderTexto Letratas m-1">@ViewData["1Titulo"]</p>
             </a>
-        </div>
     </div>
-    <div class="col-4 justify-content-center align-items-center d-flex mh-100" style="background-color:#ededed;max-height:500px;">
-        <a asp-action="Details" asp-route-id="@ViewData["2Id"]" class="text-decoration-none" style="color: inherit;">
-            <img src="~/img/@ViewData["2"]" alt="Imagem da Notícia" style="border-radius:25px;" class="align-self-center w-100 h-100" />
+    <div class="col-6 col-md-4 d-flex">
+        <a asp-action="Details" asp-route-id="@ViewData["2Id"]" class="text-decoration-none mb-3 align-content-end flex-wrap Img2 d-flex w-100" style="color: inherit;">
+            <p class="text-white BorderTexto Letratas m-1">@ViewData["2Titulo"]</p>
         </a>
     </div>
 </div>
 @if (ViewBag.userJorn == true)
 {
-    <div class="h1 fw-bold mt-3">Suas Notícias</div>
+    <div class="h1 fw-bold my-5 ">Suas Notícias</div>
 
 }
 @foreach(var item in Model)
@@ -41,15 +37,15 @@
     if(item.IdUsuario.ToString() == ViewBag.userId.ToString())
     {
         <a asp-action="Details" asp-route-id="@item.IdNoticia" class="text-decoration-none" style="color: inherit;">
-            <div class="d-flex ME col-12 m-2 my-4">
-                <div class=" col-4 d-flex align-content-center justify-content-center mx-2">
+            <div class="d-flex m-md-2 my-4 flex-column flex-md-row">
+                <div class="col-12 col-md-4 d-flex align-content-center justify-content-center mx-md-2 order-1 order-md-0">
                     <img src="~/img/@item.Imagem" alt="Imagem da Notícia" style="max-height:250px;border-radius:25px;" class="align-self-center w-100 mw-100" />
                 </div>
-                <div class="d-flex flex-column m-1 col-8 ps-1">
+                <div class="d-flex flex-column m-1 col-12 col-md-8 ps-1 order-0 order-md-1">
                     <div class="me-2 fw-bold my-3 h3 h-25">
                         @Html.DisplayFor(modelItem => item.Titulo)
                     </div>
-                    <div class="fw-lighter h5 pe-5" style="color:gray">
+                    <div class="fw-lighter h5 pe-5 d-none d-md-block" style="color:gray">
                         @Html.DisplayFor(modelItem => item.Resumo)
                     </div>
                 </div>
@@ -59,11 +55,11 @@
 }
 @if (ViewBag.userJorn == true)
 {
-    <p class="mb-5 mx-3">
+    <p class="my-5">
         <a asp-action="Create" class="text-decoration-none text-white btn w-100 py-4" style="background-color:#33C500;border-radius:25px;opacity:50%;">+ Adicionar Notícia</a>
     </p>
 
-    <div class="h1 fw-bold">Mais Notícias</div>
+    <div class="h1 my-5 fw-bold">Mais Notícias</div>
 
 }
 @foreach (var item in Model)
@@ -71,15 +67,15 @@
     if (item.IdUsuario.ToString() != ViewBag.userId.ToString())
     {
         <a asp-action="Details" asp-route-id="@item.IdNoticia" class="text-decoration-none" style="color: inherit;">
-            <div class="d-flex ME col-12 m-2 my-4">
-                <div class=" col-4 d-flex align-content-center justify-content-center mx-2">
+            <div class="d-flex m-2 my-4 flex-column flex-md-row">
+                <div class="col-12 col-md-4 d-flex align-content-center justify-content-center mx-2 order-1 order-md-0">
                     <img src="~/img/@item.Imagem" alt="Imagem da Notícia" style="max-height:250px;border-radius:25px;" class="align-self-center w-100 mw-100" />
                 </div>
-                <div class="d-flex flex-column m-1 col-8 ps-1">
+                <div class="d-flex flex-column m-1 col-12 col-md-8 ps-1 order-0 order-md-1">
                     <div class="me-2 fw-bold my-3 h3 h-25">
                         @Html.DisplayFor(modelItem => item.Titulo)
                     </div>
-                    <div class="fw-lighter h5 pe-5" style="color:gray">
+                    <div class="fw-lighter h5 pe-5 d-none d-md-block" style="color:gray">
                         @Html.DisplayFor(modelItem => item.Resumo)
                     </div>
                 </div>
@@ -87,3 +83,36 @@
         </a>
     }
 }
+
+<style>
+    .Img0{
+        background-image: url("/img/@ViewData["0"]");
+        background-position: initial;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 150px;
+    }
+
+    .Img1 {
+        background-image: url("/img/@ViewData["1"]");
+        background-position: initial;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 150px;
+    }
+
+    .Img2 {
+        background-image: url("/img/@ViewData["2"]");
+        background-position: initial;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 100%;
+    }
+    
+    .BorderTexto{
+        text-shadow: 1px 0 #000, -1px 0 #000, 0 1px #000, 0 -1px #000,1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;
+    }
+
+    
+    
+</style>

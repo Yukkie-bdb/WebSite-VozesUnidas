@@ -54,7 +54,9 @@ namespace WebSiteVozesUnidas.Controllers
                 {
                     ViewData[i.ToString()] = item.Imagem;
                     ViewData[$"{i}Id"] = item.IdNoticia;
-                    i++;
+                    ViewData[$"{i}Titulo"] = item.Titulo;
+
+                i++;
                 }
             var userid = _signInManager.UserManager.GetUserId(User);
             var Jornalista = await _context.Users.FirstOrDefaultAsync(x => x.Id.ToString() == userid);

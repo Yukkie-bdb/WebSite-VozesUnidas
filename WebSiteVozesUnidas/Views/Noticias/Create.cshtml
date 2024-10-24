@@ -1,7 +1,7 @@
 ﻿@model WebSiteVozesUnidas.Models.Noticia
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Criar Notícia";
     if (ViewBag.UserOk is null)
     {
         ViewBag.UserOk = new ApplicationUser();
@@ -36,7 +36,7 @@
                 </div>
                 <div class="form-group my-3 d-flex justify-content-center align-content-center w-100 flex-wrap flex-column ">
                     <input type="submit" value="Publicar" class="btn border-2 bg-white border-dark my-2 w-25  " />
-                    <a asp-action="Index" class="btn border-1 border-dark text-black my-2 d-flex align-self-center justify-content-center   " style="background-color:darkgray;width:10%">Cancelar</a>
+                    <a asp-action="Index" class="btn border-1 border-dark text-black my-2 d-flex align-self-center justify-content-center  MenorCancelarNoticia " style="background-color:darkgray;">Cancelar</a>
                 </div>
             </form>
         </div>

@@ -20,3 +20,28 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.MenorCancelarNoticia {
+    width: 25%;
+}
+
+.Letratas {
+    font-size: calc(1.3rem + .vw);
+}
+
+@media only screen and (min-width: 768px) {
+    .MenorCancelarNoticia {
+        width: 10%;
+    }
+    .Img0 {
+        height: 250px!important ;
+    }
+    .Img1 {
+        height: 250px!important;
+    }
+    .Img2 {
+    }
+    .Letratas {
+        font-size: calc(1.325rem + .3vw);
+    }
+}
