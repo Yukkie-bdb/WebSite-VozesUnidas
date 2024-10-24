@@ -1,0 +1,380 @@
+﻿@using WebSiteVozesUnidas.ViewModels;
+@model RegisterModelSimples
+
+<div class="row col-6">
+    <div id="altura"></div>
+    <div class="col-12 rounded shadow">
+        <form id="registerForm" method="post" asp-action="OnPostAsyncJson" asp-controller="Register">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+            <div class="d-flex flex-column justify-content-center text-center" id="titulo">
+                <h1>BEM-VINDO!</h1>
+                <h3>Para utilizar 100% de nosso site crie uma conta!</h3>
+            </div>
+
+            <!-- Indicadores de etapa -->
+            <div class="step-indicators d-flex justify-content-center mb-3" id="etapas">
+                <div class="step-circle active" id="stepIndicator1"></div>
+                <div class="step-circle" id="stepIndicator2"></div>
+                <div class="step-circle" id="stepIndicator3"></div>
+                <div class="step-circle" id="stepIndicator4"></div>
+            </div>
+
+            <div class="d-flex justify-content-center" id="step1">
+            <!-- Opção Pessoal -->
+            <label class="radio-container active" id="pessoal-label">
+                <input type="radio" name="opcao" id="pessoal" checked hidden>
+                <img src="https://img.icons8.com/ios-filled/50/000000/user.png" alt="Ícone de Pessoal">
+                <div>PESSOAL</div>
+            </label>
+
+            <!-- Opção Empresa -->
+            <label class="radio-container inactive" id="empresa-label">
+                <input type="radio" name="opcao" id="empresa" hidden>
+                <img src="https://img.icons8.com/ios-filled/50/000000/company.png" alt="Ícone de Empresa">
+                <div>EMPRESA</div>
+            </label>
+            </div>
+
+            <!-- Campo Username -->
+            <div class="form-floating my-3 d-none" id="step2">
+                <input asp-for="UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="UserName" id="inputNome"/>
+                <label asp-for="UserName">UserName<span class="text-danger"> *</span></label>
+                <span asp-validation-for="UserName" class="text-danger" id="errorUserName"></span>
+            </div>
+
+            <ul id="suggestionsListNome" class="list-group mt-3 list-unstyled text-danger d-none">
+                <li id="unicName">Deve ser unico.</li>
+                <li id="nameLong">Deve term mais de 4 letras.</li>
+            </ul>
+
+
+            <!-- Campo Email -->
+            <div class="form-floating my-3 d-none" id="step3">
+                <input asp-for="Email" class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com" />
+                <label asp-for="Email">Email<span class="text-danger"> *</span></label>
+                <span asp-validation-for="Email" class="text-danger" id="errorEmail"></span>
+            </div>
+
+            <ul id="suggestionsListEmail" class="list-group mt-3 list-unstyled text-danger d-none">
+                <li id="unicEmail">Deve ser unico.</li>
+                <li id="validEmail">Deve ser um email valido.</li>
+            </ul>
+
+
+            <!-- Campo Senha e Confirmar Senha -->
+            <div id="step4" class="d-none">
+                <div class="form-floating mb-3">
+                    <input asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Password" />
+                    <label asp-for="Password">Password<span class="text-danger"> *</span></label>
+                    <span asp-validation-for="Password" class="text-danger" id="errorPassword"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirm Password" />
+                    <label asp-for="ConfirmPassword">Confirm Password<span class="text-danger"> *</span></label>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger" id="errorConfirmPassword"></span>
+                </div>
+            </div>
+
+            <ul id="suggestionsListSenha" class="list-group mt-3 list-unstyled text-danger d-none">
+                <li id="passwordLong">Deve ter 8 caracteres ou mais.</li>
+                <li id="passwordLetter">Deve conter letras maiusculas e minusculas.</li>
+                <li id="passwordSpecial">Deve conter numeros e caracteres especiais.</li>
+            </ul>
+
+
+            <!-- Botão de Voltar -->
+            <button id="backButton" type="button" class="w-100 btn btn-lg btn-secondary mb-3 d-none" onclick="backStep()">Voltar</button>
+
+            <!-- Botão de progresso -->
+            <button id="nextButton" type="button" class="w-100 btn btn-lg btn-primary mb-3" onclick="nextStep()">Próximo</button>
+
+            <!-- Botão de envio -->
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary mb-3 d-none" >Registrar</button>
+
+            @* <!-- Indicador de carregamento -->
+            <div id="loadingIndicator" class="text-center" style="display:none;">
+                <span></span> <!-- Aqui você pode usar um ícone de carregamento -->
+            </div> *@
+
+            <!-- Indicador de carregamento -->
+            <div id="loadingIndicator" class="spinner-border text-primary d-flex justify-content-center align-items-center text-center m-auto d-none" role="status" style="width: 4rem; height: 4rem;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+
+            <!-- Mensagem de Sucesso ou Erro -->
+            <div id="message" class="text-success d-flex flex-column justify-content-center align-items-center text-center d-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
+
+                <p class="fw-bold">Sucesso!! Conta criada com sucesso</p>
+            </div>
+
+            <div id="errorMessage" class="text-danger d-flex flex-column justify-content-center align-items-center text-center d-none">
+    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-x-circle-fill mb-2" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+    </svg>
+
+    <p class="fw-bold">Erro! Não foi possível criar sua conta, tente novamente!</p>
+</div>
+
+        </form>
+    </div>
+</div>
+
+<style>
+    .step-indicators {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .step-circle {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: lightgray;
+        margin: 0 5px;
+        transition: background-color 0.3s;
+    }
+
+    .step-circle.active {
+        background-color: #007bff;
+    }
+
+    .step-circle.completed {
+        background-color: #add8e6;
+    }
+
+    /* Estilo para os containers dos radio buttons */
+    .radio-container {
+        display: inline-block;
+        width: 150px;
+        height: 150px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        text-align: center;
+        padding: 20px;
+        margin: 10px;
+        cursor: pointer;
+    }
+        /* Estilo para o radio button selecionado */
+        .radio-container.active {
+            background-color: white;
+            border-color: #007bff;
+        }
+        /* Estilo para o radio button não selecionado */
+        .radio-container.inactive {
+            background-color: #f0f0f0;
+        }
+        /* Estilo dos ícones no meio */
+        .radio-container img {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 10px;
+        }
+</style>
+
+@section Scripts 
+{
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<script>
+    const pessoalLabel = document.getElementById('pessoal-label');
+    const empresaLabel = document.getElementById('empresa-label');
+    const pessoalRadio = document.getElementById('pessoal');
+    const empresaRadio = document.getElementById('empresa');
+
+    // Adiciona evento de clique para o container "Pessoal"
+    pessoalLabel.addEventListener('click', () => {
+        pessoalLabel.classList.add('active');
+        empresaLabel.classList.remove('active');
+        empresaLabel.classList.add('inactive');
+        pessoalLabel.classList.remove('inactive');
+
+        pessoalRadio.checked = true;
+    });
+
+    // Adiciona evento de clique para o container "Empresa"
+    empresaLabel.addEventListener('click', () => {
+        empresaLabel.classList.add('active');
+        pessoalLabel.classList.remove('active');
+        pessoalLabel.classList.add('inactive');
+        empresaLabel.classList.remove('inactive');
+
+        empresaRadio.checked = true;
+    });
+</script>
+
+<script>
+    var currentStep = 1;
+
+    function loadStep(){
+         if (currentStep === 1){
+            document.getElementById("titulo").classList.remove("d-none");
+            document.getElementById("etapas").classList.remove("d-none");
+
+            document.getElementById("step1").classList.remove("d-none");
+            document.getElementById("nextButton").classList.remove("d-none");
+            document.getElementById("backButton").classList.add("d-none");
+            document.getElementById("registerSubmit").classList.add("d-none");
+        }
+        if (currentStep === 2){
+            document.getElementById("stepIndicator1").classList.remove("active");
+            document.getElementById("stepIndicator1").classList.add("completed");
+
+            document.getElementById("stepIndicator2").classList.remove("completed");
+            document.getElementById("stepIndicator2").classList.add("active");
+
+            document.getElementById("stepIndicator3").classList.remove("active");
+            document.getElementById("stepIndicator3").classList.remove("completed");
+        }
+        if (currentStep === 3){
+            document.getElementById("stepIndicator2").classList.remove("active");
+            document.getElementById("stepIndicator2").classList.add("completed");
+            document.getElementById("stepIndicator3").classList.add("active");
+        }
+        if (currentStep === 3) {
+            document.getElementById("stepIndicator3").classList.remove("active");
+            document.getElementById("stepIndicator3").classList.add("completed");
+            document.getElementById("stepIndicator4").classList.add("active");
+        }
+    }
+
+    function nextStep(){
+        if (currentStep === 1) {
+            document.getElementById("step1").classList.add("d-none");
+            document.getElementById("step2").classList.remove("d-none");
+            document.getElementById("backButton").classList.remove("d-none");
+            currentStep++;
+            reloadStepIcon();
+        } else if (currentStep === 2) {
+            document.getElementById("step2").classList.add("d-none");
+            document.getElementById("step3").classList.remove("d-none");
+            currentStep++;
+            reloadStepIcon();
+        } else {
+            document.getElementById("step3").classList.add("d-none");
+            document.getElementById("step4").classList.remove("d-none");
+            document.getElementById("nextButton").classList.add("d-none");
+            document.getElementById("registerSubmit").classList.remove("d-none");
+            currentStep++;
+            reloadStepIcon();
+        }
+    }
+
+    function backStep(){
+        if (currentStep === 2) {
+            document.getElementById("step2").classList.add("d-none");
+            document.getElementById("step1").classList.remove("d-none");
+            document.getElementById("nextButton").classList.remove("d-none");
+            document.getElementById("registerSubmit").classList.add("d-none");
+            document.getElementById("backButton").classList.add("d-none");
+            currentStep--;
+            reloadStepIcon();
+        } 
+        if (currentStep === 3) {
+            document.getElementById("step3").classList.add("d-none");
+            document.getElementById("step2").classList.remove("d-none");
+            currentStep--;
+            reloadStepIcon();
+        } 
+        if (currentStep === 4) {
+            document.getElementById("step4").classList.add("d-none");
+            document.getElementById("step3").classList.remove("d-none");
+            document.getElementById("nextButton").classList.remove("d-none");
+            document.getElementById("registerSubmit").classList.add("d-none");
+            currentStep--;
+            reloadStepIcon();
+        }
+    }
+
+    function reloadStepIcon(){
+        if (currentStep === 1){
+            document.getElementById("stepIndicator1").classList.remove("completed");
+            document.getElementById("stepIndicator1").classList.add("active");
+            document.getElementById("stepIndicator2").classList.remove("active", "completed");
+            document.getElementById("stepIndicator3").classList.remove("active", "completed");
+        }
+        if (currentStep === 2){
+            document.getElementById("stepIndicator1").classList.remove("active");
+            document.getElementById("stepIndicator1").classList.add("completed");
+
+            document.getElementById("stepIndicator2").classList.remove("completed");
+            document.getElementById("stepIndicator2").classList.add("active");
+
+            document.getElementById("stepIndicator3").classList.remove("active");
+            document.getElementById("stepIndicator3").classList.remove("completed");
+        }
+        if (currentStep === 3){
+            document.getElementById("stepIndicator2").classList.remove("active");
+            document.getElementById("stepIndicator2").classList.add("completed");
+            document.getElementById("stepIndicator3").classList.remove("completed");
+            document.getElementById("stepIndicator3").classList.add("active");
+            document.getElementById("stepIndicator4").classList.remove("active");
+        }
+        if (currentStep === 4) {
+            document.getElementById("stepIndicator3").classList.remove("active");
+            document.getElementById("stepIndicator3").classList.add("completed");
+            document.getElementById("stepIndicator4").classList.add("active");
+
+        }
+    }
+
+    // Corrigido para o envio do formulário com fetch
+    document.getElementById("registerSubmit").addEventListener("click", function(event) {
+        event.preventDefault(); // Impede o envio do formulário
+
+        document.getElementById("titulo").classList.add("d-none");
+        document.getElementById("etapas").classList.add("d-none");
+        document.getElementById("step3").classList.add("d-none");
+        document.getElementById("registerSubmit").classList.add("d-none");
+        document.getElementById("backButton").classList.add("d-none");
+
+        document.getElementById("loadingIndicator").classList.remove("d-none");
+
+        // Espera 2 segundos
+        setTimeout(async function() {
+            document.getElementById("loadingIndicator").classList.add("d-none");
+
+            const formData = new FormData(document.getElementById("registerForm"));
+
+            try {
+                const response = await fetch(document.getElementById("registerForm").action, { 
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest' // Para indicar que a solicitação é AJAX
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Exibe a mensagem de sucesso
+                    document.getElementById("message").classList.remove("d-none");
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000);
+
+                } else {
+                    // Exibe os erros
+                    document.getElementById("errorMessage").classList.remove("d-none");
+                    setTimeout(function() {
+
+                        currentStep = 1;
+                        loadStep();
+                        reloadStepIcon()
+                        document.getElementById("errorMessage").classList.add("d-none");
+
+                    }, 2000);
+                }
+            } catch (error) {
+                console.error("Erro ao enviar o formulário: ", error);
+                alert("Houve um erro ao enviar o formulário.");
+            }
+        }, 1000);
+    });
+</script>
