@@ -22,15 +22,15 @@
 
             <div class="d-flex justify-content-center" id="step1">
             <!-- Opção Pessoal -->
-            <label class="radio-container active" id="pessoal-label">
-                <input type="radio" name="opcao" id="pessoal" checked hidden>
+                <label class="radio-container active" id="pessoal-label" asp-for="Tipo">
+                <input asp-for="Tipo" type="radio" name="opcao" id="pessoal" value="0" checked hidden>
                 <img src="https://img.icons8.com/ios-filled/50/000000/user.png" alt="Ícone de Pessoal">
                 <div>PESSOAL</div>
             </label>
 
             <!-- Opção Empresa -->
-            <label class="radio-container inactive" id="empresa-label">
-                <input type="radio" name="opcao" id="empresa" hidden>
+                <label class="radio-container inactive" id="empresa-label" asp-for="Tipo">
+                <input asp-for="Tipo" type="radio" name="opcao" id="empresa" value="1" hidden>
                 <img src="https://img.icons8.com/ios-filled/50/000000/company.png" alt="Ícone de Empresa">
                 <div>EMPRESA</div>
             </label>
@@ -51,7 +51,7 @@
 
             <!-- Campo Email -->
             <div class="form-floating my-3 d-none" id="step3">
-                <input asp-for="Email" class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com" />
+                <input asp-for="Email" class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com" id="inputEmail" />
                 <label asp-for="Email">Email<span class="text-danger"> *</span></label>
                 <span asp-validation-for="Email" class="text-danger" id="errorEmail"></span>
             </div>
@@ -65,12 +65,12 @@
             <!-- Campo Senha e Confirmar Senha -->
             <div id="step4" class="d-none">
                 <div class="form-floating mb-3">
-                    <input asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Password" />
+                    <input asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Password" id="inputPassword" />
                     <label asp-for="Password">Password<span class="text-danger"> *</span></label>
                     <span asp-validation-for="Password" class="text-danger" id="errorPassword"></span>
                 </div>
                 <div class="form-floating mb-3">
-                    <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirm Password" />
+                    <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirm Password" id="inputConfirmPassword" />
                     <label asp-for="ConfirmPassword">Confirm Password<span class="text-danger"> *</span></label>
                     <span asp-validation-for="ConfirmPassword" class="text-danger" id="errorConfirmPassword"></span>
                 </div>
@@ -96,6 +96,9 @@
             <div id="loadingIndicator" class="text-center" style="display:none;">
                 <span></span> <!-- Aqui você pode usar um ícone de carregamento -->
             </div> *@
+
+            <!-- Botão para gerar automaticamente -->
+            <button type="button" class="btn btn-primary mb-3" id="generateBtn">Gerar Automaticamente</button>
 
             <!-- Indicador de carregamento -->
             <div id="loadingIndicator" class="spinner-border text-primary d-flex justify-content-center align-items-center text-center m-auto d-none" role="status" style="width: 4rem; height: 4rem;">
@@ -179,9 +182,42 @@
 @section Scripts 
 {
     <partial name="_ValidationScriptsPartial" />
+
 }
 
 <script>
+    document.getElementById('generateBtn').addEventListener('click', function () {
+        // Função para gerar uma string aleatória de letras e números
+        function generateRandomString(length) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        // Gera o nome de usuário (4 letras e números)
+        const userName = generateRandomString(4);
+
+        // Gera o email (5 letras ou números) e adiciona @@gmail.com
+        const email = generateRandomString(5) + '@@gmail.com';
+
+        // Senha fixa
+        const password = 'Aa@123';
+
+        // Preenche os campos com os valores gerados
+        document.getElementById('inputNome').value = userName;
+        document.getElementById('inputEmail').value = email;
+        document.getElementById('inputPassword').value = password;
+        document.getElementById('inputConfirmPassword').value = password;
+
+        // Mostra os campos se ainda estiverem ocultos
+        document.getElementById('step2').classList.remove('d-none');
+        document.getElementById('step3').classList.remove('d-none');
+        document.getElementById('step4').classList.remove('d-none');
+    });
+
     const pessoalLabel = document.getElementById('pessoal-label');
     const empresaLabel = document.getElementById('empresa-label');
     const pessoalRadio = document.getElementById('pessoal');
@@ -294,6 +330,7 @@
     function reloadStepIcon(){
         if (currentStep === 1){
             document.getElementById("stepIndicator1").classList.remove("completed");
+            document.getElementById("stepIndicator4").classList.remove("active");
             document.getElementById("stepIndicator1").classList.add("active");
             document.getElementById("stepIndicator2").classList.remove("active", "completed");
             document.getElementById("stepIndicator3").classList.remove("active", "completed");
@@ -329,7 +366,7 @@
 
         document.getElementById("titulo").classList.add("d-none");
         document.getElementById("etapas").classList.add("d-none");
-        document.getElementById("step3").classList.add("d-none");
+        document.getElementById("step4").classList.add("d-none");
         document.getElementById("registerSubmit").classList.add("d-none");
         document.getElementById("backButton").classList.add("d-none");
 

@@ -65,6 +65,9 @@ namespace WebSiteVozesUnidas.Controllers
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Display(Name = "Tipo Usuario")]
+            public TipoUsuario Tipo { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -84,11 +87,18 @@ namespace WebSiteVozesUnidas.Controllers
 
                 await _userStore.SetUserNameAsync(user, Input.UserName, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
 
                     _logger.LogInformation("User created a new account with password.");
+
+                    // Adiciona o usuário à role
+                    var roleResult = await _userManager.AddToRoleAsync(user, Input.Tipo.ToString());
+
+                    //MUDAR NO MODEL O TipoUsuario PARA CORRESPONDER COM AS ROLES CORRETAS, CASO VAI FICAR DANDO ERRO DE NAO FOI POSSIVEL ENVIAR O FORMULARIO
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
