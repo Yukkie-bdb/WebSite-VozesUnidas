@@ -4,68 +4,70 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="col-12 d-flex">
+    <div class="col-10">
+        <div class="me-3">
+            <a asp-action="Create" class="text-decoration-none text-black btn w-100 py-3 border-2 border-dark">Adicionar novo post</a>
+        </div>
+        @foreach (var item in Model)
+        {
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Titulo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SubTituloResumo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Conteudo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Imagem)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Publicacao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdUsuario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdCategoria)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Titulo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubTituloResumo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Conteudo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Imagem)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Publicacao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdUsuario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdCategoria)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdPost">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdPost">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdPost">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+            @if (item.Imagem != null)
+            {
+                <a asp-action="Details" asp-route-id="@item.IdPost" class="text-decoration-none text-black">
+                    <div class="d-flex p-2 border border-1 border-dark border pe-4 my-5 me-3">
+                        <div class="d-flex flex-column col-6 me-2">
+                            <p>
+                                @item.Titulo
+                            </p>
+                            <p>
+                                @item.SubTituloResumo
+                            </p>
+                        </div>
+                        <div class="col-6 ms-2 d-flex justify-content-center bg-light">
+                            <img src="~/img/@item.Imagem" alt="Imagem do Post" class="align-self-center mw-100" style="max-height:250px" />
+                        </div>
+                    </div>
+                </a>
+                
+                
+            }
+            else
+            {
+                <a asp-action="Details" asp-route-id="@item.IdPost" class="text-decoration-none text-black">
+                    <div class="d-flex w-auto flex-column border col-12 p-2 border-1 border-dark my-5 me-3">
+                        <p>
+                            @item.Titulo
+                        </p>
+                        <p>
+                            @item.SubTituloResumo
+                        </p>
+                    </div>
+                </a>
+                
+            }
+
+
+
+        }
+
+    </div>
+    <div class="col-2 border border-1 border-dark px-4 w-auto">
+        <div class="ms-2 mt-2">
+            <p class="h1 text-black fw-bold py-2 d-flex justify-content-center">
+                Categorias
+            </p>
+            <div>
+                <a asp-action="Index" asp-route-id="@null" class="text-decoration-none text-black fw-bold">Limpar Filtro</a>
+            </div>
+            @foreach (var item in ViewBag.Categorias)
+            {
+                <div>
+                    <a asp-action="Index" asp-route-id="@item.IdCategoriaPost" class="text-decoration-none text-black">@item.Nome</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+

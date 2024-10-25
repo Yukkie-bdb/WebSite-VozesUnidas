@@ -2,58 +2,34 @@
 
 @{
     ViewData["Title"] = "Details";
+    if(ViewBag.Categoria is null)
+    {
+        ViewBag.Categoria = 0;
+    }
+
 }
 
-<h1>Details</h1>
+<p class="text-black fw-bold h2 mb-1">@Html.DisplayFor(model => model.Titulo)</p>
+<p class="text-black fw-bold h4 mb-4">Tema: @ViewBag.Categoria</p>
 
-<div>
-    <h4>Post</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Titulo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Titulo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SubTituloResumo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SubTituloResumo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Conteudo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Conteudo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Imagem)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Imagem)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Publicacao)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Publicacao)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdUsuario)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdUsuario)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdCategoria)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdCategoria)
-        </dd>
-    </dl>
+@if (ViewBag.Image != null)
+{
+    <div class="col-12 d-flex justify-content-center">
+        <img src="~/img/@Html.DisplayFor(model => model.Imagem)" alt="Imagem do Post" class="col-10 mw-100" style="max-height:400px;" />
+
+    </div>
+}
+
+
+<div class="justify-content-center d-flex my-5 col-12">
+    <div class="col-10">
+        @Html.Raw(Model.Conteudo.Replace("\n", "<br />"))
+    </div>
 </div>
+
+<p class="text-black fw-bold h5 mb-4">Publicado em: @Html.DisplayFor(model => model.Publicacao)</p>
+
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.IdPost">Edit</a> |
     <a asp-action="Index">Back to List</a>

@@ -4,13 +4,11 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1 class="d-flex justify-content-center fw-bold my-5">Adicionar Post</h1>
 
-<h4>Post</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Titulo" class="control-label"></label>
@@ -18,33 +16,20 @@
                 <span asp-validation-for="Titulo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SubTituloResumo" class="control-label"></label>
-                <input asp-for="SubTituloResumo" class="form-control" />
-                <span asp-validation-for="SubTituloResumo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Conteudo" class="control-label"></label>
                 <input asp-for="Conteudo" class="form-control" />
                 <span asp-validation-for="Conteudo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Imagem" class="control-label"></label>
-                <input asp-for="Imagem" class="form-control" />
+                <img src="~/img/AddImageTop.png" id="inputImage" class="w-50" />
+                <input asp-for="Imagem" type="file" class="form-control border-1 border-dark d-none" id="inputCampus" placeholder="Insira a foto da notícia aqui." name="imgUp" />
                 <span asp-validation-for="Imagem" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Publicacao" class="control-label"></label>
-                <input asp-for="Publicacao" class="form-control" />
-                <span asp-validation-for="Publicacao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdUsuario" class="control-label"></label>
-                <input asp-for="IdUsuario" class="form-control" />
-                <span asp-validation-for="IdUsuario" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="IdCategoria" class="control-label"></label>
-                <input asp-for="IdCategoria" class="form-control" />
+                    <select asp-for="IdCategoria" class="form-control" asp-items="@(new SelectList(ViewBag.categorias, "IdCategoriaPost", "Nome"))">
+                        <option value="">Selecione uma categoria</option>
+                    </select>
                 <span asp-validation-for="IdCategoria" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -61,3 +46,22 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    const fileInput = document.getElementById('inputCampus');
+    const uploadImage = document.getElementById('inputImage');
+
+    uploadImage.addEventListener('click', () => {
+        fileInput.click();
+    });
+    fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                uploadImage.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
