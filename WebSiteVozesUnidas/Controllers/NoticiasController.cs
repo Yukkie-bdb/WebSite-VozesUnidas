@@ -285,22 +285,26 @@ namespace WebSiteVozesUnidas.Controllers
                 {
                     _context.Noticias.Remove(noticia);
                 }
-                string uploadsFolder = Path.Combine(_caminho, "img");
-
-                if (!Directory.Exists(uploadsFolder))
+                if(noticia.Imagem != null)
                 {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
+                    string uploadsFolder = Path.Combine(_caminho, "img");
 
-                string uniqueFileName = noticia.Imagem;
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    string uniqueFileName = noticia.Imagem;
+
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    noticia.Imagem = uniqueFileName;
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath);
+                    }
+                }
                 
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                noticia.Imagem = uniqueFileName;
-                if (System.IO.File.Exists(filePath))
-                {
-                    System.IO.File.Delete(filePath);
-                }
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
 

@@ -11,6 +11,10 @@
     {
         ViewBag.UserId = 0;
     }
+    if (ViewBag.AutorId is null)
+    {
+        ViewBag.AutorId = 0;
+    }
 }
 
 <h1 class="d-flex justify-content-center my-4">@Html.DisplayFor(model => model.Titulo)</h1>

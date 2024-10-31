@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using WebSiteVozesUnidas.Data;
 using WebSiteVozesUnidas.Models;
 using static Azure.Core.HttpHeader;
@@ -71,12 +72,63 @@ namespace WebSiteVozesUnidas.Controllers
                     ViewBag.Categoria = item.Nome;
                 }
             }
+
+            var comentarios = await _context.Comentarios.ToListAsync();
+            var comentariosPost = new List<Comentario>();
+
+            foreach(var item in comentarios)
+            {
+                if(item.IdPost == id)
+                {
+                    comentariosPost.Add(item);
+                }
+            }
+
+            ViewBag.Comentarios = comentariosPost;
+
+
+            var usuarios = await _context.Users.ToListAsync();
+
+            ViewBag.Usuarios = usuarios;
+            
+
+            ViewBag.Comentarios = comentariosPost;
+
+
+
+
             if (post == null)
             {
                 return NotFound();
             }
 
             return View(post);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Comentar([Bind("IdComentario,Publicacao,comentario,IdPost,IdUsuario")] Comentario com)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(userId != null)
+                {
+                    com.IdUsuario = Guid.Parse(userId);
+
+                }
+                else
+                {
+                    return Redirect("/Identity/Account/Login");
+                }
+                com.IdComentario = Guid.NewGuid();
+                com.Publicacao = DateTime.Now;
+
+                _context.Add(com);
+                await _context.SaveChangesAsync();
+                return Redirect($"/Posts/Details/{com.IdPost}");
+            }
+            return NoContent();
         }
 
         // GET: Posts/Create
@@ -141,6 +193,17 @@ namespace WebSiteVozesUnidas.Controllers
         // GET: Posts/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
+            var Categorias = await _context.CategoriaPosts.ToListAsync();
+            var Post = await _context.Posts.FindAsync(id);
+
+            ViewBag.Categorias = Categorias;
+            
+            if (ViewBag.categorias == null)
+            {
+                ViewBag.categorias = new List<CategoriaPost>();
+            }
+            ViewBag.id = Post.Imagem;
+
             if (id == null)
             {
                 return NotFound();
@@ -159,7 +222,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdPost,Titulo,SubTituloResumo,Conteudo,Imagem,Publicacao,IdUsuario,IdCategoria")] Post post)
+        public async Task<IActionResult> Edit(Guid id, [Bind("IdPost,Titulo,SubTituloResumo,Conteudo,Imagem,Publicacao,IdUsuario,IdCategoria")] Post post, IFormFile? imgUp)
         {
             if (id != post.IdPost)
             {
@@ -170,6 +233,31 @@ namespace WebSiteVozesUnidas.Controllers
             {
                 try
                 {
+                    if (imgUp != null && imgUp.Length > 0)
+                    {
+                        string uploadsFolder = Path.Combine(_caminho, "img");
+
+                        if (!Directory.Exists(uploadsFolder))
+                        {
+                            Directory.CreateDirectory(uploadsFolder);
+                        }
+
+                        string uniqueFileName = Guid.NewGuid().ToString() + "_" + imgUp.FileName;
+
+                        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await imgUp.CopyToAsync(fileStream);
+                        }
+                        post.Imagem = uniqueFileName;
+                    }
+                    else
+                    {
+                        var postinho = await _context.Posts.AsNoTracking().FirstOrDefaultAsync(n => n.IdPost == id);
+                        post.Imagem = postinho.Imagem;
+                    }
+
                     _context.Update(post);
                     await _context.SaveChangesAsync();
                 }
@@ -186,23 +274,6 @@ namespace WebSiteVozesUnidas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(post);
-        }
-
-        // GET: Posts/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var post = await _context.Posts
-                .FirstOrDefaultAsync(m => m.IdPost == id);
-            if (post == null)
-            {
-                return NotFound();
-            }
 
             return View(post);
         }
@@ -212,29 +283,33 @@ namespace WebSiteVozesUnidas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id, string? name)
         {
-            var noticia = await _context.Noticias.FindAsync(id);
+            var post = await _context.Posts.FindAsync(id);
             if (name == "Quero Apagar")
             {
-                if (noticia != null)
+                if (post != null)
                 {
-                    _context.Noticias.Remove(noticia);
+                    _context.Posts.Remove(post);
                 }
-                string uploadsFolder = Path.Combine(_caminho, "img");
-
-                if (!Directory.Exists(uploadsFolder))
+                if(post.Imagem != null)
                 {
-                    Directory.CreateDirectory(uploadsFolder);
+                    string uploadsFolder = Path.Combine(_caminho, "img");
+
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    string uniqueFileName = post.Imagem;
+
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    post.Imagem = uniqueFileName;
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath);
+                    }
                 }
-
-                string uniqueFileName = noticia.Imagem;
-
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                noticia.Imagem = uniqueFileName;
-                if (System.IO.File.Exists(filePath))
-                {
-                    System.IO.File.Delete(filePath);
-                }
+                
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
 
