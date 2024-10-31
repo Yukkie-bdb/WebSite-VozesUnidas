@@ -10,12 +10,5 @@ namespace WebSiteVozesUnidas.Models
         public string ConfirmPassword { get; set; }
         public TipoUsuario Tipo { get; set; }
         public string? ReturnUrl { get; internal set; }
-
-        public enum TipoUsuario
-        {
-            PessoaFisica,
-            Empresa,
-            ADM
-        }
     }
 }

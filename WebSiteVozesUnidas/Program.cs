@@ -60,7 +60,7 @@ internal class Program
             scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
             var roles = new[] { "ADM", "Empresa", "PessoaFisica", "Jornalista" };
-            //var roles = new[] { "Admin", "Empresa", "PessoaF", "Jornalista" }; CORRETO
+            //var roles = new[] { "Admin", "Empresa", "PessoaF", "Jornalista" }; CORRETO supostamente
 
             foreach (var role in roles)
 
@@ -90,7 +90,7 @@ internal class Program
 
                 await userManager.CreateAsync(user, senha);
 
-                await userManager.AddToRoleAsync(user, "Admin");
+                await userManager.AddToRoleAsync(user, "ADM");
             }
 
             if(await userManager.FindByEmailAsync("empresa@gmail.com") != null)
@@ -101,12 +101,12 @@ internal class Program
             if (await userManager.FindByEmailAsync("admin@gmail.com") != null)
             {
                 var user = await userManager.FindByEmailAsync("admin@gmail.com");
-                await userManager.AddToRoleAsync(user, "Admin");
+                await userManager.AddToRoleAsync(user, "ADM");
             }
             if (await userManager.FindByEmailAsync("usuario@gmail.com") != null)
             {
                 var user = await userManager.FindByEmailAsync("usuario@gmail.com");
-                await userManager.AddToRoleAsync(user, "PessoaF");
+                await userManager.AddToRoleAsync(user, "PessoaFisica");
             }
             if (await userManager.FindByEmailAsync("jornalista@gmail.com") != null)
             {

@@ -1,0 +1,92 @@
+﻿@model IEnumerable<WebSiteVozesUnidas.Models.Especialista>
+
+@{
+    ViewData["Title"] = "Especialistas";
+}
+
+@if (User.IsInRole("ADM"))
+{
+    <button type="submit" value="Criar" style="border-radius:10px; border: solid; border-width: 1px; background-color:#FFFFFF; width:250px; height:40px; margin:10px">
+        <a asp-action="Create" style="text-decoration:none; color:black">Criar Novo</a>
+    </button>
+}
+
+<div class="tabcontent">
+    @* Lista de cores para os fundos dos cartões *@
+    @{
+        var colors = new[] { "#C0245F", "#A7FF88", "#388AD7" }; // Adicione mais cores se necessário
+    }
+    @foreach (var item in Model.Select((value, index) => new { value, index }))
+    {
+        var backgroundColor = colors[item.index % colors.Length]; // Seleciona a cor com base no índice
+        var gradientDirection = (item.index % 2 == 0) ? "to left" : "to right";
+        @if (User.IsInRole("ADM"))
+        {
+            <a href="@Url.Action("Details", new { id = item.value.IdEspecialhista })" style="text-decoration: none; color: inherit;">
+                <div class="cartao" style="display:flex; flex-direction:row; justify-content:center; cursor: pointer; background: linear-gradient(@gradientDirection, @backgroundColor 50%, white);">
+                    <img src="~/img/@item.value.ImgEspecialista" alt="Imagem do especialista" style="max-width: 180px; height: 180px; margin-top: 10px" />
+
+                    <div class="malala" style="margin-top: 20px; padding-left:100px">
+                        <p style="max-width: 680px">@Html.DisplayFor(modelItem => item.value.Especialhidade)</p>
+                        <a href="https://wa.me/@item.value.Telefone" target="_blank">
+                            <button style="margin-bottom:10px; border-radius:10px; border: solid; border-width: 1px; background-color:#FFFFFF; width:350px; height:50px; margin:10px; cursor:pointer; font-size:20px">
+                                Contato
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </a>
+        }
+        else
+        {
+            <div class="cartao" style="display:flex; flex-direction:row; justify-content:center; cursor:default; background: linear-gradient(@gradientDirection, @backgroundColor 50%, white);">
+                <img src="~/img/@item.value.ImgEspecialista" alt="Imagem do especialista" style="max-width: 180px; height: 180px; margin-top: 10px" />
+
+                <div class="malala" style="margin-top: 20px; padding-left:100px">
+                    <p style="max-width: 680px">@Html.DisplayFor(modelItem => item.value.Especialhidade)</p>
+                    <a href="https://wa.me/@item.value.Telefone" target="_blank">
+                        <button style="margin-bottom:10px; border-radius:10px; border: solid; border-width: 1px; background-color:#FFFFFF; width:350px; height:50px; margin:10px; cursor:pointer; font-size:20px">
+                            Contato
+                        </button>
+                    </a>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<h3 style="text-align:center; margin-top:40px">Avaliações</h3>
+
+<p style="display:flex; justify-content:flex-end">
+    <button style="border-radius:10px; border: solid; border-width: 1px; background-color:#FFFFFF; width:250px; height:40px; margin:10px">
+        Adicionar comentário
+    </button>
+</p>
+
+<div class="avaliacaoContent" style="display:flex; flex-direction:row; justify-content:center">
+    @if (Model != null && Model.Any(e => e.AvaliacoesEspecialhistas != null && e.AvaliacoesEspecialhistas.Any()))
+    {
+        foreach (var item in Model.Where(e => e.AvaliacoesEspecialhistas != null && e.AvaliacoesEspecialhistas.Any()))
+        {
+            <div style="margin:25px">
+                @if (item.Usuario != null && !string.IsNullOrEmpty(item.Usuario.Foto))
+                {
+                    <img src="~/img/01.jpg" class="rounded-circle shadow-1-strong" width="150" height="150" />
+                }
+                @*else
+                {
+                    
+                }*@
+            </div>
+            <div class="mt-4">
+                <h6 style="text-align:center">Especialista: @item.Nome</h6>
+                @foreach (var avaliacao in item.AvaliacoesEspecialhistas)
+                {
+                    <div class="evaluation">
+                        <p style="max-width:500px"><strong>@avaliacao.Usuario.UserName:</strong> @avaliacao.Descricao</p>
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>

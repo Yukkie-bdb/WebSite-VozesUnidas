@@ -48,6 +48,8 @@ namespace WebSiteVozesUnidas.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            if (_context.Noticias.Count() > 3)
+            {
             var randomItems = GetRandomItems(3).ToList();
             var i = 0;
             foreach (var item in randomItems)
@@ -67,6 +69,7 @@ namespace WebSiteVozesUnidas.Controllers
                 ViewBag.UserJorn = Jornalista.Jornalista;
             }
 
+            }
 
             return View(await _context.Noticias.ToListAsync());
         }

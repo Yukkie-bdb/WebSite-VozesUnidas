@@ -7,12 +7,23 @@
     {
         var user = await UserManager.GetUserAsync(User);
         var fotoUser = "default.jpg";
+        
+        if(user == null)
+        {
+            
+        }else
+
+        if(user == null)
+        {
+            
+        }else
 
         if (user.Foto != null)
         {
             fotoUser = user.Foto;
         }
 
+  
         <!-- Button trigger modal -->
         <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <img src="~/img/@fotoUser" alt="Foto Usuario" class="rounded-circle" style="width: 8vh; height: 8vh; object-fit: cover;" />
