@@ -8,6 +8,11 @@
         var user = await UserManager.GetUserAsync(User);
         var fotoUser = "default.jpg";
 
+        if(user == null)
+        {
+            
+        }else
+
         if (user.Foto != null)
         {
             fotoUser = user.Foto;

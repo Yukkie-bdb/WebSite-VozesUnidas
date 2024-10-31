@@ -12,15 +12,15 @@ using WebSiteVozesUnidas.Data;
 namespace WebSiteVozesUnidas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240922164704_identityIdGuid")]
-    partial class identityIdGuid
+    [Migration("20241031172456_Tudo")]
+    partial class Tudo
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -175,6 +175,9 @@ namespace WebSiteVozesUnidas.Migrations
                     b.Property<string>("CPF")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Cidade")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -186,8 +189,14 @@ namespace WebSiteVozesUnidas.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Estado")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Foto")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Funcionarios")
+                        .HasColumnType("int");
 
                     b.Property<string>("Habilidades")
                         .IsRequired()
@@ -224,6 +233,12 @@ namespace WebSiteVozesUnidas.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Portifolio")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Ramo")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -286,10 +301,10 @@ namespace WebSiteVozesUnidas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("IdUsuario")
+                    b.Property<Guid>("IdUsuario")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("IdVaga")
+                    b.Property<Guid>("IdVaga")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("UsuarioId")
@@ -305,6 +320,25 @@ namespace WebSiteVozesUnidas.Migrations
                     b.HasIndex("VagasEmpregoIdVagaEmprego");
 
                     b.ToTable("tbCandidatoVaga", (string)null);
+                });
+
+            modelBuilder.Entity("WebSiteVozesUnidas.Models.CandidatosJornalistas", b =>
+                {
+                    b.Property<Guid>("IdCandidatosJornalistas")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Motivo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("IdCandidatosJornalistas");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("tbCandidatosJornalistas", (string)null);
                 });
 
             modelBuilder.Entity("WebSiteVozesUnidas.Models.CategoriaPost", b =>
@@ -477,12 +511,10 @@ namespace WebSiteVozesUnidas.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Imagem")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Resumo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Publicacao")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
@@ -518,15 +550,10 @@ namespace WebSiteVozesUnidas.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Imagem")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Publicacao")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("SubTituloResumo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
@@ -558,11 +585,15 @@ namespace WebSiteVozesUnidas.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Cidade")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DescricaoVaga")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Foto")
+                    b.Property<string>("Estado")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -570,13 +601,26 @@ namespace WebSiteVozesUnidas.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("LocalTrabalho")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumeroVagas")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Publicacao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RegimeContratacao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Requisitos")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ResumoVaga")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("Salario")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("UsuarioId")
                         .HasColumnType("uniqueidentifier");
@@ -663,6 +707,17 @@ namespace WebSiteVozesUnidas.Migrations
                     b.Navigation("VagasEmprego");
                 });
 
+            modelBuilder.Entity("WebSiteVozesUnidas.Models.CandidatosJornalistas", b =>
+                {
+                    b.HasOne("WebSiteVozesUnidas.Models.ApplicationUser", "Usuario")
+                        .WithMany("CandidatosJornalistass")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("WebSiteVozesUnidas.Models.Comentario", b =>
                 {
                     b.HasOne("WebSiteVozesUnidas.Models.Post", "Post")
@@ -740,6 +795,8 @@ namespace WebSiteVozesUnidas.Migrations
                     b.Navigation("AvaliacoesEspecialhistas");
 
                     b.Navigation("CandidatoVagas");
+
+                    b.Navigation("CandidatosJornalistass");
 
                     b.Navigation("Comentarios");
 
