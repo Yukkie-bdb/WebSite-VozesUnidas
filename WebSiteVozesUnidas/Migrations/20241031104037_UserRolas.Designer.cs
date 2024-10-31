@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebSiteVozesUnidas.Data;
 
@@ -11,9 +12,11 @@ using WebSiteVozesUnidas.Data;
 namespace WebSiteVozesUnidas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241031104037_UserRolas")]
+    partial class UserRolas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -317,25 +320,6 @@ namespace WebSiteVozesUnidas.Migrations
                     b.HasIndex("VagasEmpregoIdVagaEmprego");
 
                     b.ToTable("tbCandidatoVaga", (string)null);
-                });
-
-            modelBuilder.Entity("WebSiteVozesUnidas.Models.CandidatosJornalistas", b =>
-                {
-                    b.Property<Guid>("IdCandidatosJornalistas")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Motivo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UsuarioId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("IdCandidatosJornalistas");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("tbCandidatosJornalistas", (string)null);
                 });
 
             modelBuilder.Entity("WebSiteVozesUnidas.Models.CategoriaPost", b =>
@@ -704,17 +688,6 @@ namespace WebSiteVozesUnidas.Migrations
                     b.Navigation("VagasEmprego");
                 });
 
-            modelBuilder.Entity("WebSiteVozesUnidas.Models.CandidatosJornalistas", b =>
-                {
-                    b.HasOne("WebSiteVozesUnidas.Models.ApplicationUser", "Usuario")
-                        .WithMany("CandidatosJornalistass")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Usuario");
-                });
-
             modelBuilder.Entity("WebSiteVozesUnidas.Models.Comentario", b =>
                 {
                     b.HasOne("WebSiteVozesUnidas.Models.Post", "Post")
@@ -792,8 +765,6 @@ namespace WebSiteVozesUnidas.Migrations
                     b.Navigation("AvaliacoesEspecialhistas");
 
                     b.Navigation("CandidatoVagas");
-
-                    b.Navigation("CandidatosJornalistass");
 
                     b.Navigation("Comentarios");
 

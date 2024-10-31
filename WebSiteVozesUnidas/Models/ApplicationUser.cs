@@ -33,13 +33,15 @@ namespace WebSiteVozesUnidas.Models
         public IEnumerable<LikesPost>? LikesPosts { get; set; }
         public IEnumerable<CandidatoVaga>? CandidatoVagas { get; set; }
         public IEnumerable<VagaEmprego>? VagaEmpregos { get; set; }
+        public IEnumerable<CandidatosJornalistas>? CandidatosJornalistass { get; set; }
 
     }
     public enum TipoUsuario
     {
         PessoaFisica,
         Empresa,
-        ADM
+        ADM,
+        Jornalista
     }
     public class MidiaSocial
     {

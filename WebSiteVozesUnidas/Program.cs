@@ -60,7 +60,7 @@ internal class Program
             scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
             var roles = new[] { "ADM", "Empresa", "PessoaFisica", "Jornalista" };
-            //var roles = new[] { "Admin", "Empresa", "PessoaF", "Jornalista" }; CORRETO
+            //var roles = new[] { "Admin", "Empresa", "PessoaF", "Jornalista" }; CORRETO supostamente
 
             foreach (var role in roles)
 
