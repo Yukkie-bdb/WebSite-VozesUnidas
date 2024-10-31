@@ -1,0 +1,52 @@
+﻿@model WebSiteVozesUnidas.Models.MaterialDidatico
+
+@{
+    ViewData["Title"] = "Criar";
+}
+
+<h2 style="text-align:center; margin-top:10px">Criar Novo Material Didático</h2>
+
+<hr />
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mb-3">
+                <label asp-for="Titulo" class="control-label"></label>
+                <input asp-for="Titulo" class="form-control" />
+                <span asp-validation-for="Titulo" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Descricao" class="control-label"></label>
+                <input asp-for="Descricao" class="form-control" />
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="CategoriaId" class="control-label"></label>
+                <select asp-for="CategoriaId" class ="form-control" asp-items="ViewBag.CategoriaId"></select>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="ImgMaterial" class="control-label"></label>
+                <input asp-for="ImgMaterial" type="file" name="ImgUp" class="form-control" />
+                <span asp-validation-for="ImgMaterial" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="LinkYoutube" class="control-label"></label>
+                <input asp-for="LinkYoutube" class="form-control" />
+                <span asp-validation-for="LinkYoutube" class="text-danger"></span>
+            </div>
+            <div style="display:flex; flex-direction:column; justify-content: center; align-items: center">
+                <button type ="submit" value="Criar" style="margin-bottom:10px; border-radius:10px; border: solid; border-width: 1px; background-color:#FFFFFF; align-items:center; width:250px; height:40px">
+                    Criar
+                </button>
+                <a style="color:black;text-align:center; align-items:center; width:200px" asp-action="Index">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

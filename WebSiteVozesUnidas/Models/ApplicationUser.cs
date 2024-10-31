@@ -27,7 +27,7 @@ namespace WebSiteVozesUnidas.Models
 
         // FK
         public IEnumerable<Noticia>? Noticias { get; set; }
-        public IEnumerable<AvaliacaoEspecialista>? AvaliacoesEspecialhistas { get; set; }
+        public IEnumerable<AvaliacaoEspecialhistas>? AvaliacoesEspecialhistas { get; set; }
         public IEnumerable<Post>? Posts { get; set; }
         public IEnumerable<Comentario>? Comentarios { get; set; }
         public IEnumerable<LikesPost>? LikesPosts { get; set; }
