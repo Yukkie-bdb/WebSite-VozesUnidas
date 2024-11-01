@@ -66,8 +66,11 @@ internal class Program
 
             {
 
-                if (!await roleManager.RoleExistsAsync(role)) 
+                if (!await roleManager.RoleExistsAsync(role))
+                {
                     await roleManager.CreateAsync(new IdentityRole<Guid>(role));
+
+                }
 
             }
 
