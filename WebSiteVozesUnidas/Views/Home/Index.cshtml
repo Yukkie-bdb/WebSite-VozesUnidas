@@ -1,5 +1,5 @@
 ﻿@using WebSiteVozesUnidas.Areas.Identity.Pages.Account
-@model LoginModel
+@* @model LoginModel *@
 
 @{
     ViewData["Title"] = "Home Page";
@@ -7,3 +7,46 @@
 
 @Html.Partial("_Register", new RegisterModelSimples())
 
+
+@model WebSiteVozesUnidas.ViewModels.UserDebugViewModel
+
+<h1>Informações do Usuário Logado</h1>
+
+<ul>
+    <li><strong>Username:</strong> @Model.UserName</li>
+    <li><strong>Email:</strong> @Model.Email</li>
+    <li><strong>Foto:</strong> <img src="@Model.Foto" alt="Foto do usuário" /></li>
+    <li><strong>Sobre:</strong> @Model.Sobre</li>
+    <li><strong>Portfólio:</strong> <a href="@Model.Portifolio" target="_blank">@Model.Portifolio</a></li>
+    <li><strong>Tipo:</strong> @Model.Tipo</li>
+    <li><strong>Estado:</strong> @Model.Estado</li>
+    <li><strong>Cidade:</strong> @Model.Cidade</li>
+
+    <!-- Lista de Mídias Sociais -->
+    <li><strong>Mídias Sociais:</strong>
+        <ul>
+            @foreach (var midia in Model.MidiaSocials)
+            {
+                <li>@midia.Plataforma: <a href="@midia.Url" target="_blank">@midia.Url</a></li>
+            }
+        </ul>
+    </li>
+
+    <!-- Exibição condicional para Pessoa Física -->
+    @if (Model.Tipo == TipoUsuario.PessoaFisica)
+    {
+        <li><strong>CPF:</strong> @Model.CPF</li>
+        <li><strong>Data de Nascimento:</strong> @Model.Nascimento</li>
+        <li><strong>Habilidades:</strong> @string.Join(", ", Model.Habilidades)</li>
+        <li><strong>Objetivos:</strong> @Model.Objetivos</li>
+        <li><strong>É jornalista?</strong> @(Model.Jornalista ? "Sim" : "Não")</li>
+    }
+
+    <!-- Exibição condicional para Empresa -->
+    @if (Model.Tipo == TipoUsuario.Empresa)
+    {
+        <li><strong>CNPJ:</strong> @Model.CNPJ</li>
+        <li><strong>Ramo:</strong> @Model.Ramo</li>
+        <li><strong>Número de Funcionários:</strong> @Model.Funcionarios</li>
+    }
+</ul>
