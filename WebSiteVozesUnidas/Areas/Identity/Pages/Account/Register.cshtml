@@ -8,37 +8,36 @@
 
 <!-- Campo TipoUsuario -->
 <div class="col-12 d-flex">
-    <button class="bg-black border col-6 text-center text-white" onclick="trocarFormulario('PF')" id="formCampoPF">Pessoa Fisica</button>
-    <button class="bg-white border col-6 text-center" onclick="trocarFormulario('E')" id="formCampoE">Empresa</button>
+    <button class="bg-black border col-6 text-center text-white" id="formCampoPF">Pessoa Fisica</button>
+    <button class="bg-white border col-6 text-center" id="formCampoE">Empresa</button>
 </div>
 
 <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
-    <div class="d-flex justify-content-between col-12 mt-5">
+    @* CAMPOS SUPERIOR *@
+    <div class="col-12 d-flex justify-content-between mt-5 mb-3 align-items-stretch">
 
         <!-- Campo Foto -->
-        <div class=" d-flex col-6 justify-content-center align-items-stretch">
-            <img src="~/img/default.jpg" id="profileImage" class="rounded-circle mb-3 img-fluid" style="width: 48vh; height: 48vh; object-fit: cover; cursor:pointer;" />
-
-            @* <label asp-for="Input.Foto" class="control-label"></label> *@
-            <input asp-for="Input.Foto" type="file" class="form-control d-none" value="Input.Foto" name="imgUp" id="imgUp" accept=".jpg,.jpeg,.png, .gif" onchange="validateFileType()" />
-            <span asp-validation-for="Input.Foto" class="text-danger"></span>
+        <div class="d-flex col-3 align-items-center justify-content-center m-auto">
+            <img src="~/img/default.jpg" id="profileImage" class="w-100 rounded-circle" />
+            <input asp-for="Input.Foto" type="file" class="form-control d-none" name="imgUp" id="imgUp" accept=".jpg,.jpeg,.png, .gif" onchange="startCropper()" />
         </div>
 
-        
+  
 
+        @* CAMPOS AO LADO IMG *@
         <div class="d-flex flex-column col-6 ">
 
             <!-- Campo Nome -->
-            <div class="form-floating mb-3 col-12" id="name">
+            <div class="form-floating mb-3" id="name">
                 <input asp-for="Input.Nome" class="form-control" placeholder="Nome" />
-                <label asp-for="Input.Nome">Nome do Usuário</label>
+                <label asp-for="Input.Nome">Nome do Usuário <span class="text-danger">*</span></label>
                 <span asp-validation-for="Input.Nome" class="text-danger"></span>
             </div>
 
             <!-- Campo CPF -->
-            <div class="form-floating mb-3 col-12" id="cpfCNPJ">
+            <div class="form-floating mb-3" id="cpfCNPJ">
                 <input asp-for="Input.CPF" class="form-control" placeholder="CPF" />
                 <label asp-for="Input.CPF">CPF</label>
                 <span asp-validation-for="Input.CPF" class="text-danger"></span>
@@ -51,15 +50,16 @@
                 <span asp-validation-for="Input.CNPJ" class="text-danger"></span>
             </div>
 
-            <div class="form-floating mb-3 col-12" id="email">
+            <!-- Campo EMAIL -->
+            <div class="form-floating mb-3" id="email">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
+                <label asp-for="Input.Email">Email <span class="text-danger">*</span></label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
 
 
             <!-- Campo Portifolio -->
-            <div class="form-floating mb-3 col-12" id="portifolio">
+            <div class="form-floating" id="portifolio">
                 <input asp-for="Input.Portifolio" class="form-control" placeholder="Portifolio" />
                 <label asp-for="Input.Portifolio">Portifolio</label>
                 <span asp-validation-for="Input.Portifolio" class="text-danger"></span>
@@ -77,33 +77,32 @@
 
     <!-- Campo Funcionarios -->
     <div class="form-floating mb-3" id="funcionarios">
-    <input asp-for="Input.Funcionarios" class="form-control" placeholder="Funcionarios" />
-    <label asp-for="Input.Funcionarios">Funcionarios</label>
-    <span asp-validation-for="Input.Funcionarios" class="text-danger"></span>
+        <input asp-for="Input.Funcionarios" class="form-control" placeholder="Funcionarios" />
+        <label asp-for="Input.Funcionarios">Funcionarios</label>
+        <span asp-validation-for="Input.Funcionarios" class="text-danger"></span>
     </div>
 
-    <div class="d-flex col-12">
-
-        <div class="form-floating mb-3 me-1 col" id="cidade">
-            <input asp-for="Input.Estado" type="text" id="estado-pf" class="form-control" placeholder="Digite um estado" autocomplete="off">
-            <label asp-for="Input.Estado" for="estado-pf">Estado</label>
-            <ul asp-for="Input.Estado" id="sugestoes-estados-pf" class="list-group" style="display: none;"></ul>
-        </div>
-
-        <div class="form-floating mb-3 me-1 col" id="estado">
-            <input type="text" id="cidade-pf" class="form-control" placeholder="Digite uma cidade" disabled autocomplete="off">
-            <label for="cidade-pf">Cidade</label>
-            <ul id="sugestoes-cidades-pf" class="list-group" style="display: none;"></ul>
-        </div>
-
-        <!-- Campo Data de Nascimento -->
-        <div class="form-floating mb-3 ms-1 col" id="nasciento">
-            <input asp-for="Input.Nascimento" class="form-control" type="date" placeholder="Data de Nascimento" />
-            <label asp-for="Input.Nascimento">Data de Nascimento</label>
-            <span asp-validation-for="Input.Nascimento" class="text-danger"></span>
-        </div>
-
+    <!-- Campo ESTADO -->
+    <div class="form-floating mb-3" id="cidade">
+        <input asp-for="Input.Estado" type="text" id="estado-pf" class="form-control" placeholder="Digite um estado" autocomplete="off">
+        <label asp-for="Input.Estado" for="estado-pf">Estado</label>
+        <ul asp-for="Input.Estado" id="sugestoes-estados-pf" class="list-group" style="display: none;"></ul>
     </div>
+
+    <!-- Campo CIDADE -->
+    <div class="form-floating mb-3" id="estado">
+        <input type="text" id="cidade-pf" class="form-control" placeholder="Digite uma cidade" disabled autocomplete="off">
+        <label for="cidade-pf">Cidade</label>
+        <ul id="sugestoes-cidades-pf" class="list-group" style="display: none;"></ul>
+    </div>
+
+    <!-- Campo Data de Nascimento -->
+    <div class="form-floating mb-3" id="nasciento">
+        <input asp-for="Input.Nascimento" class="form-control" type="date" placeholder="Data de Nascimento" />
+        <label asp-for="Input.Nascimento">Data de Nascimento <span class="text-danger">*</span></label>
+        <span asp-validation-for="Input.Nascimento" class="text-danger"></span>
+    </div>
+
     <!-- Campo Objetivos -->
     <div class="form-floating mb-3" id="objetivos">
         <textarea asp-for="Input.Objetivos" class="form-control" placeholder="Objetivos"></textarea>
@@ -111,6 +110,7 @@
         <span asp-validation-for="Input.Objetivos" class="text-danger"></span>
     </div>
 
+    <!-- Campo HABILIDADES -->
     <div class="justify-content-between" id="habilidades">
         <div class="col-12">
             <!-- Campo para adicionar novas habilidades -->
@@ -189,33 +189,29 @@
 
     <!-- Campo Ramo -->
     <div class="form-floating mb-3" id="ramo">
-    <textarea asp-for="Input.Ramo" class="form-control" placeholder="Ramo"></textarea>
-    <label asp-for="Input.Ramo">Ramo Profissionail</label>
-    <span asp-validation-for="Input.Ramo" class="text-danger"></span>
+        <textarea asp-for="Input.Ramo" class="form-control" placeholder="Ramo"></textarea>
+        <label asp-for="Input.Ramo">Ramo Profissionail</label>
+        <span asp-validation-for="Input.Ramo" class="text-danger"></span>
     </div>
 
-    <!-- Campo Jornalista -->
-    <div class="form-check mb-3" id="jornalista">
-    <input asp-for="Input.Jornalista" class="form-check-input" type="checkbox" value="True" />
-    <label asp-for="Input.Jornalista" class="form-check-label">É Jornalista?</label>
-    <span asp-validation-for="Input.Jornalista" class="text-danger"></span>
-    </div>
-
-
-
+    <!-- Campo SENHAS-->
     <div class="d-flex col-12" id="senha">
+        <!-- Campo SENHA 1-->
         <div class="form-floating mb-3 col me-2">
             <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-            <label asp-for="Input.Password">Password</label>
+            <label asp-for="Input.Password">Password <span class="text-danger">*</span></label>
             <span asp-validation-for="Input.Password" class="text-danger"></span>
         </div>
 
+        <!-- Campo SENHA 2-->
         <div class="form-floating mb-3 col ms-2">
             <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-            <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+            <label asp-for="Input.ConfirmPassword">Confirm Password <span class="text-danger">*</span></label>
             <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
         </div>
     </div>
+
+    <!-- Campo BTN REGISTER-->
     <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
 
 
@@ -229,298 +225,159 @@
 </style>
 
 
-<form id="registerFormEm" style="display:none;" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
-    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
-    <div class="d-flex justify-content-between col-12 mt-5">
 
-        <!-- Campo Foto -->
-        <div class=" d-flex col-6 justify-content-center align-items-stretch">
-            <img src="~/img/default.jpg" id="profileImage" class="rounded-circle mb-3 img-fluid" style="width: 48vh; height: 48vh; object-fit: cover; cursor:pointer;" />
-           
-            @* <label asp-for="Input.Foto" class="control-label"></label> *@
-            <input asp-for="Input.Foto" type="file" class="form-control d-none" value="Input.Foto" name="imgUp" id="imgUp" accept=".jpg,.jpeg,.png, .gif" onchange="validateFileType()" />
-            <span asp-validation-for="Input.Foto" class="text-danger"></span>
-        </div>
+<style>
+    #sugestoes-estados, #sugestoes-cidades {
+        position: absolute;
+        z-index: 1000;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+</style>
 
 
 
-        <div class="d-flex flex-column col-6 ">
+<script>
+    let estados = [];
+    let cidades = {};
 
-            <!-- Campo Nome -->
-            <div class="form-floating mb-3 col-12">
-                <input asp-for="Input.Nome" class="form-control" placeholder="Nome" />
-                <label asp-for="Input.Nome">Nome da Empresa</label>
-                <span asp-validation-for="Input.Nome" class="text-danger"></span>
-            </div>
-
-            <!-- Campo CNPJ -->
-            <div class="form-floating mb-3 col-12">
-                <input asp-for="Input.CNPJ" class="form-control" placeholder="CNPJ" />
-                <label asp-for="Input.CNPJ">CNPJ</label>
-                <span asp-validation-for="Input.CNPJ" class="text-danger"></span>
-            </div>
-
-            <div class="form-floating mb-3 col-12">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-
-
-            <!-- Campo Portifolio -->
-            <div class="form-floating mb-3 col-12">
-                <input asp-for="Input.Portifolio" class="form-control" placeholder="Site da Empresa" />
-                <label asp-for="Input.Portifolio">Site da Empresa</label>
-                <span asp-validation-for="Input.Portifolio" class="text-danger"></span>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Campo Sobre -->
-    <div class="form-floating mb-3">
-        <textarea asp-for="Input.Sobre" class="form-control" placeholder="Sobre"></textarea>
-        <label asp-for="Input.Sobre">Sobre</label>
-        <span asp-validation-for="Input.Sobre" class="text-danger"></span>
-    </div>
-
-    <!-- Campo Funcionarios -->
-    @*   <div class="form-floating mb-3">
-    <input asp-for="Input.Funcionarios" class="form-control" placeholder="Funcionarios" />
-    <label asp-for="Input.Funcionarios">Funcionarios</label>
-    <span asp-validation-for="Input.Funcionarios" class="text-danger"></span>
-    </div> *@
-
-    <div class="d-flex col-12">
-
-       @*  <!-- Campo Estado -->
-        <div class="form-floating mb-3 me-1 col">
-            <input asp-for="Input.Estado" class="form-control" type="text" placeholder="Estado" />
-            <label asp-for="Input.Estado">Estado</label>
-            <span asp-validation-for="Input.Estado" class="text-danger"></span>
-        </div>
-
-        <!-- Campo Cidade -->
-        <div class="form-floating mb-3 mx-1 col">
-            <input asp-for="Input.Cidade" class="form-control" type="text" placeholder="Cidade" />
-            <label asp-for="Input.Cidade">Cidade</label>
-            <span asp-validation-for="Input.Cidade" class="text-danger"></span>
-        </div> *@
-
-        <style>
-            #sugestoes-estados, #sugestoes-cidades {
-                position: absolute;
-                z-index: 1000;
-                max-height: 200px;
-                overflow-y: auto;
-            }
-        </style>
-
-        <div class="form-floating mb-3 me-1 col">
-            <input asp-for="Input.Estado" type="text" id="estado-empresa" class="form-control" placeholder="Digite um estado" autocomplete="off">
-            <label asp-for="Input.Estado" for="estado-empresa">Estado</label>
-            <ul asp-for="Input.Estado" id="sugestoes-estados-empresa" class="list-group" style="display: none;"></ul>
-        </div>
-
-        <div class="form-floating mb-3 me-1 col">
-            <input type="text" id="cidade-empresa" class="form-control" placeholder="Digite uma cidade" disabled autocomplete="off">
-            <label for="cidade-empresa">Cidade</label>
-            <ul id="sugestoes-cidades-empresa" class="list-group" style="display: none;"></ul>
-        </div>
-
-        <script>
-            let estados = [];
-            let cidades = {};
-
-            // Função para carregar os estados do IBGE
-            function carregarEstados() {
-                fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome')
-                    .then(response => response.json())
-                    .then(data => {
-                        estados = data.map(estado => ({
-                            id: estado.id,
-                            nome: estado.nome,
-                            sigla: estado.sigla
-                        })); // Armazena IDs, nomes e siglas dos estados
-                        console.log('Estados carregados!');
-                    });
-            }
-
-            // Função para carregar as cidades do IBGE baseado no estado selecionado
-            function carregarCidades(estadoId, formId) {
-                fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoId}/municipios`)
-                    .then(response => response.json())
-                    .then(data => {
-                        cidades[formId] = data.map(cidade => cidade.nome); // Armazena cidades por formulário
-                        console.log('Cidades carregadas para ' + formId);
-                    });
-            }
-
-            // Função para normalizar a string (remover acentos e converter para minúsculas)
-            function normalizarTexto(texto) {
-                return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-            }
-
-            // Função para filtrar e mostrar as sugestões de estados
-            function mostrarSugestoesEstados(valor, formId) {
-                const sugestoesContainer = document.getElementById('sugestoes-estados-' + formId);
-                sugestoesContainer.innerHTML = ''; // Limpa sugestões anteriores
-                const filtro = normalizarTexto(valor);
-
-                const sugestoesFiltradas = estados.filter(estado => {
-                    const nomeNormalizado = normalizarTexto(estado.nome);
-                    const siglaNormalizada = estado.sigla.toLowerCase();
-                    return nomeNormalizado.includes(filtro) || siglaNormalizada.includes(filtro);
-                });
-
-                // Se o campo de texto estiver vazio, mostra todos os estados
-                if (filtro.length === 0) {
-                    sugestoesFiltradas.push(...estados);
-                }
-
-                if (sugestoesFiltradas.length > 0) {
-                    sugestoesFiltradas.forEach(estado => {
-                        const li = document.createElement('li');
-                        li.className = 'list-group-item';
-                        li.textContent = estado.nome + ` (${estado.sigla})`;
-                        li.onclick = () => {
-                            document.getElementById('estado-' + formId).value = estado.nome;
-                            sugestoesContainer.style.display = 'none'; // Ocultar sugestões
-                            carregarCidades(estado.id, formId); // Carregar cidades para o estado selecionado
-                            document.getElementById('cidade-' + formId).disabled = false; // Habilitar campo de cidade
-                        };
-                        sugestoesContainer.appendChild(li);
-                    });
-                    sugestoesContainer.style.display = 'block'; // Mostrar sugestões
-                } else {
-                    sugestoesContainer.style.display = 'none'; // Ocultar se não houver sugestões
-                }
-            }
-
-            // Função para filtrar e mostrar as sugestões de cidades
-            function mostrarSugestoesCidades(valor, formId) {
-                const sugestoesContainer = document.getElementById('sugestoes-cidades-' + formId);
-                sugestoesContainer.innerHTML = ''; // Limpa sugestões anteriores
-                const filtro = normalizarTexto(valor);
-                const sugestoesFiltradas = cidades[formId]?.filter(cidade => normalizarTexto(cidade).includes(filtro)) || []; // Mudança para incluir
-
-                if (sugestoesFiltradas.length > 0) {
-                    sugestoesFiltradas.forEach(cidade => {
-                        const li = document.createElement('li');
-                        li.className = 'list-group-item';
-                        li.textContent = cidade;
-                        li.onclick = () => {
-                            document.getElementById('cidade-' + formId).value = cidade;
-                            sugestoesContainer.style.display = 'none'; // Ocultar sugestões
-                        };
-                        sugestoesContainer.appendChild(li);
-                    });
-                    sugestoesContainer.style.display = 'block'; // Mostrar sugestões
-                } else {
-                    sugestoesContainer.style.display = 'none'; // Ocultar se não houver sugestões
-                }
-            }
-
-            // Adicionar evento de input ao campo de estado para Pessoa Física
-            document.getElementById('estado-pf').addEventListener('input', function () {
-                const valor = this.value;
-                mostrarSugestoesEstados(valor, 'pf');
+    // Função para carregar os estados do IBGE
+    function carregarEstados() {
+        fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome')
+            .then(response => response.json())
+            .then(data => {
+                estados = data.map(estado => ({
+                    id: estado.id,
+                    nome: estado.nome,
+                    sigla: estado.sigla
+                })); // Armazena IDs, nomes e siglas dos estados
+                console.log('Estados carregados!');
             });
+    }
 
-            // Adicionar evento de input ao campo de cidade para Pessoa Física
-            document.getElementById('cidade-pf').addEventListener('input', function () {
-                const valor = this.value;
-                if (valor.length >= 2) { // Começa a buscar após 2 caracteres
-                    mostrarSugestoesCidades(valor, 'pf');
-                } else {
-                    document.getElementById('sugestoes-cidades-pf').style.display = 'none'; // Ocultar se menos de 2 caracteres
-                }
+    // Função para carregar as cidades do IBGE baseado no estado selecionado
+    function carregarCidades(estadoId, formId) {
+        fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoId}/municipios`)
+            .then(response => response.json())
+            .then(data => {
+                cidades[formId] = data.map(cidade => cidade.nome); // Armazena cidades por formulário
+                console.log('Cidades carregadas para ' + formId);
             });
+    }
 
-            // Adicionar evento de input ao campo de estado para Empresa
-            document.getElementById('estado-empresa').addEventListener('input', function () {
-                const valor = this.value;
-                mostrarSugestoesEstados(valor, 'empresa');
-            });
+    // Função para normalizar a string (remover acentos e converter para minúsculas)
+    function normalizarTexto(texto) {
+        return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
 
-            // Adicionar evento de input ao campo de cidade para Empresa
-            document.getElementById('cidade-empresa').addEventListener('input', function () {
-                const valor = this.value;
-                if (valor.length >= 2) { // Começa a buscar após 2 caracteres
-                    mostrarSugestoesCidades(valor, 'empresa');
-                } else {
-                    document.getElementById('sugestoes-cidades-empresa').style.display = 'none'; // Ocultar se menos de 2 caracteres
-                }
-            });
+    // Função para filtrar e mostrar as sugestões de estados
+    function mostrarSugestoesEstados(valor, formId) {
+        const sugestoesContainer = document.getElementById('sugestoes-estados-' + formId);
+        sugestoesContainer.innerHTML = ''; // Limpa sugestões anteriores
+        const filtro = normalizarTexto(valor);
 
-            // Carregar os estados ao iniciar a página
-            document.addEventListener('DOMContentLoaded', carregarEstados);
-        </script>
+        const sugestoesFiltradas = estados.filter(estado => {
+            const nomeNormalizado = normalizarTexto(estado.nome);
+            const siglaNormalizada = estado.sigla.toLowerCase();
+            return nomeNormalizado.includes(filtro) || siglaNormalizada.includes(filtro);
+        });
 
-        <!-- Campo Funcionarios -->
-        <div class="form-floating mb-3 ms-1 col">
-            <input asp-for="Input.Funcionarios" class="form-control" type="number" placeholder="Funcionarios" />
-            <label asp-for="Input.Funcionarios">Númerio de Funcionarios</label>
-            <span asp-validation-for="Input.Funcionarios" class="text-danger"></span>
-        </div>
-
-    </div>
-
-    @* <!-- Campo Objetivos -->
-    <div class="form-floating mb-3">
-        <textarea asp-for="Input.Objetivos" class="form-control" placeholder="Objetivos"></textarea>
-        <label asp-for="Input.Objetivos">Objetivos Profissionais</label>
-        <span asp-validation-for="Input.Objetivos" class="text-danger"></span>
-    </div> *@
-
-    <!-- Campo Ramo -->
-    <div class="form-floating mb-3">
-    <textarea asp-for="Input.Ramo" class="form-control" placeholder="Ramo"></textarea>
-    <label asp-for="Input.Ramo">Ramo Profissionail</label>
-    <span asp-validation-for="Input.Ramo" class="text-danger"></span>
-    </div> 
-
-    @* <!-- Campo Jornalista -->
-    <div class="form-check mb-3">
-    <input asp-for="Input.Jornalista" class="form-check-input" type="checkbox" value="True" />
-    <label asp-for="Input.Jornalista" class="form-check-label">É Jornalista?</label>
-    <span asp-validation-for="Input.Jornalista" class="text-danger"></span>
-    </div> *@
-
-    @* <!-- Campo CNPJ -->
-    <div class="form-floating mb-3">
-    <input asp-for="Input.CNPJ" class="form-control" placeholder="CNPJ" />
-    <label asp-for="Input.CNPJ">CNPJ</label>
-    <span asp-validation-for="Input.CNPJ" class="text-danger"></span>
-    </div> *@
-
-    <div class="d-flex col-12">
-        <div class="form-floating mb-3 col me-2">
-            <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password"/>
-            <label asp-for="Input.Password">Password</label>
-            <span asp-validation-for="Input.Password" class="text-danger"></span>
-        </div>
-
-        <div class="form-floating mb-3 col ms-2">
-            <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-            <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-        </div>
-    </div>
-    <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-
-
-    <style>
-        #sugestoes-estados-empresa, #sugestoes-cidades-empresa, #sugestoes-estados-pf, #sugestoes-cidades-pf {
-            position: absolute;
-            z-index: 1000;
-            max-height: 200px;
-            overflow-y: auto;
+        // Se o campo de texto estiver vazio, mostra todos os estados
+        if (filtro.length === 0) {
+            sugestoesFiltradas.push(...estados);
         }
-    </style>
 
-</form>
+        if (sugestoesFiltradas.length > 0) {
+            sugestoesFiltradas.forEach(estado => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.textContent = estado.nome + ` (${estado.sigla})`;
+                li.onclick = () => {
+                    document.getElementById('estado-' + formId).value = estado.nome;
+                    sugestoesContainer.style.display = 'none'; // Ocultar sugestões
+                    carregarCidades(estado.id, formId); // Carregar cidades para o estado selecionado
+                    document.getElementById('cidade-' + formId).disabled = false; // Habilitar campo de cidade
+                };
+                sugestoesContainer.appendChild(li);
+            });
+            sugestoesContainer.style.display = 'block'; // Mostrar sugestões
+        } else {
+            sugestoesContainer.style.display = 'none'; // Ocultar se não houver sugestões
+        }
+    }
+
+    // Função para filtrar e mostrar as sugestões de cidades
+    function mostrarSugestoesCidades(valor, formId) {
+        const sugestoesContainer = document.getElementById('sugestoes-cidades-' + formId);
+        sugestoesContainer.innerHTML = ''; // Limpa sugestões anteriores
+        const filtro = normalizarTexto(valor);
+        const sugestoesFiltradas = cidades[formId]?.filter(cidade => normalizarTexto(cidade).includes(filtro)) || []; // Mudança para incluir
+
+        if (sugestoesFiltradas.length > 0) {
+            sugestoesFiltradas.forEach(cidade => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.textContent = cidade;
+                li.onclick = () => {
+                    document.getElementById('cidade-' + formId).value = cidade;
+                    sugestoesContainer.style.display = 'none'; // Ocultar sugestões
+                };
+                sugestoesContainer.appendChild(li);
+            });
+            sugestoesContainer.style.display = 'block'; // Mostrar sugestões
+        } else {
+            sugestoesContainer.style.display = 'none'; // Ocultar se não houver sugestões
+        }
+    }
+
+    // Adicionar evento de input ao campo de estado para Pessoa Física
+    document.getElementById('estado-pf').addEventListener('input', function () {
+        const valor = this.value;
+        mostrarSugestoesEstados(valor, 'pf');
+    });
+
+    // Adicionar evento de input ao campo de cidade para Pessoa Física
+    document.getElementById('cidade-pf').addEventListener('input', function () {
+        const valor = this.value;
+        if (valor.length >= 2) { // Começa a buscar após 2 caracteres
+            mostrarSugestoesCidades(valor, 'pf');
+        } else {
+            document.getElementById('sugestoes-cidades-pf').style.display = 'none'; // Ocultar se menos de 2 caracteres
+        }
+    });
+
+    // Adicionar evento de input ao campo de estado para Empresa
+    document.getElementById('estado-empresa').addEventListener('input', function () {
+        const valor = this.value;
+        mostrarSugestoesEstados(valor, 'empresa');
+    });
+
+    // Adicionar evento de input ao campo de cidade para Empresa
+    document.getElementById('cidade-empresa').addEventListener('input', function () {
+        const valor = this.value;
+        if (valor.length >= 2) { // Começa a buscar após 2 caracteres
+            mostrarSugestoesCidades(valor, 'empresa');
+        } else {
+            document.getElementById('sugestoes-cidades-empresa').style.display = 'none'; // Ocultar se menos de 2 caracteres
+        }
+    });
+
+    // Carregar os estados ao iniciar a página
+    document.addEventListener('DOMContentLoaded', carregarEstados);
+</script>
+
+
+
+<style>
+    #sugestoes-estados-empresa, #sugestoes-cidades-empresa, #sugestoes-estados-pf, #sugestoes-cidades-pf {
+        position: absolute;
+        z-index: 1000;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+</style>
+
 
 <!-- JavaScript para o clique na imagem -->
 <script>
@@ -551,99 +408,7 @@
 
 </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Referências aos formulários
-        var formPf = document.getElementById('registerFormPf');
-        var formEm = document.getElementById('registerFormEm');
-
-        // Função para alternar os formulários com base na seleção
-        function alternarFormularios() {
-            if (document.getElementById('pessoaFisica').checked) {
-                formPf.style.display = 'block'; // Mostrar formulário Pessoa Física
-                formEm.style.display = 'none';  // Ocultar formulário Empresa
-            } else if (document.getElementById('empresa').checked) {
-                formPf.style.display = 'none';  // Ocultar formulário Pessoa Física
-                formEm.style.display = 'block'; // Mostrar formulário Empresa
-            }
-        }
-
-        // Verifica a seleção inicial ao carregar a página
-        alternarFormularios();
-
-        // Adiciona eventos de mudança (change) aos botões de rádio
-        document.getElementById('pessoaFisica').addEventListener('change', alternarFormularios);
-        document.getElementById('empresa').addEventListener('change', alternarFormularios);
-    });
-</script>
-
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Armazenar elementos pelo ID
-        var name = document.getElementById('name');
-        var cpfCNPJ = document.getElementById('cpfCNPJ');
-        var email = document.getElementById('email');
-        var portifolio = document.getElementById('portifolio');
-        var sobre = document.getElementById('sobre');
-        var funcionarios = document.getElementById('funcionarios');
-        var cidade = document.getElementById('cidade');
-        var estado = document.getElementById('estado');
-        var nasciento = document.getElementById('nasciento');
-        var objetivos = document.getElementById('objetivos');
-        var habilidades = document.getElementById('habilidades');
-        var ramo = document.getElementById('ramo');
-        var jornalista = document.getElementById('jornalista');
-        var cnpj = document.getElementById('cnpj');
-        var senha = document.getElementById('senha');
-        var registerSubmit = document.getElementById('registerSubmit');
-
-        // Função para trocar formulário
-        window.trocarFormulario = function (tipo) {
-            let PF = document.getElementById("formCampoPF");
-            let E = document.getElementById("formCampoE");
-
-            if (tipo === 'PF') {
-                PF.classList.remove("bg-black", "text-white");
-                PF.classList.add("bg-white", "text-black");
-                E.classList.remove("bg-white", "text-black");
-                E.classList.add("bg-black", "text-white");
-                formularioPF();
-            } else {
-                E.classList.remove("bg-black", "text-white");
-                E.classList.add("bg-white", "text-black");
-                PF.classList.remove("bg-white", "text-black");
-                PF.classList.add("bg-black", "text-white");
-                formularioE();
-            }
-        };
-
-        if (tipo === 'PF') {
-            // Mostrar campos Pessoa Física
-            cpfCNPJ.classList.remove("d-none");
-            nasciento.classList.remove("d-none");
-            jornalista.classList.remove("d-none");
-            habilidades.classList.remove("d-none");
-
-            // Ocultar campos Empresa
-            cnpj.classList.add("d-none");
-            ramo.classList.add("d-none");
-            funcionarios.classList.add("d-none");
-        } else {
-            // Mostrar campos Empresa
-            cnpj.classList.remove("d-none");
-            ramo.classList.remove("d-none");
-            funcionarios.classList.remove("d-none");
-
-            // Ocultar campos Pessoa Física
-            cpfCNPJ.classList.add("d-none");
-            nasciento.classList.add("d-none");
-            jornalista.classList.add("d-none");
-            habilidades.classList.add("d-none");
-        }
-    });
-</script>
