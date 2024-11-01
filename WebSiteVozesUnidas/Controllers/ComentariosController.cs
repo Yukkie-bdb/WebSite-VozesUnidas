@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using WebSiteVozesUnidas.Data;
 using WebSiteVozesUnidas.Models;
 
@@ -85,11 +86,12 @@ namespace WebSiteVozesUnidas.Controllers
         // POST: Comentarios/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdComentario,Publicacao,comentario,IdPost,IdUsuario")] Comentario comentario)
+        public async Task<IActionResult> Edit(Guid id, [Bind("IdComentario,Publicacao,comentario,IdPost,IdUsuario")] Comentario com, Guid post)
         {
-            if (id != comentario.IdComentario)
+            com.IdComentario = id;
+            if (id != com.IdComentario)
             {
                 return NotFound();
             }
@@ -98,12 +100,12 @@ namespace WebSiteVozesUnidas.Controllers
             {
                 try
                 {
-                    _context.Update(comentario);
+                    _context.Update(com);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ComentarioExists(comentario.IdComentario))
+                    if (!ComentarioExists(com.IdComentario))
                     {
                         return NotFound();
                     }
@@ -112,9 +114,9 @@ namespace WebSiteVozesUnidas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return Redirect($"/Posts/Details/{post}");
             }
-            return View(comentario);
+            return NoContent();
         }
 
         // GET: Comentarios/Delete/5
@@ -138,16 +140,20 @@ namespace WebSiteVozesUnidas.Controllers
         // POST: Comentarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id, string? name, Guid post)
         {
-            var comentario = await _context.Comentarios.FindAsync(id);
-            if (comentario != null)
+            if (name == "Quero Apagar")
             {
-                _context.Comentarios.Remove(comentario);
-            }
+                var comentario = await _context.Comentarios.FindAsync(id);
+                if (comentario != null)
+                {
+                    _context.Comentarios.Remove(comentario);
+                }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
+                return Redirect($"/Posts/Details/{post}");
+            }
+            return NoContent();
         }
 
         private bool ComentarioExists(Guid id)
@@ -156,3 +162,4 @@ namespace WebSiteVozesUnidas.Controllers
         }
     }
 }
+

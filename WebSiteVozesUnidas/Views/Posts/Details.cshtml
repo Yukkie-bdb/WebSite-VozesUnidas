@@ -11,17 +11,41 @@
     {
         ViewBag.comentarios = 0;
     }
+
+    if (ViewBag.ConnectUserId is null)
+    {
+        ViewBag.ConnectUserId = 0;
+    }
+    var ii = 0;
+    if(ViewBag.Likes != null)
+    {
+        foreach (var item in ViewBag.Likes)
+        {
+            if (item.IdPost == Model.IdPost)
+            {
+                ii++;
+            }
+        }
+
+        
+    }
     
+
+    var i = 0;
+    var a = "";
 }
 
 <p class="text-black fw-bold h2 mb-1">@Html.DisplayFor(model => model.Titulo)</p>
 <p class="text-black fw-bold h4 mb-4">Tema: @ViewBag.Categoria</p>
 
-<div class="d-flex justify-content-between my-3">
+@if (ViewBag.ConnectUserId.ToString() == Model.IdUsuario.ToString() || ViewBag.User.Tipo == TipoUsuario.ADM)
+{
+    <div class="d-flex justify-content-between my-3">
+        <a asp-action="Edit" asp-route-id="@Model?.IdPost" class="btn px-5 d-flex align-items-center justify-content-center" style="background-color:#6CAD55;border-radius:0px 25px 25px 0px;"><img src="~/img/edit.png" class="mh-50 h-50 mx-3" /></a>
+        <a data-bs-toggle="modal" data-bs-target="#ModalTrash" class="btn px-5 d-flex align-items-center justify-content-center" style="background-color:#C0245F;border-radius:25px 0px 0px 25px;"><img src="~/img/trash 2.png" class="mh-50 h-50 mx-3" /></a>
+    </div>
+}
 
-    <a asp-action="Edit" asp-route-id="@Model?.IdPost" class="btn px-5 d-flex align-items-center justify-content-center" style="background-color:#6CAD55;border-radius:0px 25px 25px 0px;"><img src="~/img/edit.png" class="mh-50 h-50 mx-3" /></a>
-    <a data-bs-toggle="modal" data-bs-target="#ModalTrash" class="btn px-5 d-flex align-items-center justify-content-center" style="background-color:#C0245F;border-radius:25px 0px 0px 25px;"><img src="~/img/trash 2.png" class="mh-50 h-50 mx-3" /></a>
-</div>
 
 @if (ViewBag.Image != null)
 {
@@ -40,15 +64,34 @@
 
 <p class="text-black fw-bold h5 mb-4">Publicado em: @Html.DisplayFor(model => model.Publicacao)</p>
 
-<form method="post" action="/Posts/Comentar" class="d-flex flex-column">
+<form method="post" action="/Posts/Like" class="d-flex flex-column mb-4">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="IdPost" value="@Model.IdPost" />
+    <button type="submit" class="btn btn-success">Likar</button>
+</form>
+<p class="text-black fw-bold h5 mb-4">Número de Likes: @ii</p>
+
+<form method="post" action="/Posts/Comentar" class="d-flex flex-column mb-4">
     @Html.AntiForgeryToken()
     <input type="hidden" name="IdPost" value="@Model.IdPost" />
     <input type="text" name="comentario" class="w-100 rounded-pill border-1 border-dark bg-white px-4 py-3" placeholder="Adicionar comentário...." />
     <button type="submit" class="d-none">Comentar</button>
 </form>
-
+<div class="d-flex">
+    <form method="post" action="/Posts/Details">
+        <input type="hidden" name="id" value="@Model.IdPost" />
+        <input type="hidden" name="order" value="1" />
+        <button type="submit" class=" bg-white border-1 border-dark">Mais Recentes</button>
+    </form>
+    <form method="post" action="/Posts/Details">
+        <input type="hidden" name="id" value="@Model.IdPost" />
+        <input type="hidden" name="order" value="2" />
+        <button type="submit" class=" bg-white border-1 border-dark">Mais Antigos</button>
+    </form>
+</div>
 @foreach(var item in ViewBag.comentarios)
 {
+    i++;
     @foreach(var user in ViewBag.usuarios)
     {
         if (user.Id == item.IdUsuario)
@@ -60,43 +103,126 @@
     {
         ViewBag.user = new ApplicationUser();
     }
-    <div class="col-12 d-flex my-2">
-        <div class="col-1 ">
-            @if (@ViewBag.user.Foto is null)
-            {
-                <img src="~/img/default.jpg" alt="Foto Usuario" class="mw-100 h-auto rounded-circle" />
+    <div class="col-12 d-flex justify-content-center">
+        <div class="col-10 d-flex my-2">
+            <div class="col-1">
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="col-8">
+                        @if (ViewBag.user.Foto is null)
+                        {
+                            <img src="~/img/default.jpg" alt="Foto Usuario" class="mw-100 h-auto rounded-circle" />
 
+                        }
+                        else
+                        {
+                            <img src="~/img/@ViewBag.user.Foto" alt="Foto Usuario" class="mw-100 h-auto rounded-circle" />
+                        }
+                    </div>
+                </div>
+                
+            </div>
+            @if (ViewBag.ConnectUserId.ToString() == item.IdUsuario.ToString() || User.IsInRole("ADM"))
+            {
+                <div class="col-10">
+                    <div class="d-flex flex-column ms-2 mx-2">
+                        @if (ViewBag.user.UserName is null)
+                        {
+                            <div class="h5 fw-bold ">
+                                Usuario Deletado
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="h5 fw-bold ">
+                                @ViewBag.user.UserName
+                            </div>
+                        }
+
+
+                        <div class="h6 text-secondary overflow-auto py-1">
+                            @item.comentario
+                        </div>
+                    </div>
+                </div>
+                @for (int A = 0; A < i; A++)
+                {
+                    a = a + "a";
+                }
+                <div class="col-1">
+                    <a data-bs-toggle="modal" data-bs-target="#@a" class="btn d-flex align-items-center justify-content-center p-1 rounded-3 bg-primary"><img src="~/img/Edit.png" class="mh-50 h-50 mx-3" /></a>
+                </div>
+
+
+
+                <div class="modal fade" id="@a" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header justify-content-center border-0">
+                                <h5 class="modal-title text-center volt px-5 py-1 fs">Editar</h5>
+                            </div>
+                            <div class="modal-body text-center border-0">
+                                <form method="post" action="/Comentarios/Edit" class="d-flex flex-column justify-content-center align-items-center w-100">
+                                    @Html.AntiForgeryToken()
+                                    <input name="id" value="@item.IdComentario" class="form-control d-none" />
+                                    <input name="IdComentario" value="@item.IdComentario" class="form-control d-none" />
+                                    <input name="Publicacao" value="@item.Publicacao" class="form-control d-none" />
+                                    <input name="comentario" value="@item.comentario" class="form-control" />
+                                    <input name="IdPost" value="@item.IdPost" class="form-control d-none" />
+                                    <input name="IdUsuario" value="@item.IdUsuario" class="form-control d-none" />
+                                    <input type="hidden" name="post" value="@item.IdPost" />
+                                    <button type="submit" class="btn btn-primary text-white w-25 my-2">Editar</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer d-flex flex-column justify-content-center border-0 w-100">
+                                <form method="post" action="/Comentarios/Delete" class="d-flex flex-column justify-content-center align-items-center w-100">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@item.IdComentario" />
+                                    <input type="hidden" name="post" value="@item.IdPost" />
+
+                                    <input type="text" name="name" placeholder="Digite 'Quero Apagar' para apagar o Comentario" class="form-control border-1 border-dark w-100 my-2" />
+                                    <button type="submit" class="btn btn-danger apag text-white w-25 my-2">Deletar</button>
+                                </form>
+                                <button data-bs-dismiss="modal" class="btn volt2 w-25 my-2">Cancelar</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
             else
             {
-                <img src="~/img/@ViewBag.user.Foto" alt="Foto Usuario" class="mw-100 h-auto rounded-circle" />
-            }
-        </div>
+               
+                <div class="col-11">
+                    <div class="d-flex flex-column ms-2 mx-2">
+                        @if (ViewBag.user.UserName is null)
+                        {
+                            <div class="h5 fw-bold ">
+                                Usuario Deletado
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="h5 fw-bold ">
+                                @ViewBag.user.UserName
+                            </div>
+                        }
 
-        <div class="col-11">
-            <div class="d-flex flex-column ms-2">
-                @if (@ViewBag.user.UserName is null)
-                {
-                    <div class="h3 fw-bold">
-                        Usuario Deletado
-                    </div>
-                }
-                else
-                {
-                    <div class="h3 fw-bold">
-                        @ViewBag.user.UserName
-                    </div>
-                }
-                
 
-                <div class="h4 text-secondary">
-                    @item.comentario
+                        <div class="h6 text-secondary overflow-auto py-1">
+                            @item.comentario
+                        </div>
+                    </div>
+
                 </div>
-            </div>
-                
+            }
+
         </div>
     </div>
-   
+
+
+
+
+    
     
 }
 
@@ -123,4 +249,5 @@
         </div>
     </div>
 </div>
+
 

@@ -55,12 +55,21 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: Posts/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(Guid? id, int? order)
         {
             if (id == null)
             {
                 return NotFound();
             }
+
+            var Likes = await _context.LikesPosts.ToListAsync();
+            var lista = new List<LikesPost>();
+            foreach(var item in Likes)
+            {
+                lista.Add(item);
+            }
+            ViewBag.Likes = lista;
+
 
             var post = await _context.Posts.FirstOrDefaultAsync(m => m.IdPost == id);
             ViewBag.Image = post.Imagem;    
@@ -73,29 +82,35 @@ namespace WebSiteVozesUnidas.Controllers
                 }
             }
 
-            var comentarios = await _context.Comentarios.ToListAsync();
-            var comentariosPost = new List<Comentario>();
-
-            foreach(var item in comentarios)
+                    
+            if(order == 1 || order is null)
             {
-                if(item.IdPost == id)
-                {
-                    comentariosPost.Add(item);
-                }
+                    var comentariosPost = await _context.Comentarios
+                .Where(c => c.IdPost == id)
+                .OrderByDescending(c => c.Publicacao)
+                .ToListAsync();
+                ViewBag.Comentarios = comentariosPost;
             }
 
-            ViewBag.Comentarios = comentariosPost;
+            if (order == 2)
+            {
+                var comentariosPost = await _context.Comentarios
+            .Where(c => c.IdPost == id)
+            .OrderBy(c => c.Publicacao)
+            .ToListAsync();
+                ViewBag.Comentarios = comentariosPost;
+            }
+
+            
 
 
             var usuarios = await _context.Users.ToListAsync();
 
             ViewBag.Usuarios = usuarios;
             
+            var userId = _signInManager.UserManager.GetUserId(User);
 
-            ViewBag.Comentarios = comentariosPost;
-
-
-
+            ViewBag.ConnectUserId = userId;
 
             if (post == null)
             {
@@ -130,6 +145,41 @@ namespace WebSiteVozesUnidas.Controllers
             }
             return NoContent();
         }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Like([Bind("IdLikesPost,IdPost,IdUsuario")] LikesPost likesPost)
+        {
+            
+            likesPost.IdUsuario = Guid.Parse(_signInManager.UserManager.GetUserId(User));
+            if (ModelState.IsValid)
+            {
+                var Likes = await _context.LikesPosts.ToListAsync();
+                if(Likes.FirstOrDefault(x => x.IdUsuario == likesPost.IdUsuario && x.IdPost == likesPost.IdPost) != null)
+                {
+                    var Likado = Likes.FirstOrDefault(x => x.IdUsuario == likesPost.IdUsuario && x.IdPost == likesPost.IdPost);
+                    _context.Remove(Likado);
+                    await _context.SaveChangesAsync();
+                    return Redirect($"/Posts/Details/{likesPost.IdPost}");
+                }
+                else
+                {
+                    likesPost.IdLikesPost = Guid.NewGuid();
+                    _context.Add(likesPost);
+                    await _context.SaveChangesAsync();
+                    return Redirect($"/Posts/Details/{likesPost.IdPost}");
+                }
+                
+            }
+            return NoContent();
+        }
+
+
+
+
+
+
 
         // GET: Posts/Create
         public async Task<IActionResult> Create()
@@ -318,6 +368,7 @@ namespace WebSiteVozesUnidas.Controllers
 
             return NoContent();
         }
+
 
         private bool PostExists(Guid id)
         {
