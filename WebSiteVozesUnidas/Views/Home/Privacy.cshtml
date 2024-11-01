@@ -1,6 +1,57 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
 }
-<h1>@ViewData["Title"]</h1>
+<div class="tudo">
+    <h1>Quem somos nós</h1>
+    <p>
+        Somos uma plataforma dedicada à promoção da igualdade de gênero, com a missão de construir
+        uma sociedade mais justa e inclusiva. Oferecemos recursos educacionais, campanhas de conscientização
+        e histórias inspiradoras para capacitar indivíduos e organizações na adoção de práticas inclusivas.
+        Trabalhamos com parceiros globais para desenvolver políticas que promovam a equidade em todas as
+        esferas, desde o ambiente de trabalho até a vida social. Além disso, nosso site proporciona um
+        espaço para diálogos construtivos e aprendizado contínuo, sempre com o objetivo de transformar
+        a igualdade de gênero em uma realidade tangível, onde oportunidades e direitos sejam acessíveis
+        a todos, independentemente de sua identidade de gênero.
+    </p>
+</div>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<h1 class="equipe">Nossa equipe</h1>
+<div class="carousel-wrapper">
+    <div class="carousel-container">
+
+        <div class="carousel-side">
+            <button class="carousel-button prev" onclick="prevImage()">&#10094;</button>
+            <img id="prevImage" class="carousel-image-side prev" src="" alt="Imagem Anterior">
+        </div>
+        <div>
+            <img id="carouselImage" class="carousel-image-central" src="" alt="Imagem Central">
+            <div class="image-info">
+                <div id="imageName" class="image-name">Nome da Imagem</div>
+                <div id="imageDescription" class="image-description">Descrição da Imagem</div>
+            </div>
+        </div>
+        <div class="carousel-side">
+            <img id="nextImage" class="carousel-image-side next" src="" alt="Imagem Próxima">
+            <button class="carousel-button next" onclick="nextImage()">&#10095;</button>
+        </div>
+    </div>
+</div>
+
+<div class="text-container">
+    <p>
+        Nosso site oferece informações, artigos e recursos sobre igualdade de gênero, ajudando indivíduos
+        e organizações a implementar práticas inclusivas. Acreditamos que aumentar a conscientização e
+        compartilhar conhecimento pode inspirar mudanças significativas e duradouras. Com uma abordagem
+        colaborativa, buscamos criar um espaço seguro e acolhedor, onde todos possam aprender, questionar
+        e crescer. Ao aumentar a conscientização e promover o respeito mútuo, trabalhamos para construir
+        um futuro onde oportunidades e direitos sejam igualmente acessíveis a todos, independentemente de gênero.
+    </p>
+
+    <p>
+        Oferecemos um espaço para apoio e discussão, permitindo que as pessoas compartilhem experiências e
+        colaborem para enfrentar desafios comuns. Estamos dedicados a fornecer ferramentas e informações para
+        empoderar nossos visitantes e construir um futuro com igualdade de gênero para todos.
+    </p>
+</div>
