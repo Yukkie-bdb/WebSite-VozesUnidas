@@ -64,29 +64,17 @@
 </p>
 
 <div class="avaliacaoContent" style="display:flex; flex-direction:row; justify-content:center">
-    @if (Model != null && Model.Any(e => e.AvaliacoesEspecialistas != null && e.AvaliacoesEspecialistas.Any()))
-    {
-        foreach (var item in Model.Where(e => e.AvaliacoesEspecialistas != null && e.AvaliacoesEspecialistas.Any()))
+
+        @foreach (var item in ViewBag.Avaliacoes)
         {
             <div style="margin:25px">
-                @* @if (item.Usuario != null && !string.IsNullOrEmpty(item.Usuario.Foto))
-                {
-                    <img src="~/img/01.jpg" class="rounded-circle shadow-1-strong" width="150" height="150" />
-                } *@
-                @*else
-                {
-                    
-                }*@
+                <img src="~/img/0144ab24-cf99-4351-a4dc-48de4cb80acd_x-rede-social.png" class="rounded-circle shadow-1-strong" width="150" height="150" />
             </div>
+                
             <div class="mt-4">
-                <h6 style="text-align:center">Especialista: @item.Nome</h6>
-                @foreach (var avaliacao in item.AvaliacoesEspecialistas)
-                {
-                    <div class="evaluation">
-                        <p style="max-width:500px"><strong>@avaliacao.Usuario.UserName:</strong> @avaliacao.Descricao</p>
-                    </div>
-                }
+                <h6 style="text-align:center">Especialista: @item.Especialistas.Nome</h6>
+                <p style="max-width:500px"><strong>@item.UsuarioId</strong> @item.Descricao</p>
             </div>
         }
-    }
+
 </div>

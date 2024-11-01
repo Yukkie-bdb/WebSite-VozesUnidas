@@ -23,6 +23,9 @@ namespace WebSiteVozesUnidas.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.AvaliacaoEspecialistas.Include(a => a.Especialistas).Include(a => a.Usuario);
+            var avalia = await _context.AvaliacaoEspecialistas.ToListAsync();
+
+            ViewBag.Avaliacoes = avalia;
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -49,8 +52,8 @@ namespace WebSiteVozesUnidas.Controllers
         // GET: AvaliacaoEspecialistas/Create
         public IActionResult Create()
         {
-            ViewData["EspecialistaId"] = new SelectList(_context.Especialistas, "IdEspecialista", "IdEspecialista");
-            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["EspecialistaId"] = new SelectList(_context.Especialistas, "IdEspecialista", "Nome");
+            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "UserName");
             return View();
         }
 
@@ -61,6 +64,7 @@ namespace WebSiteVozesUnidas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdAvaliacaoEspecialhis,Descricao,Estrelas,UsuarioId,EspecialistaId")] AvaliacaoEspecialista avaliacaoEspecialista)
         {
+
             if (ModelState.IsValid)
             {
                 avaliacaoEspecialista.IdAvaliacaoEspecialhis = Guid.NewGuid();
@@ -68,8 +72,8 @@ namespace WebSiteVozesUnidas.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EspecialistaId"] = new SelectList(_context.Especialistas, "IdEspecialista", "IdEspecialista", avaliacaoEspecialista.EspecialistaId);
-            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", avaliacaoEspecialista.UsuarioId);
+            ViewData["EspecialistaId"] = new SelectList(_context.Especialistas, "IdEspecialista", "Nome", avaliacaoEspecialista.EspecialistaId);
+            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "UserName", avaliacaoEspecialista.UsuarioId);
             return View(avaliacaoEspecialista);
         }
 
@@ -86,8 +90,8 @@ namespace WebSiteVozesUnidas.Controllers
             {
                 return NotFound();
             }
-            ViewData["EspecialistaId"] = new SelectList(_context.Especialistas, "IdEspecialista", "IdEspecialista", avaliacaoEspecialista.EspecialistaId);
-            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", avaliacaoEspecialista.UsuarioId);
+            ViewData["EspecialistaId"] = new SelectList(_context.Especialistas, "IdEspecialista", "Nome", avaliacaoEspecialista.EspecialistaId);
+            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "UserName", avaliacaoEspecialista.UsuarioId);
             return View(avaliacaoEspecialista);
         }
 
@@ -123,8 +127,8 @@ namespace WebSiteVozesUnidas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EspecialistaId"] = new SelectList(_context.Especialistas, "IdEspecialista", "IdEspecialista", avaliacaoEspecialista.EspecialistaId);
-            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", avaliacaoEspecialista.UsuarioId);
+            ViewData["EspecialistaId"] = new SelectList(_context.Especialistas, "IdEspecialista", "Nome", avaliacaoEspecialista.EspecialistaId);
+            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "UserName", avaliacaoEspecialista.UsuarioId);
             return View(avaliacaoEspecialista);
         }
 

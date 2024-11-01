@@ -37,10 +37,10 @@
                 @Html.DisplayFor(modelItem => item.Estrelas)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Usuario.Id)
+                @Html.DisplayFor(modelItem => item.Usuario.UserName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Especialistas.IdEspecialista)
+                @Html.DisplayFor(modelItem => item.Especialistas.Nome)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdAvaliacaoEspecialhis">Edit</a> |

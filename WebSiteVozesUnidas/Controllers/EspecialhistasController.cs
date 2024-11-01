@@ -24,11 +24,14 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: Especialista
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             //var especialistas = _context.Especialistas.Include(e => e.AvaliacoesEspecialista).ThenInclude(a => a.Usuario).ToList();
 
             var especialistas = _context.Especialistas.ToList();
+            var avalia = await _context.AvaliacaoEspecialistas.ToListAsync();
+
+            ViewBag.Avaliacoes = avalia;
             return View(especialistas ?? new List<Especialista>());
         }
 
