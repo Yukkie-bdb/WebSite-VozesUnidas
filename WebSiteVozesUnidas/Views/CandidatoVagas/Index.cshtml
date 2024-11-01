@@ -27,7 +27,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdUsuario)
+                @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IdVaga)
@@ -36,10 +36,10 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Where(i => i.IdUsuario.ToString() == userId.ToString())) {
+        @foreach (var item in Model.Where(i => i.Id.ToString() == userId.ToString())) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.IdUsuario)
+                @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdVaga)

@@ -7,7 +7,7 @@
         public string comentario {  get; set; }
         public Guid? IdPost { get; set; }
         public Post? Post { get; set; }
-        public Guid? IdUsuario { get; set; }
+        public Guid? Id { get; set; }
         public ApplicationUser? Usuario { get; set; }
     }
 }

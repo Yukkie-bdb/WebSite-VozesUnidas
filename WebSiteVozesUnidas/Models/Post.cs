@@ -11,7 +11,7 @@ namespace WebSiteVozesUnidas.Models
         public string Conteudo { get; set; }
         public string? Imagem { get; set; }
         public DateTime Publicacao { get; set; }
-        public Guid? IdUsuario { get; set; }
+        public Guid? Id { get; set; }
         public ApplicationUser? Usuario { get; set; }
         public Guid? IdCategoria { get; set; }
         public CategoriaPost? CategoriaPost { get; set; }
@@ -39,7 +39,7 @@ namespace WebSiteVozesUnidas.Models
         public Guid IdLikesPost { get; set; }
         public Guid? IdPost { get; set; }
         public Post? Post { get; set; }
-        public Guid? IdUsuario { get; set; }
+        public Guid? Id { get; set; }
         public ApplicationUser? Usuario { get; set; }
     }
 }

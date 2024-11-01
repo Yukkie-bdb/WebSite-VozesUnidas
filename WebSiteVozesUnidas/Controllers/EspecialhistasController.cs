@@ -11,22 +11,22 @@ using WebSiteVozesUnidas.Models;
 
 namespace WebSiteVozesUnidas.Controllers
 {
-    public class EspecialhistasController : Controller
+    public class EspecialistaController : Controller
     {
         private readonly ApplicationDbContext _context;
         private string _caminho;
 
 
-        public EspecialhistasController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
+        public EspecialistaController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
             _caminho = hostEnvironment.WebRootPath;
         }
 
-        // GET: Especialhistas
+        // GET: Especialista
         public IActionResult Index()
         {
-            //var especialistas = _context.Especialistas.Include(e => e.AvaliacoesEspecialhistas).ThenInclude(a => a.Usuario).ToList();
+            //var especialistas = _context.Especialistas.Include(e => e.AvaliacoesEspecialista).ThenInclude(a => a.Usuario).ToList();
 
             var especialistas = _context.Especialistas.ToList();
             return View(especialistas ?? new List<Especialista>());
@@ -35,7 +35,7 @@ namespace WebSiteVozesUnidas.Controllers
 
 
 
-        // GET: Especialhistas/Details/5
+        // GET: Especialista/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -44,7 +44,7 @@ namespace WebSiteVozesUnidas.Controllers
             }
 
             var especialhista = await _context.Especialistas
-                .FirstOrDefaultAsync(m => m.IdEspecialhista == id);
+                .FirstOrDefaultAsync(m => m.IdEspecialista == id);
             if (especialhista == null)
             {
                 return NotFound();
@@ -53,22 +53,22 @@ namespace WebSiteVozesUnidas.Controllers
             return View(especialhista);
         }
 
-        // GET: Especialhistas/Create
+        // GET: Especialista/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Especialhistas/Create
+        // POST: Especialista/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdEspecialhista,Nome,Telefone,Email,Especialhidade,ImgEspecialista, Usuario")] Especialista especialhista, IFormFile imgUp)
+        public async Task<IActionResult> Create([Bind("IdEspecialista,Nome,Telefone,Email,Especialhidade,ImgEspecialista, Usuario")] Especialista especialhista, IFormFile imgUp)
         {
             if (ModelState.IsValid)
             {
-                especialhista.IdEspecialhista = Guid.NewGuid();
+                especialhista.IdEspecialista = Guid.NewGuid();
                 if (imgUp != null && imgUp.Length > 0)
                 {
                     string uploadsFolder = Path.Combine(_caminho, "img");
@@ -96,7 +96,7 @@ namespace WebSiteVozesUnidas.Controllers
             return View(especialhista);
         }
 
-        // GET: Especialhistas/Edit/5
+        // GET: Especialista/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -112,14 +112,14 @@ namespace WebSiteVozesUnidas.Controllers
             return View(especialhista);
         }
 
-        // POST: Especialhistas/Edit/5
+        // POST: Especialista/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdEspecialhista,Nome,Telefone,Email,Especialhidade,ImgEspecialista, Usuario")] Especialista especialhista, IFormFile imgUp)
+        public async Task<IActionResult> Edit(Guid id, [Bind("IdEspecialista,Nome,Telefone,Email,Especialhidade,ImgEspecialista, Usuario")] Especialista especialhista, IFormFile imgUp)
         {
-            if (id != especialhista.IdEspecialhista)
+            if (id != especialhista.IdEspecialista)
             {
                 return NotFound();
             }
@@ -154,7 +154,7 @@ namespace WebSiteVozesUnidas.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EspecialhistaExists(especialhista.IdEspecialhista))
+                    if (!EspecialistaExists(especialhista.IdEspecialista))
                     {
                         return NotFound();
                     }
@@ -168,7 +168,7 @@ namespace WebSiteVozesUnidas.Controllers
             return View(especialhista);
         }
 
-        // GET: Especialhistas/Delete/5
+        // GET: Especialista/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -177,7 +177,7 @@ namespace WebSiteVozesUnidas.Controllers
             }
 
             var especialhista = await _context.Especialistas
-                .FirstOrDefaultAsync(m => m.IdEspecialhista == id);
+                .FirstOrDefaultAsync(m => m.IdEspecialista == id);
             if (especialhista == null)
             {
                 return NotFound();
@@ -186,7 +186,7 @@ namespace WebSiteVozesUnidas.Controllers
             return View(especialhista);
         }
 
-        // POST: Especialhistas/Delete/5
+        // POST: Especialista/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
@@ -201,9 +201,9 @@ namespace WebSiteVozesUnidas.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EspecialhistaExists(Guid id)
+        private bool EspecialistaExists(Guid id)
         {
-            return _context.Especialistas.Any(e => e.IdEspecialhista == id);
+            return _context.Especialistas.Any(e => e.IdEspecialista == id);
         }
     }
 }

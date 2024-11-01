@@ -54,7 +54,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdLikesPost,IdPost,IdUsuario")] LikesPost likesPost)
+        public async Task<IActionResult> Create([Bind("IdLikesPost,IdPost,Id")] LikesPost likesPost)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdLikesPost,IdPost,IdUsuario")] LikesPost likesPost)
+        public async Task<IActionResult> Edit(Guid id, [Bind("IdLikesPost,IdPost,Id")] LikesPost likesPost)
         {
             if (id != likesPost.IdLikesPost)
             {

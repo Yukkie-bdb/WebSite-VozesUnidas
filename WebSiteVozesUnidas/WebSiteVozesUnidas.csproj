@@ -17,21 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\AvaliacaoEspecialhistas\Create.cshtml" />
-    <None Include="Views\AvaliacaoEspecialhistas\Delete.cshtml" />
-    <None Include="Views\AvaliacaoEspecialhistas\Details.cshtml" />
-    <None Include="Views\AvaliacaoEspecialhistas\Edit.cshtml" />
-    <None Include="Views\AvaliacaoEspecialhistas\Index.cshtml" />
     <None Include="Views\CategoriaMaterials\Create.cshtml" />
     <None Include="Views\CategoriaMaterials\Delete.cshtml" />
     <None Include="Views\CategoriaMaterials\Details.cshtml" />
     <None Include="Views\CategoriaMaterials\Edit.cshtml" />
     <None Include="Views\CategoriaMaterials\Index.cshtml" />
-    <None Include="Views\Especialhistas\Create.cshtml" />
-    <None Include="Views\Especialhistas\Delete.cshtml" />
-    <None Include="Views\Especialhistas\Details.cshtml" />
-    <None Include="Views\Especialhistas\Edit.cshtml" />
-    <None Include="Views\Especialhistas\Index.cshtml" />
     <None Include="Views\MaterialDidatico\Create.cshtml" />
     <None Include="Views\MaterialDidatico\Delete.cshtml" />
     <None Include="Views\MaterialDidatico\Details.cshtml" />

@@ -91,7 +91,7 @@ namespace WebSiteVozesUnidas.Controllers
                 return NotFound();
             }
                 
-            var autor = await _context.Users.FirstOrDefaultAsync(x => x.Id == noticia.IdUsuario);
+            var autor = await _context.Users.FirstOrDefaultAsync(x => x.Id == noticia.Id);
             var userid = _signInManager.UserManager.GetUserId(User);
             var tipo = await _context.Users.FirstOrDefaultAsync(x => x.Id.ToString() == userid);
             if(autor != null)
@@ -132,13 +132,13 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdNoticia,Titulo,Conteudo,Publicacao,IdUsuario")] Noticia noticia, IFormFile imgUp)
+        public async Task<IActionResult> Create([Bind("IdNoticia,Titulo,Conteudo,Publicacao,Id")] Noticia noticia, IFormFile imgUp)
         {
             if (ModelState.IsValid)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 noticia.IdNoticia = Guid.NewGuid();
-                noticia.IdUsuario = Guid.Parse(userId);
+                noticia.Id = Guid.Parse(userId);
                 noticia.Publicacao = DateTime.Now;
                 if (imgUp != null && imgUp.Length > 0)
                 {
@@ -202,7 +202,7 @@ namespace WebSiteVozesUnidas.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdNoticia,Titulo,Imagem,Conteudo,Publicacao,IdUsuario")] Noticia noticia, IFormFile? imgUp)
+        public async Task<IActionResult> Edit(Guid id, [Bind("IdNoticia,Titulo,Imagem,Conteudo,Publicacao,Id")] Noticia noticia, IFormFile? imgUp)
         {
             if (id != noticia.IdNoticia)
             {

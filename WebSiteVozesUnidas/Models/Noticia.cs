@@ -11,7 +11,7 @@ namespace WebSiteVozesUnidas.Models
         
         public string Conteudo { get; set; }
         public DateTime Publicacao { get; set; }
-        public Guid IdUsuario { get; set; }
+        public Guid Id { get; set; }
         public ApplicationUser? Usuario { get; set; }
 
         private string ResumirTexto(string texto, int limiteCaracteres)

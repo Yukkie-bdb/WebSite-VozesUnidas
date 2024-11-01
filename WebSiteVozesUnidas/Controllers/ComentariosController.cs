@@ -54,7 +54,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdComentario,Publicacao,comentario,IdPost,IdUsuario")] Comentario comentario)
+        public async Task<IActionResult> Create([Bind("IdComentario,Publicacao,comentario,IdPost,Id")] Comentario comentario)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdComentario,Publicacao,comentario,IdPost,IdUsuario")] Comentario comentario)
+        public async Task<IActionResult> Edit(Guid id, [Bind("IdComentario,Publicacao,comentario,IdPost,Id")] Comentario comentario)
         {
             if (id != comentario.IdComentario)
             {

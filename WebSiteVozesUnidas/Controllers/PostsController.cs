@@ -107,14 +107,14 @@ namespace WebSiteVozesUnidas.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Comentar([Bind("IdComentario,Publicacao,comentario,IdPost,IdUsuario")] Comentario com)
+        public async Task<IActionResult> Comentar([Bind("IdComentario,Publicacao,comentario,IdPost,Id")] Comentario com)
         {
             if (ModelState.IsValid)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 if(userId != null)
                 {
-                    com.IdUsuario = Guid.Parse(userId);
+                    com.Id = Guid.Parse(userId);
 
                 }
                 else
@@ -156,12 +156,12 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdPost,Titulo,SubTituloResumo,Conteudo,Publicacao,IdUsuario,IdCategoria")] Post post, IFormFile? imgUp)
+        public async Task<IActionResult> Create([Bind("IdPost,Titulo,SubTituloResumo,Conteudo,Publicacao,Id,IdCategoria")] Post post, IFormFile? imgUp)
         {
             if (ModelState.IsValid)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                post.IdUsuario = Guid.Parse(userId);
+                post.Id = Guid.Parse(userId);
                 post.Publicacao = DateTime.Now;
                 post.IdPost = Guid.NewGuid();
                 if (imgUp != null && imgUp.Length > 0)
@@ -222,7 +222,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdPost,Titulo,SubTituloResumo,Conteudo,Imagem,Publicacao,IdUsuario,IdCategoria")] Post post, IFormFile? imgUp)
+        public async Task<IActionResult> Edit(Guid id, [Bind("IdPost,Titulo,SubTituloResumo,Conteudo,Imagem,Publicacao,Id,IdCategoria")] Post post, IFormFile? imgUp)
         {
             if (id != post.IdPost)
             {
