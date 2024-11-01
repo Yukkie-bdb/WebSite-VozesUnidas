@@ -4,12 +4,23 @@
     ViewData["Title"] = "Register";
 }
 
+<script>
+
+</script>
+
 <h1 class="text-center">CADASTRO</h1>
 
 <!-- Campo TipoUsuario -->
 <div class="col-12 d-flex">
-    <button class="bg-black border col-6 text-center text-white" id="formCampoPF">Pessoa Fisica</button>
-    <button class="bg-white border col-6 text-center" id="formCampoE">Empresa</button>
+    <input class="d-none" id="formCampoPF" type="radio" name="tipoUser" checked onchange="trocarCor()">
+    <label for="formCampoPF" class="tipo-label bg-black text-white border col-6 text-center p-3 cursor-pointer">
+        Pessoa Física
+    </label>
+
+    <input class="d-none" id="formCampoE" type="radio" name="tipoUser" onchange="trocarCor()">
+    <label for="formCampoE" class="tipo-label bg-white border col-6 text-center p-3 cursor-pointer">
+        Empresa
+    </label>
 </div>
 
 <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
@@ -37,14 +48,14 @@
             </div>
 
             <!-- Campo CPF -->
-            <div class="form-floating mb-3" id="cpfCNPJ">
+            <div class="form-floating mb-3" id="cpf">
                 <input asp-for="Input.CPF" class="form-control" placeholder="CPF" />
                 <label asp-for="Input.CPF">CPF</label>
                 <span asp-validation-for="Input.CPF" class="text-danger"></span>
             </div>
 
             <!-- Campo CNPJ -->
-            <div class="form-floating mb-3" id="cnpj">
+            <div class="form-floating mb-3 d-none" id="cnpj">
                 <input asp-for="Input.CNPJ" class="form-control" placeholder="CNPJ" />
                 <label asp-for="Input.CNPJ">CNPJ</label>
                 <span asp-validation-for="Input.CNPJ" class="text-danger"></span>
@@ -69,31 +80,33 @@
     </div>
 
     <!-- Campo Sobre -->
-    <div class="form-floating mb-3" id="sobre">
+    <div class="form-floating mb-3 d-none" id="sobre">
         <textarea asp-for="Input.Sobre" class="form-control" placeholder="Sobre"></textarea>
         <label asp-for="Input.Sobre">Sobre</label>
         <span asp-validation-for="Input.Sobre" class="text-danger"></span>
     </div>
 
     <!-- Campo Funcionarios -->
-    <div class="form-floating mb-3" id="funcionarios">
-        <input asp-for="Input.Funcionarios" class="form-control" placeholder="Funcionarios" />
+    <div class="form-floating mb-3 d-none" id="funcionarios">
+        <input asp-for="Input.Funcionarios" class="form-control" value="0" placeholder="Funcionarios" />
         <label asp-for="Input.Funcionarios">Funcionarios</label>
         <span asp-validation-for="Input.Funcionarios" class="text-danger"></span>
     </div>
 
     <!-- Campo ESTADO -->
-    <div class="form-floating mb-3" id="cidade">
-        <input asp-for="Input.Estado" type="text" id="estado-pf" class="form-control" placeholder="Digite um estado" autocomplete="off">
-        <label asp-for="Input.Estado" for="estado-pf">Estado</label>
-        <ul asp-for="Input.Estado" id="sugestoes-estados-pf" class="list-group" style="display: none;"></ul>
+    <div class="form-floating mb-3" id="estado">
+        <select id="estado-pf" class="form-select" onchange="selecionarEstado(this)" placeholder="Selecione um estado">
+            <option value="">Selecione um estado</option>
+        </select>
+        <label for="estado-pf">Estado</label>
     </div>
 
     <!-- Campo CIDADE -->
-    <div class="form-floating mb-3" id="estado">
-        <input type="text" id="cidade-pf" class="form-control" placeholder="Digite uma cidade" disabled autocomplete="off">
+    <div class="form-floating mb-3" id="cidade">
+        <select id="cidade-pf" class="form-select" disabled onchange="selecionarCidade(this)" placeholder="Selecione uma cidade">
+            <option value="">Selecione uma cidade</option>
+        </select>
         <label for="cidade-pf">Cidade</label>
-        <ul id="sugestoes-cidades-pf" class="list-group" style="display: none;"></ul>
     </div>
 
     <!-- Campo Data de Nascimento -->
@@ -136,59 +149,8 @@
         <input type="hidden" id="habilidadesHidden" name="Input.Habilidades" />
     </div>
 
-    <!-- Script para adicionar e gerenciar habilidades -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const addButton = document.getElementById('addHabilidade');
-            const newHabilidadeInput = document.getElementById('newHabilidade');
-            const habilidadesList = document.getElementById('habilidadesList');
-            const habilidadesHidden = document.getElementById('habilidadesHidden');
-
-            addButton.addEventListener('click', function () {
-                const newHabilidade = newHabilidadeInput.value.trim();
-
-                if (newHabilidade) {
-                    // Adiciona a habilidade à lista
-                    const listItem = document.createElement('li');
-                    listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
-
-                    // Adiciona o texto da habilidade
-                    listItem.textContent = newHabilidade;
-
-                    // Cria um botão para remover a habilidade
-                    const removeButton = document.createElement('button');
-                    removeButton.textContent = 'Remover';
-                    removeButton.classList.add('btn', 'btn-danger', 'btn-sm');
-                    removeButton.addEventListener('click', function () {
-                        listItem.remove();
-                        updateHiddenField();
-                    });
-
-                    listItem.appendChild(removeButton);
-                    habilidadesList.appendChild(listItem);
-
-                    // Limpa o campo de entrada
-                    newHabilidadeInput.value = '';
-
-                    // Atualiza o campo oculto
-                    updateHiddenField();
-
-                    // Rola para a última habilidade adicionada
-                    habilidadesContainer.scrollTop = habilidadesContainer.scrollHeight;
-                }
-            });
-
-            function updateHiddenField() {
-                const habilidades = Array.from(habilidadesList.children)
-                    .map(li => li.textContent.replace('Remover', '').trim());
-
-                habilidadesHidden.value = JSON.stringify(habilidades);
-            }
-        });
-    </script>
-
     <!-- Campo Ramo -->
-    <div class="form-floating mb-3" id="ramo">
+    <div class="form-floating mb-3 d-none" id="ramo">
         <textarea asp-for="Input.Ramo" class="form-control" placeholder="Ramo"></textarea>
         <label asp-for="Input.Ramo">Ramo Profissionail</label>
         <span asp-validation-for="Input.Ramo" class="text-danger"></span>
@@ -222,12 +184,14 @@
     .tamanhoH {
         width: 200px
     }
-</style>
 
+    #sugestoes-estados-pf, #sugestoes-cidades-pf, #sugestoes-estados-pf, #sugestoes-cidades-pf {
+        position: absolute;
+        z-index: 1000;
+        max-height: 200px;
+        overflow-y: auto;
+    }
 
-
-
-<style>
     #sugestoes-estados, #sugestoes-cidades {
         position: absolute;
         z-index: 1000;
@@ -236,11 +200,12 @@
     }
 </style>
 
-
-
 <script>
     let estados = [];
     let cidades = {};
+
+    // Carregar os estados ao iniciar a página
+    document.addEventListener('DOMContentLoaded', carregarEstados);
 
     // Função para carregar os estados do IBGE
     function carregarEstados() {
@@ -251,133 +216,62 @@
                     id: estado.id,
                     nome: estado.nome,
                     sigla: estado.sigla
-                })); // Armazena IDs, nomes e siglas dos estados
-                console.log('Estados carregados!');
+                }));
+                preencherSelectEstados();
             });
     }
 
-    // Função para carregar as cidades do IBGE baseado no estado selecionado
-    function carregarCidades(estadoId, formId) {
+    // Preenche o select de estados
+    function preencherSelectEstados() {
+        const selectEstado = document.getElementById('estado-pf');
+        estados.forEach(estado => {
+            const option = document.createElement('option');
+            option.value = estado.id;
+            option.textContent = `${estado.nome} (${estado.sigla})`;
+            selectEstado.appendChild(option);
+        });
+    }
+
+    // Quando um estado é selecionado, carrega as cidades
+    function selecionarEstado(select) {
+        const estadoId = select.value;
+        if (estadoId) {
+            carregarCidades(estadoId);
+            document.getElementById('cidade-pf').disabled = false;
+        } else {
+            document.getElementById('cidade-pf').innerHTML = '<option value="">Selecione uma cidade</option>';
+            document.getElementById('cidade-pf').disabled = true;
+        }
+    }
+
+    // Carrega as cidades do estado selecionado
+    function carregarCidades(estadoId) {
         fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoId}/municipios`)
             .then(response => response.json())
             .then(data => {
-                cidades[formId] = data.map(cidade => cidade.nome); // Armazena cidades por formulário
-                console.log('Cidades carregadas para ' + formId);
+                cidades[estadoId] = data.map(cidade => cidade.nome);
+                preencherSelectCidades(estadoId);
             });
     }
 
-    // Função para normalizar a string (remover acentos e converter para minúsculas)
-    function normalizarTexto(texto) {
-        return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-    }
-
-    // Função para filtrar e mostrar as sugestões de estados
-    function mostrarSugestoesEstados(valor, formId) {
-        const sugestoesContainer = document.getElementById('sugestoes-estados-' + formId);
-        sugestoesContainer.innerHTML = ''; // Limpa sugestões anteriores
-        const filtro = normalizarTexto(valor);
-
-        const sugestoesFiltradas = estados.filter(estado => {
-            const nomeNormalizado = normalizarTexto(estado.nome);
-            const siglaNormalizada = estado.sigla.toLowerCase();
-            return nomeNormalizado.includes(filtro) || siglaNormalizada.includes(filtro);
+    // Preenche o select de cidades com base no estado selecionado
+    function preencherSelectCidades(estadoId) {
+        const selectCidade = document.getElementById('cidade-pf');
+        selectCidade.innerHTML = '<option value="">Selecione uma cidade</option>';
+        cidades[estadoId].forEach(cidade => {
+            const option = document.createElement('option');
+            option.value = cidade;
+            option.textContent = cidade;
+            selectCidade.appendChild(option);
         });
-
-        // Se o campo de texto estiver vazio, mostra todos os estados
-        if (filtro.length === 0) {
-            sugestoesFiltradas.push(...estados);
-        }
-
-        if (sugestoesFiltradas.length > 0) {
-            sugestoesFiltradas.forEach(estado => {
-                const li = document.createElement('li');
-                li.className = 'list-group-item';
-                li.textContent = estado.nome + ` (${estado.sigla})`;
-                li.onclick = () => {
-                    document.getElementById('estado-' + formId).value = estado.nome;
-                    sugestoesContainer.style.display = 'none'; // Ocultar sugestões
-                    carregarCidades(estado.id, formId); // Carregar cidades para o estado selecionado
-                    document.getElementById('cidade-' + formId).disabled = false; // Habilitar campo de cidade
-                };
-                sugestoesContainer.appendChild(li);
-            });
-            sugestoesContainer.style.display = 'block'; // Mostrar sugestões
-        } else {
-            sugestoesContainer.style.display = 'none'; // Ocultar se não houver sugestões
-        }
     }
 
-    // Função para filtrar e mostrar as sugestões de cidades
-    function mostrarSugestoesCidades(valor, formId) {
-        const sugestoesContainer = document.getElementById('sugestoes-cidades-' + formId);
-        sugestoesContainer.innerHTML = ''; // Limpa sugestões anteriores
-        const filtro = normalizarTexto(valor);
-        const sugestoesFiltradas = cidades[formId]?.filter(cidade => normalizarTexto(cidade).includes(filtro)) || []; // Mudança para incluir
-
-        if (sugestoesFiltradas.length > 0) {
-            sugestoesFiltradas.forEach(cidade => {
-                const li = document.createElement('li');
-                li.className = 'list-group-item';
-                li.textContent = cidade;
-                li.onclick = () => {
-                    document.getElementById('cidade-' + formId).value = cidade;
-                    sugestoesContainer.style.display = 'none'; // Ocultar sugestões
-                };
-                sugestoesContainer.appendChild(li);
-            });
-            sugestoesContainer.style.display = 'block'; // Mostrar sugestões
-        } else {
-            sugestoesContainer.style.display = 'none'; // Ocultar se não houver sugestões
-        }
+    // Exemplo de função que pode ser usada ao selecionar uma cidade
+    function selecionarCidade(select) {
+        const cidadeSelecionada = select.value;
+        console.log('Cidade selecionada:', cidadeSelecionada);
     }
-
-    // Adicionar evento de input ao campo de estado para Pessoa Física
-    document.getElementById('estado-pf').addEventListener('input', function () {
-        const valor = this.value;
-        mostrarSugestoesEstados(valor, 'pf');
-    });
-
-    // Adicionar evento de input ao campo de cidade para Pessoa Física
-    document.getElementById('cidade-pf').addEventListener('input', function () {
-        const valor = this.value;
-        if (valor.length >= 2) { // Começa a buscar após 2 caracteres
-            mostrarSugestoesCidades(valor, 'pf');
-        } else {
-            document.getElementById('sugestoes-cidades-pf').style.display = 'none'; // Ocultar se menos de 2 caracteres
-        }
-    });
-
-    // Adicionar evento de input ao campo de estado para Empresa
-    document.getElementById('estado-empresa').addEventListener('input', function () {
-        const valor = this.value;
-        mostrarSugestoesEstados(valor, 'empresa');
-    });
-
-    // Adicionar evento de input ao campo de cidade para Empresa
-    document.getElementById('cidade-empresa').addEventListener('input', function () {
-        const valor = this.value;
-        if (valor.length >= 2) { // Começa a buscar após 2 caracteres
-            mostrarSugestoesCidades(valor, 'empresa');
-        } else {
-            document.getElementById('sugestoes-cidades-empresa').style.display = 'none'; // Ocultar se menos de 2 caracteres
-        }
-    });
-
-    // Carregar os estados ao iniciar a página
-    document.addEventListener('DOMContentLoaded', carregarEstados);
 </script>
-
-
-
-<style>
-    #sugestoes-estados-empresa, #sugestoes-cidades-empresa, #sugestoes-estados-pf, #sugestoes-cidades-pf {
-        position: absolute;
-        z-index: 1000;
-        max-height: 200px;
-        overflow-y: auto;
-    }
-</style>
-
 
 <!-- JavaScript para o clique na imagem -->
 <script>
@@ -406,6 +300,119 @@
     };
 
 
+</script>
+
+<!-- Script para adicionar e gerenciar habilidades -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const addButton = document.getElementById('addHabilidade');
+        const newHabilidadeInput = document.getElementById('newHabilidade');
+        const habilidadesList = document.getElementById('habilidadesList');
+        const habilidadesHidden = document.getElementById('habilidadesHidden');
+
+        addButton.addEventListener('click', function () {
+            const newHabilidade = newHabilidadeInput.value.trim();
+
+            if (newHabilidade) {
+                // Adiciona a habilidade à lista
+                const listItem = document.createElement('li');
+                listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+
+                // Adiciona o texto da habilidade
+                listItem.textContent = newHabilidade;
+
+                // Cria um botão para remover a habilidade
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remover';
+                removeButton.classList.add('btn', 'btn-danger', 'btn-sm');
+                removeButton.addEventListener('click', function () {
+                    listItem.remove();
+                    updateHiddenField();
+                });
+
+                listItem.appendChild(removeButton);
+                habilidadesList.appendChild(listItem);
+
+                // Limpa o campo de entrada
+                newHabilidadeInput.value = '';
+
+                // Atualiza o campo oculto
+                updateHiddenField();
+
+                // Rola para a última habilidade adicionada
+                habilidadesContainer.scrollTop = habilidadesContainer.scrollHeight;
+            }
+        });
+
+        function updateHiddenField() {
+            const habilidades = Array.from(habilidadesList.children)
+                .map(li => li.textContent.replace('Remover', '').trim());
+
+            habilidadesHidden.value = JSON.stringify(habilidades);
+        }
+    });
+</script>
+
+<script>
+    function trocarCor() {
+        var pessoaFisica = document.getElementById("formCampoPF");
+        var empresa = document.getElementById("formCampoE");
+
+        var labelPessoaFisica = document.querySelector("label[for='formCampoPF']");
+        var labelEmpresa = document.querySelector("label[for='formCampoE']");
+
+        let nome = document.getElementById("nome");
+        let cpf = document.getElementById("cpf");
+        let cnpj = document.getElementById("cnpj");
+        let email = document.getElementById("email");
+        let portifolio = document.getElementById("portifolio");
+        let sobre = document.getElementById("sobre");
+        let funcionarios = document.getElementById("funcionarios");
+        let estado = document.getElementById("estado");
+        let cidade = document.getElementById("cidade");
+        let nascimento = document.getElementById("nasciento");
+        let objetivos = document.getElementById("objetivos");
+        let habilidades = document.getElementById("habilidades");
+        let ramo = document.getElementById("ramo");
+        let senha = document.getElementById("senha");
+        
+
+        if (pessoaFisica.checked) {
+            labelPessoaFisica.classList.add("bg-black", "text-white");
+            labelPessoaFisica.classList.remove("bg-white", "text-black");
+
+            labelEmpresa.classList.add("bg-white", "text-black");
+            labelEmpresa.classList.remove("bg-black", "text-white");
+
+            cpf.classList.remove("d-none");
+            nascimento.classList.remove("d-none");
+            objetivos.classList.remove("d-none");
+            habilidades.classList.remove("d-none");
+
+            cnpj.classList.add("d-none");
+            sobre.classList.add("d-none");
+            funcionarios.classList.add("d-none");
+            ramo.classList.add("d-none");
+
+
+        } else {
+            labelEmpresa.classList.add("bg-black", "text-white");
+            labelEmpresa.classList.remove("bg-white", "text-black");
+
+            labelPessoaFisica.classList.add("bg-white", "text-black");
+            labelPessoaFisica.classList.remove("bg-black", "text-white");
+
+            cpf.classList.add("d-none");
+            nascimento.classList.add("d-none");
+            objetivos.classList.add("d-none");
+            habilidades.classList.add("d-none");
+
+            cnpj.classList.remove("d-none");
+            sobre.classList.remove("d-none");
+            funcionarios.classList.remove("d-none");
+            ramo.classList.remove("d-none");
+        }
+    }
 </script>
 
 

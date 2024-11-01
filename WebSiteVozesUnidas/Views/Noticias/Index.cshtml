@@ -34,7 +34,7 @@
 }
 @foreach(var item in Model)
 {
-    if(item.IdUsuario.ToString() == ViewBag.userId.ToString())
+    if(item.Id.ToString() == ViewBag.userId.ToString())
     {
         <a asp-action="Details" asp-route-id="@item.IdNoticia" class="text-decoration-none" style="color: inherit;">
             <div class="d-flex m-md-2 my-4 flex-column flex-md-row">
@@ -64,7 +64,7 @@
 }
 @foreach (var item in Model)
 {
-    if (item.IdUsuario.ToString() != ViewBag.userId.ToString())
+    if (item.Id.ToString() != ViewBag.userId.ToString())
     {
         <a asp-action="Details" asp-route-id="@item.IdNoticia" class="text-decoration-none" style="color: inherit;">
             <div class="d-flex m-2 my-4 flex-column flex-md-row">

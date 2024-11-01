@@ -9,7 +9,7 @@
         ViewBag.UserOk.Tipo = TipoUsuario.PessoaFisica;
     }
 }
-@if (ViewBag.UserOk.Tipo == TipoUsuario.ADM || ViewBag.UserOk.Id == Model.IdUsuario)
+@if (ViewBag.UserOk.Tipo == TipoUsuario.ADM || ViewBag.UserOk.Id == Model.Id)
 {
     <h1 class="d-flex justify-content-center fw-bold my-5">Editar Notícia</h1>
 
@@ -39,9 +39,9 @@
                     <span asp-validation-for="Publicacao" class="text-danger"></span>
                 </div>
                 <div class="form-group d-none">
-                    <label asp-for="IdUsuario" class="control-label"></label>
-                    <input asp-for="IdUsuario" class="form-control" />
-                    <span asp-validation-for="IdUsuario" class="text-danger"></span>
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id" class="form-control" />
+                    <span asp-validation-for="Id" class="text-danger"></span>
                 </div>
                 <div class="form-group my-3 d-flex justify-content-center align-content-center w-100 flex-wrap flex-column ">
                     <input type="submit" value="Salvar" class="btn border-2 bg-white border-dark my-2 w-25  " />

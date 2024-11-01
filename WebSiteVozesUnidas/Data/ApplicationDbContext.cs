@@ -13,7 +13,7 @@ namespace WebSiteVozesUnidas.Data
         }
 
         public DbSet<MidiaSocial> MidiaSocials { get; set; }
-        public DbSet<AvaliacaoEspecialhistas> AvaliacaoEspecialhistas { get; set; }
+        public DbSet<AvaliacaoEspecialista> AvaliacaoEspecialistas { get; set; }
         public DbSet<CandidatoVaga> CandidatoVagas { get; set; }
         public DbSet<CategoriaPost> CategoriaPosts { get; set; }
         public DbSet<Comentario> Comentarios { get; set; }
@@ -34,8 +34,8 @@ namespace WebSiteVozesUnidas.Data
                 .ToTable("tbMidiaSocial")
                 .HasKey(u => u.IdMidiaSocial);
 
-            modelBuilder.Entity<AvaliacaoEspecialhistas>()
-                .ToTable("tbAvaliacaoEspecialhista")
+            modelBuilder.Entity<AvaliacaoEspecialista>()
+                .ToTable("tbAvaliacaoEspecialista")
                 .HasKey(u => u.IdAvaliacaoEspecialhis);
 
             modelBuilder.Entity<CandidatoVaga>()
@@ -52,7 +52,7 @@ namespace WebSiteVozesUnidas.Data
 
             modelBuilder.Entity<Especialista>()
                 .ToTable("tbEspecialista")
-                .HasKey(u => u.IdEspecialhista);
+                .HasKey(u => u.IdEspecialista);
 
             modelBuilder.Entity<LikesPost>()
                 .ToTable("tbLikesPost")

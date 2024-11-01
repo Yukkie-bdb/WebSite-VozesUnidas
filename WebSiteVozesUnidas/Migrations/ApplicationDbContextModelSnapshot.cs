@@ -266,7 +266,7 @@ namespace WebSiteVozesUnidas.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("WebSiteVozesUnidas.Models.AvaliacaoEspecialhistas", b =>
+            modelBuilder.Entity("WebSiteVozesUnidas.Models.AvaliacaoEspecialista", b =>
                 {
                     b.Property<Guid>("IdAvaliacaoEspecialhis")
                         .ValueGeneratedOnAdd()
@@ -276,10 +276,7 @@ namespace WebSiteVozesUnidas.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("EspecialhistaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("EspecialistaIdEspecialhista")
+                    b.Property<Guid>("EspecialistaId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Estrelas")
@@ -290,11 +287,11 @@ namespace WebSiteVozesUnidas.Migrations
 
                     b.HasKey("IdAvaliacaoEspecialhis");
 
-                    b.HasIndex("EspecialistaIdEspecialhista");
+                    b.HasIndex("EspecialistaId");
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("tbAvaliacaoEspecialhista", (string)null);
+                    b.ToTable("tbAvaliacaoEspecialista", (string)null);
                 });
 
             modelBuilder.Entity("WebSiteVozesUnidas.Models.CandidatoVaga", b =>
@@ -303,7 +300,7 @@ namespace WebSiteVozesUnidas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("IdUsuario")
+                    b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("IdVaga")
@@ -379,10 +376,10 @@ namespace WebSiteVozesUnidas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("IdPost")
+                    b.Property<Guid?>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("IdUsuario")
+                    b.Property<Guid?>("IdPost")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("PostIdPost")
@@ -409,7 +406,7 @@ namespace WebSiteVozesUnidas.Migrations
 
             modelBuilder.Entity("WebSiteVozesUnidas.Models.Especialista", b =>
                 {
-                    b.Property<Guid>("IdEspecialhista")
+                    b.Property<Guid>("IdEspecialista")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -432,12 +429,7 @@ namespace WebSiteVozesUnidas.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("UsuarioId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("IdEspecialhista");
-
-                    b.HasIndex("UsuarioId");
+                    b.HasKey("IdEspecialista");
 
                     b.ToTable("tbEspecialista", (string)null);
                 });
@@ -448,10 +440,10 @@ namespace WebSiteVozesUnidas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("IdPost")
+                    b.Property<Guid?>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("IdUsuario")
+                    b.Property<Guid?>("IdPost")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("PostIdPost")
@@ -536,7 +528,7 @@ namespace WebSiteVozesUnidas.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("IdUsuario")
+                    b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Imagem")
@@ -572,10 +564,10 @@ namespace WebSiteVozesUnidas.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("IdCategoria")
+                    b.Property<Guid?>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("IdUsuario")
+                    b.Property<Guid?>("IdCategoria")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Imagem")
@@ -712,19 +704,21 @@ namespace WebSiteVozesUnidas.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebSiteVozesUnidas.Models.AvaliacaoEspecialhistas", b =>
+            modelBuilder.Entity("WebSiteVozesUnidas.Models.AvaliacaoEspecialista", b =>
                 {
-                    b.HasOne("WebSiteVozesUnidas.Models.Especialista", "Especialista")
-                        .WithMany("AvaliacoesEspecialhistas")
-                        .HasForeignKey("EspecialistaIdEspecialhista");
+                    b.HasOne("WebSiteVozesUnidas.Models.Especialista", "Especialistas")
+                        .WithMany("AvaliacoesEspecialistas")
+                        .HasForeignKey("EspecialistaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebSiteVozesUnidas.Models.ApplicationUser", "Usuario")
-                        .WithMany("AvaliacoesEspecialhistas")
+                        .WithMany("AvaliacoesEspecialista")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Especialista");
+                    b.Navigation("Especialistas");
 
                     b.Navigation("Usuario");
                 });
@@ -766,15 +760,6 @@ namespace WebSiteVozesUnidas.Migrations
                         .HasForeignKey("UsuarioId");
 
                     b.Navigation("Post");
-
-                    b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("WebSiteVozesUnidas.Models.Especialista", b =>
-                {
-                    b.HasOne("WebSiteVozesUnidas.Models.ApplicationUser", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId");
 
                     b.Navigation("Usuario");
                 });
@@ -849,7 +834,7 @@ namespace WebSiteVozesUnidas.Migrations
 
             modelBuilder.Entity("WebSiteVozesUnidas.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("AvaliacoesEspecialhistas");
+                    b.Navigation("AvaliacoesEspecialista");
 
                     b.Navigation("CandidatoVagas");
 
@@ -880,7 +865,7 @@ namespace WebSiteVozesUnidas.Migrations
 
             modelBuilder.Entity("WebSiteVozesUnidas.Models.Especialista", b =>
                 {
-                    b.Navigation("AvaliacoesEspecialhistas");
+                    b.Navigation("AvaliacoesEspecialistas");
                 });
 
             modelBuilder.Entity("WebSiteVozesUnidas.Models.Post", b =>

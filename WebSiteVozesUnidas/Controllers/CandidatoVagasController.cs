@@ -63,14 +63,14 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCandidatoVaga,IdUsuario,IdVaga")] CandidatoVaga candidatoVaga)
+        public async Task<IActionResult> Create([Bind("IdCandidatoVaga,Id,IdVaga")] CandidatoVaga candidatoVaga)
         {
             if (ModelState.IsValid)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 candidatoVaga.IdCandidatoVaga = Guid.NewGuid();
-                candidatoVaga.IdUsuario = Guid.Parse(userId);
+                candidatoVaga.Id = Guid.Parse(userId);
 
                 _context.Add(candidatoVaga);
                 await _context.SaveChangesAsync();
@@ -100,7 +100,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdCandidatoVaga,IdUsuario,IdVaga")] CandidatoVaga candidatoVaga)
+        public async Task<IActionResult> Edit(Guid id, [Bind("IdCandidatoVaga,Id,IdVaga")] CandidatoVaga candidatoVaga)
         {
             if (id != candidatoVaga.IdCandidatoVaga)
             {

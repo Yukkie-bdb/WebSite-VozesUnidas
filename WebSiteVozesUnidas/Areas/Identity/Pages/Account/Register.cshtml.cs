@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using WebSiteVozesUnidas.Models;
 
 namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account
@@ -105,12 +106,11 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account
             [Display(Name = "Sobre o Usuário")]
             public string Sobre { get; set; }
 
-            [Required]
-            [Display(Name = "Tipo de Usuário")]
-            public TipoUsuario Tipo { get; set; }
+            //[Display(Name = "Tipo de Usuário")]
+            //public TipoUsuario Tipo { get; set; }
 
-            [Display(Name = "Mídias Sociais")]
-            public List<MidiaSocial> MidiaSocials { get; set; } = new List<MidiaSocial>();
+            //[Display(Name = "Mídias Sociais")]
+            //public List<MidiaSocial> MidiaSocials { get; set; } = new List<MidiaSocial>();
 
             // Propriedades específicas para PessoaFisica
             [Display(Name = "CPF")]
@@ -125,8 +125,8 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account
             [Display(Name = "Objetivos Profissionais")]
             public string Objetivos { get; set; }
 
-            [Display(Name = "É Jornalista?")]
-            public bool Jornalista { get; set; }
+            //[Display(Name = "É Jornalista?")]
+            //public bool Jornalista { get; set; }
 
             // Propriedades específicas para Empresa
             [Display(Name = "CNPJ")]
@@ -163,18 +163,20 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account
 
                 user.Foto = Input.Foto;
                 user.Sobre = Input.Sobre;
-                user.Tipo = Input.Tipo;
+                //user.Tipo = Input.Tipo;
                 user.CPF = Input.CPF;
                 user.Nascimento = Input.Nascimento;
                 user.Ramo = Input.Ramo;
-                user.Funcionarios = Input.Funcionarios;
+                user.Funcionarios = Input.Funcionarios != 0 ? Input.Funcionarios : user.Funcionarios;
                 user.Portifolio = Input.Portifolio;
                 user.Cidade = Input.Cidade;
                 user.Estado = Input.Estado;
                 user.Habilidades = Input.Habilidades;
                 user.Objetivos = Input.Objetivos;
-                user.Jornalista = Input.Jornalista;
+                //user.Jornalista = Input.Jornalista;
                 user.CNPJ = Input.CNPJ;
+                user.Estado = Input.Estado;
+                user.Cidade = Input.Cidade;
 
                 if (imgUp != null && imgUp.Length > 0)
                 {

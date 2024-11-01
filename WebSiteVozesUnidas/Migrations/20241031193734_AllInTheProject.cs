@@ -217,7 +217,7 @@ namespace WebSiteVozesUnidas.Migrations
                 name: "tbEspecialista",
                 columns: table => new
                 {
-                    IdEspecialhista = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IdEspecialista = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ImgEspecialista = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Telefone = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -227,7 +227,7 @@ namespace WebSiteVozesUnidas.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tbEspecialista", x => x.IdEspecialhista);
+                    table.PrimaryKey("PK_tbEspecialista", x => x.IdEspecialista);
                     table.ForeignKey(
                         name: "FK_tbEspecialista_AspNetUsers_UsuarioId",
                         column: x => x.UsuarioId,
@@ -264,7 +264,7 @@ namespace WebSiteVozesUnidas.Migrations
                     Imagem = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Conteudo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Publicacao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
@@ -338,7 +338,7 @@ namespace WebSiteVozesUnidas.Migrations
                     Conteudo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Imagem = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Publicacao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IdCategoria = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CategoriaPostIdCategoriaPost = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
@@ -359,30 +359,30 @@ namespace WebSiteVozesUnidas.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "tbAvaliacaoEspecialhista",
+                name: "tbAvaliacaoEspecialista",
                 columns: table => new
                 {
                     IdAvaliacaoEspecialhis = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Estrelas = table.Column<int>(type: "int", nullable: false),
                     UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EspecialhistaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EspecialistaIdEspecialhista = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    EspecialistaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EspecialistaIdEspecialista = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tbAvaliacaoEspecialhista", x => x.IdAvaliacaoEspecialhis);
+                    table.PrimaryKey("PK_tbAvaliacaoEspecialista", x => x.IdAvaliacaoEspecialhis);
                     table.ForeignKey(
-                        name: "FK_tbAvaliacaoEspecialhista_AspNetUsers_UsuarioId",
+                        name: "FK_tbAvaliacaoEspecialista_AspNetUsers_UsuarioId",
                         column: x => x.UsuarioId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_tbAvaliacaoEspecialhista_tbEspecialista_EspecialistaIdEspecialhista",
-                        column: x => x.EspecialistaIdEspecialhista,
+                        name: "FK_tbAvaliacaoEspecialista_tbEspecialista_EspecialistaIdEspecialista",
+                        column: x => x.EspecialistaIdEspecialista,
                         principalTable: "tbEspecialista",
-                        principalColumn: "IdEspecialhista");
+                        principalColumn: "IdEspecialista");
                 });
 
             migrationBuilder.CreateTable(
@@ -390,7 +390,7 @@ namespace WebSiteVozesUnidas.Migrations
                 columns: table => new
                 {
                     IdCandidatoVaga = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IdUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IdVaga = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     VagasEmpregoIdVagaEmprego = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
@@ -419,7 +419,7 @@ namespace WebSiteVozesUnidas.Migrations
                     comentario = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdPost = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     PostIdPost = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    IdUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
@@ -444,7 +444,7 @@ namespace WebSiteVozesUnidas.Migrations
                     IdLikesPost = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdPost = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     PostIdPost = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    IdUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
@@ -502,13 +502,13 @@ namespace WebSiteVozesUnidas.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tbAvaliacaoEspecialhista_EspecialistaIdEspecialhista",
-                table: "tbAvaliacaoEspecialhista",
-                column: "EspecialistaIdEspecialhista");
+                name: "IX_tbAvaliacaoEspecialista_EspecialistaIdEspecialista",
+                table: "tbAvaliacaoEspecialista",
+                column: "EspecialistaIdEspecialista");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tbAvaliacaoEspecialhista_UsuarioId",
-                table: "tbAvaliacaoEspecialhista",
+                name: "IX_tbAvaliacaoEspecialista_UsuarioId",
+                table: "tbAvaliacaoEspecialista",
                 column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
@@ -601,7 +601,7 @@ namespace WebSiteVozesUnidas.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "tbAvaliacaoEspecialhista");
+                name: "tbAvaliacaoEspecialista");
 
             migrationBuilder.DropTable(
                 name: "tbCandidatosJornalistas");
