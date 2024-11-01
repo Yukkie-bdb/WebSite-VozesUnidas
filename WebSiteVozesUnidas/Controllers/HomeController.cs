@@ -21,48 +21,50 @@ namespace WebSiteVozesUnidas.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return RedirectToAction("Index", "Noticias");
-            }
+            //var user = await _userManager.GetUserAsync(User);
+            //if (user == null)
+            //{
+            //    return RedirectToAction("Index", "Noticias");
+            //}
 
-            var model = new UserDebugViewModel
-            {
-                // Campos padrão do Identity
-                Id = user.Id,
-                UserName = user.UserName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                EmailConfirmed = user.EmailConfirmed,
+            //var model = new UserDebugViewModel
+            //{
+            //    // Campos padrão do Identity
+            //    Id = user.Id,
+            //    UserName = user.UserName,
+            //    Email = user.Email,
+            //    PhoneNumber = user.PhoneNumber,
+            //    EmailConfirmed = user.EmailConfirmed,
 
-                // Campos personalizados de ApplicationUser
-                Foto = user.Foto,
-                Sobre = user.Sobre,
-                Portifolio = user.Portifolio,
-                Tipo = user.Tipo,
-                MidiaSocials = user.MidiaSocials,
-                Estado = user.Estado,
-                Cidade = user.Cidade,
-                CPF = user.CPF,
-                Nascimento = user.Nascimento,
-                Habilidades = user.Habilidades,
-                Objetivos = user.Objetivos,
-                Jornalista = user.Jornalista,
-                CNPJ = user.CNPJ,
-                Ramo = user.Ramo,
-                Funcionarios = user.Funcionarios,
-                Noticias = user.Noticias,
-                AvaliacoesEspecialista = user.AvaliacoesEspecialista,
-                Posts = user.Posts,
-                Comentarios = user.Comentarios,
-                LikesPosts = user.LikesPosts,
-                CandidatoVagas = user.CandidatoVagas,
-                VagaEmpregos = user.VagaEmpregos,
-                CandidatosJornalistass = user.CandidatosJornalistass
-            };
+            //    // Campos personalizados de ApplicationUser
+            //    Foto = user.Foto,
+            //    Sobre = user.Sobre,
+            //    Portifolio = user.Portifolio,
+            //    Tipo = user.Tipo,
+            //    MidiaSocials = user.MidiaSocials,
+            //    Estado = user.Estado,
+            //    Cidade = user.Cidade,
+            //    CPF = user.CPF,
+            //    Nascimento = user.Nascimento,
+            //    Habilidades = user.Habilidades,
+            //    Objetivos = user.Objetivos,
+            //    Jornalista = user.Jornalista,
+            //    CNPJ = user.CNPJ,
+            //    Ramo = user.Ramo,
+            //    Funcionarios = user.Funcionarios,
+            //    Noticias = user.Noticias,
+            //    AvaliacoesEspecialista = user.AvaliacoesEspecialista,
+            //    Posts = user.Posts,
+            //    Comentarios = user.Comentarios,
+            //    LikesPosts = user.LikesPosts,
+            //    CandidatoVagas = user.CandidatoVagas,
+            //    VagaEmpregos = user.VagaEmpregos,
+            //    CandidatosJornalistass = user.CandidatosJornalistass
+            //};
 
-            return View(model);
+            //return View(model);
+
+            return View();
         }
 
         public IActionResult Privacy()

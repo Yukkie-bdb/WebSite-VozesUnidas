@@ -5,10 +5,10 @@
     ViewData["Title"] = "Home Page";
 }
 
-@Html.Partial("_Register", new RegisterModelSimples())
+@* @Html.Partial("_Register", new RegisterModelSimples())
+ *@
 
-
-@model WebSiteVozesUnidas.ViewModels.UserDebugViewModel
+@* @model WebSiteVozesUnidas.ViewModels.UserDebugViewModel
 
 <h1>Informações do Usuário Logado</h1>
 
@@ -50,3 +50,128 @@
         <li><strong>Número de Funcionários:</strong> @Model.Funcionarios</li>
     }
 </ul>
+ *@
+
+        @* VERSAO BOA *@
+
+<div class="container">
+    <div class="text">
+        <h2>Futuro do Mundo</h2>
+        <p>
+            O futuro do mundo será mais inclusivo e equitativo através de iniciativas que promovem a igualdade de gênero, garantindo que todas as pessoas, independentemente de seu gênero, tenham as mesmas oportunidades e direitos.
+        </p>
+
+        <div class="button-container">
+            <button class="alert-button" onclick="openModal()">OBJETIVO</button>
+        </div>
+    </div>
+
+    <div class="image">
+        <img src="img/legal.webp" alt="Exemplo de imagem">
+    </div>
+</div>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <h4 class="opa">PRINCIPAL OBJETIVO</h4>
+        <p class="fafas">O objetivo principal do nosso projeto é a criação de um site dedicado a promover a igualdade de gênero. Reconhecemos que, apesar dos avanços significativos ao longo das últimas décadas, ainda existem desigualdades substanciais entre homens e mulheres em diversas áreas, como mercado de trabalho, educação, política e direitos sociais</p>
+        <button class="close-button" onclick="closeModal()">Voltar</button>
+    </div>
+</div>
+
+<h1 class="fonte">Nossos Valores</h1>
+
+<div class="card-container">
+    <div class="card" onclick="flipCard(this)">
+        <div class="card-inner">
+            <div class="card-front">
+                <img src="~/img/resultado.png" alt="Imagem 1" class="img-card1">
+            </div>
+            <div class="card-back">
+                PROGRESSO
+            </div>
+        </div>
+    </div>
+
+    <div class="card" onclick="flipCard(this)">
+        <div class="card-inner">
+            <div class="card-front">
+                <img src="~/img/segurança.png" alt="Imagem 2" class="img-card2">
+            </div>
+            <div class="card-back">
+                SEGURANÇA
+            </div>
+        </div>
+    </div>
+
+    <div class="card" onclick="flipCard(this)">
+        <div class="card-inner">
+            <div class="card-front">
+                <img src="~/img/objetivo.jpg" alt="Imagem 3" class="img-card3">
+            </div>
+            <div class="card-back">
+                CERTEIROS
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<h1 class="bungas">Entenda nossas soluções</h1>
+<p class="kleber">
+    O site deve oferecer informações práticas e exemplos concretos de como a
+    igualdade de gênero pode ser implementada no cotidiano, tanto no ambiente
+    de trabalho quanto na vida pessoal. Recursos como guias, artigos e ferramentas
+    interativas podem ilustrar como políticas inclusivas beneficiam a todos, promovendo
+    um ambiente mais justo e produtivo. Além disso, depoimentos e histórias de sucesso
+    podem ajudar o público a se conectar emocionalmente e visualizar o impacto positivo das mudanças sugeridas.
+</p>
+
+
+<div class="boa">
+    <h1>Para quem são nossas soluções</h1>
+
+    <div class="layout-container">
+        <div class="info-box">
+            <div class="icon-large">🙋‍♂️</div>
+            <h2>Homens</h2>
+            <div class="button-group">
+                <button>Estereótipos </button>
+                <button>Sub-representação</button>
+                <button>Pressão financeira</button>
+            </div>
+            <p>
+                Homens têm um papel crucial na promoção da igualdade de gênero. Ao apoiar políticas
+                e práticas inclusivas, eles ajudam a construir ambientes de trabalho e comunidades
+                mais justas para todos. Ser um defensor da igualdade de gênero significa reconhecer
+                que as oportunidades e os direitos devem ser acessíveis a todos, independentemente
+                de gênero. Além disso, homens que se envolvem nessa causa contribuem para um futuro
+                mais equilibrado, onde a colaboração, o respeito mútuo e a diversidade criam benefícios
+                não só para as mulheres, mas para toda a sociedade. A igualdade de gênero também
+                desafia estereótipos prejudiciais que limitam as expectativas e os papéis masculinos,
+                promovendo um espaço onde os homens possam viver de forma mais autêntica e plena.
+            </p>
+        </div>
+
+        <div class="info-box">
+            <div class="icon-large">🙋‍♀️</div>
+            <h2>Mulheres</h2>
+            <div class="button-group">
+                <button>Desigualdade salarial </button>
+                <button>Sub-representação</button>
+                <button>Violência</button>
+            </div>
+            <p>
+                A igualdade de gênero é fundamental para que as mulheres possam alcançar seu pleno
+                potencial em todas as áreas da vida. Ser parte desse movimento significa lutar por
+                oportunidades justas, respeito e representação em espaços onde sua voz pode trazer
+                mudanças reais. O empoderamento feminino é um dos pilares dessa luta, permitindo que
+                mulheres de todas as origens ocupem seus lugares de direito na sociedade, sem limitações
+                impostas por preconceitos de gênero. Ao se engajar com a igualdade de gênero, você está
+                ajudando a criar um mundo mais justo e inclusivo, onde as mulheres podem viver sem
+                barreiras e conquistar os direitos e oportunidades que merecem.
+            </p>
+        </div>
+    </div>
+
+</div>
