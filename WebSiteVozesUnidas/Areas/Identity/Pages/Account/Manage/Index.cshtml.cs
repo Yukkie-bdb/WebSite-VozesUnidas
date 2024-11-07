@@ -9,8 +9,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.CodeAnalysis.Elfie.Model;
 using Microsoft.Extensions.Hosting;
 using NuGet.Packaging;
+using SQLitePCL;
+using WebSiteVozesUnidas.Data;
 using WebSiteVozesUnidas.Models;
 
 namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
@@ -19,13 +22,16 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationDbContext _context;
         private string _caminho;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IWebHostEnvironment hostEnvironment)
+            IWebHostEnvironment hostEnvironment,
+            ApplicationDbContext context)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _caminho = hostEnvironment.WebRootPath;
@@ -71,18 +77,22 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
             public bool Jornalista { get; set; }
             public string CPF { get; set; }
             public string CNPJ { get; set; }
+            public int Funcionarios { get; set; }
+            public List<VagaEmprego> Vagas { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
         {
-            var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            //var userName = await _userManager.GetUserNameAsync(user);
+            //var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
-            Username = userName;
+            user = await _userManager.GetUserAsync(User);
+
+            Username = user.UserName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber,
+                PhoneNumber = user.PhoneNumber,
                 Foto = user.Foto,
                 Nome = user.UserName,
                 Email = user.Email,
@@ -95,6 +105,8 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
                 CPF = user.CPF,
                 CNPJ = user.CNPJ
             };
+
+            Input.Vagas = _context.VagaEmpregos.Where(a => a.UsuarioId == user.Id).ToList();
         }
 
         public async Task<IActionResult> OnGetAsync()
