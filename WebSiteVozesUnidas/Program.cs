@@ -102,10 +102,25 @@ internal class Program
                 user.Ramo = "Tecnologia";
                 user.Funcionarios = 50;
                 user.Portifolio = "https://portifolio.com/admin";
-                user.Cidade = "São Paulo";
+                user.Cidade = "Sï¿½o Paulo";
                 user.Estado = "SP";
-                user.Habilidades = new List<string> { "Gerenciamento de Projetos", "Programação", "Liderança" };
-                user.Objetivos = "Aprimorar as competências em liderança e inovação";
+                user.Habilidades = new List<string> { "Gerenciamento de Projetos", "Programaï¿½ï¿½o", "Lideranï¿½a" };
+                user.Objetivos = "Aprimorar as competï¿½ncias em lideranï¿½a e inovaï¿½ï¿½o";
+                user.CNPJ = "12.345.678/0001-99";
+
+                user.Email = email;
+                user.UserName = email;
+                user.Foto = foto;
+                user.Sobre = "Admin";
+                user.CPF = "123123";
+                user.Nascimento = new DateOnly(1985, 5, 20);
+                user.Ramo = "Tecnologia";
+                user.Funcionarios = 50;
+                user.Portifolio = "https://portifolio.com/admin";
+                user.Cidade = "SÃ£o Paulo";
+                user.Estado = "SP";
+                user.Habilidades = new List<string> { "Gerenciamento de Projetos", "ProgramaÃ§Ã£o", "LideranÃ§a" };
+                user.Objetivos = "Aprimorar as competÃªncias em lideranÃ§a e inovaÃ§Ã£o";
                 user.CNPJ = "12.345.678/0001-99";
 
                 await userManager.CreateAsync(user, senha);

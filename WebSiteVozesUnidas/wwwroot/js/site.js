@@ -31,61 +31,57 @@ function trocarElementos(categoria, btn) {
     }
 }
 
-/*const images = [
-    { src: 'img/jean.jpg', name: 'CEO', description: 'renato augusto' },
-    { src: 'img/luis.jpg', name: 'MESTRE DO MAR', description: 'renato teixeira' },
-    { src: 'img/henrique.webp', name: 'JOGADOR', description: 'ronaldo' },
-    { src: 'img/erick.jpg', name: 'PONTA', description: 'renan' },
-    { src: 'img/pessoa03.jpg', name: 'ESQUERDA', description: 'lula' }
+//const images = [
+//    { src: 'img/jean.jpg', name: 'CEO', description: 'renato augusto' },
+//    { src: 'img/luis.jpg', name: 'MESTRE DO MAR', description: 'renato teixeira' },
+//    { src: 'img/henrique.webp', name: 'JOGADOR', description: 'ronaldo' },
+//    { src: 'img/erick.jpg', name: 'PONTA', description: 'renan' },
+//    { src: 'img/pessoa03.jpg', name: 'ESQUERDA', description: 'lula' }
 
-];
+//];
 
-let currentImageIndex = 0;
-const imageElement = document.getElementById('carouselImage');
-const prevImageElement = document.getElementById('prevImage');
-const nextImageElement = document.getElementById('nextImage');
-const imageNameElement = document.getElementById('imageName');
-const imageDescriptionElement = document.getElementById('imageDescription');
+//let currentImageIndex = 0;
+//const imageElement = document.getElementById('carouselImage');
+//const prevImageElement = document.getElementById('prevImage');
+//const nextImageElement = document.getElementById('nextImage');
+//const imageNameElement = document.getElementById('imageName');
+//const imageDescriptionElement = document.getElementById('imageDescription');
 
-function showImage(index) {
-    const prevIndex = (index - 1 + images.length) % images.length;
-    const nextIndex = (index + 1) % images.length;
+//function showImage(index) {
+//    const prevIndex = (index - 1 + images.length) % images.length;
+//    const nextIndex = (index + 1) % images.length;
 
-    imageElement.src = images[index].src;
-    prevImageElement.src = images[prevIndex].src;
-    nextImageElement.src = images[nextIndex].src;
-    imageNameElement.textContent = images[index].name;
-    imageDescriptionElement.textContent = images[index].description;
-}
+//    imageElement.src = images[index].src;
+//    prevImageElement.src = images[prevIndex].src;
+//    nextImageElement.src = images[nextIndex].src;
+//    imageNameElement.textContent = images[index].name;
+//    imageDescriptionElement.textContent = images[index].description;
+//}
 
-function nextImage() {
-    currentImageIndex = (currentImageIndex + 1) % images.length;
-    showImage(currentImageIndex);
-}
+//function nextImage() {
+//    currentImageIndex = (currentImageIndex + 1) % images.length;
+//    showImage(currentImageIndex);
+//}
 
-function prevImage() {
-    currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-    showImage(currentImageIndex);
-}
+//function prevImage() {
+//    currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+//    showImage(currentImageIndex);
+//}
 
-document.addEventListener("DOMContentLoaded", function () {
-    showImage(currentImageIndex);
-});
-
-
-
-function openModal() {
-    document.getElementById("myModal").style.display = "flex";
-}
-
-function closeModal() {
-    document.getElementById("myModal").style.display = "none";
-}
-
-function flipCard(cardElement) {
-    cardElement.querySelector('.card-inner').classList.toggle('is-flipped');
-}*/
+//document.addEventListener("DOMContentLoaded", function () {
+//    showImage(currentImageIndex);
+//});
 
 
 
+//function openModal() {
+//    document.getElementById("myModal").style.display = "flex";
+//}
 
+//function closeModal() {
+//    document.getElementById("myModal").style.display = "none";
+//}
+
+//function flipCard(cardElement) {
+//    cardElement.querySelector('.card-inner').classList.toggle('is-flipped');
+//}
