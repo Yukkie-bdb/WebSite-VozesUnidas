@@ -149,16 +149,16 @@ namespace WebSiteVozesUnidas.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Like([Bind("IdLikesPost,IdPost,IdUsuario")] LikesPost likesPost)
+        public async Task<IActionResult> Like([Bind("IdLikesPost,IdPost,Id")] LikesPost likesPost)
         {
             
-            likesPost.IdUsuario = Guid.Parse(_signInManager.UserManager.GetUserId(User));
+            likesPost.Id = Guid.Parse(_signInManager.UserManager.GetUserId(User));
             if (ModelState.IsValid)
             {
                 var Likes = await _context.LikesPosts.ToListAsync();
-                if(Likes.FirstOrDefault(x => x.IdUsuario == likesPost.IdUsuario && x.IdPost == likesPost.IdPost) != null)
+                if(Likes.FirstOrDefault(x => x.Id == likesPost.Id && x.IdPost == likesPost.IdPost) != null)
                 {
-                    var Likado = Likes.FirstOrDefault(x => x.IdUsuario == likesPost.IdUsuario && x.IdPost == likesPost.IdPost);
+                    var Likado = Likes.FirstOrDefault(x => x.Id == likesPost.Id && x.IdPost == likesPost.IdPost);
                     _context.Remove(Likado);
                     await _context.SaveChangesAsync();
                     return Redirect($"/Posts/Details/{likesPost.IdPost}");
