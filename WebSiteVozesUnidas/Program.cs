@@ -84,19 +84,36 @@ internal class Program
 
             string email = "admin@gmail.com";
             string senha = "Aa@123";
+            string foto = "adm.jpg";
 
-            if(await userManager.FindByEmailAsync(email) == null)
+            if (await userManager.FindByEmailAsync(email) == null)
             {
                 var user = new ApplicationUser();
                 user.Email = email;
                 user.UserName = email;
+                user.Foto = foto;
+
+                user.Email = email;
+                user.UserName = email;
+                user.Foto = foto;
+                user.Sobre = "Admin";
+                user.CPF = "123123";
+                user.Nascimento = new DateOnly(1985, 5, 20);
+                user.Ramo = "Tecnologia";
+                user.Funcionarios = 50;
+                user.Portifolio = "https://portifolio.com/admin";
+                user.Cidade = "São Paulo";
+                user.Estado = "SP";
+                user.Habilidades = new List<string> { "Gerenciamento de Projetos", "Programação", "Liderança" };
+                user.Objetivos = "Aprimorar as competências em liderança e inovação";
+                user.CNPJ = "12.345.678/0001-99";
 
                 await userManager.CreateAsync(user, senha);
 
                 await userManager.AddToRoleAsync(user, "ADM");
             }
 
-            if(await userManager.FindByEmailAsync("empresa@gmail.com") != null)
+            if (await userManager.FindByEmailAsync("empresa@gmail.com") != null)
             {
                 var user = await userManager.FindByEmailAsync("empresa@gmail.com");
                 await userManager.AddToRoleAsync(user, "Empresa");

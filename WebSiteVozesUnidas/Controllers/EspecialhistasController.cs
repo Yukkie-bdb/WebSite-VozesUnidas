@@ -29,7 +29,7 @@ namespace WebSiteVozesUnidas.Controllers
             //var especialistas = _context.Especialistas.Include(e => e.AvaliacoesEspecialista).ThenInclude(a => a.Usuario).ToList();
 
             var especialistas = _context.Especialistas.ToList();
-            var avalia = await _context.AvaliacaoEspecialistas.ToListAsync();
+            var avalia = await _context.AvaliacaoEspecialistas.Include(a => a.Usuario).ToListAsync();
 
             ViewBag.Avaliacoes = avalia;
             return View(especialistas ?? new List<Especialista>());

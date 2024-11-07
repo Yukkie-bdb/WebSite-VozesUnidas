@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace WebSiteVozesUnidas.Controllers
     public class AvaliacaoEspecialistasController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AvaliacaoEspecialistasController(ApplicationDbContext context)
+        public AvaliacaoEspecialistasController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: AvaliacaoEspecialistas
@@ -62,15 +65,17 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdAvaliacaoEspecialhis,Descricao,Estrelas,UsuarioId,EspecialistaId")] AvaliacaoEspecialista avaliacaoEspecialista)
+        public async Task<IActionResult> Create([Bind("IdAvaliacaoEspecialhis,Descricao,Estrelas,EspecialistaId")] AvaliacaoEspecialista avaliacaoEspecialista)
         {
 
             if (ModelState.IsValid)
             {
+                var userId =_userManager.GetUserId(User);
+                avaliacaoEspecialista.UsuarioId = Guid.Parse(userId);
                 avaliacaoEspecialista.IdAvaliacaoEspecialhis = Guid.NewGuid();
                 _context.Add(avaliacaoEspecialista);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Especialista");
             }
             ViewData["EspecialistaId"] = new SelectList(_context.Especialistas, "IdEspecialista", "Nome", avaliacaoEspecialista.EspecialistaId);
             ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "UserName", avaliacaoEspecialista.UsuarioId);
@@ -125,7 +130,7 @@ namespace WebSiteVozesUnidas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Especialista");
             }
             ViewData["EspecialistaId"] = new SelectList(_context.Especialistas, "IdEspecialista", "Nome", avaliacaoEspecialista.EspecialistaId);
             ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "UserName", avaliacaoEspecialista.UsuarioId);
@@ -164,7 +169,7 @@ namespace WebSiteVozesUnidas.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Especialista");
         }
 
         private bool AvaliacaoEspecialistaExists(Guid id)

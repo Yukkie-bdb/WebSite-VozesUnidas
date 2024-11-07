@@ -31,7 +31,7 @@ function trocarElementos(categoria, btn) {
     }
 }
 
-const images = [
+/*const images = [
     { src: 'img/jean.jpg', name: 'CEO', description: 'renato augusto' },
     { src: 'img/luis.jpg', name: 'MESTRE DO MAR', description: 'renato teixeira' },
     { src: 'img/henrique.webp', name: 'JOGADOR', description: 'ronaldo' },
@@ -84,7 +84,7 @@ function closeModal() {
 
 function flipCard(cardElement) {
     cardElement.querySelector('.card-inner').classList.toggle('is-flipped');
-}
+}*/
 
 
 
