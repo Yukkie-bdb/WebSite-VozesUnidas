@@ -38,7 +38,7 @@
 <p class="text-black fw-bold h2 mb-1">@Html.DisplayFor(model => model.Titulo)</p>
 <p class="text-black fw-bold h4 mb-4">Tema: @ViewBag.Categoria</p>
 
-@if (ViewBag.ConnectUserId.ToString() == Model.IdUsuario.ToString() || ViewBag.User.Tipo == TipoUsuario.ADM)
+@if (ViewBag.ConnectUserId.ToString() == Model.Id.ToString() || ViewBag.User.Tipo == TipoUsuario.ADM)
 {
     <div class="d-flex justify-content-between my-3">
         <a asp-action="Edit" asp-route-id="@Model?.IdPost" class="btn px-5 d-flex align-items-center justify-content-center" style="background-color:#6CAD55;border-radius:0px 25px 25px 0px;"><img src="~/img/edit.png" class="mh-50 h-50 mx-3" /></a>
@@ -121,7 +121,7 @@
                 </div>
                 
             </div>
-            @if (ViewBag.ConnectUserId.ToString() == item.IdUsuario.ToString() || User.IsInRole("ADM"))
+            @if (ViewBag.ConnectUserId.ToString() == item.Id.ToString() || User.IsInRole("ADM"))
             {
                 <div class="col-10">
                     <div class="d-flex flex-column ms-2 mx-2">
@@ -168,7 +168,7 @@
                                     <input name="Publicacao" value="@item.Publicacao" class="form-control d-none" />
                                     <input name="comentario" value="@item.comentario" class="form-control" />
                                     <input name="IdPost" value="@item.IdPost" class="form-control d-none" />
-                                    <input name="IdUsuario" value="@item.IdUsuario" class="form-control d-none" />
+                                    <input name="Id" value="@item.Id" class="form-control d-none" />
                                     <input type="hidden" name="post" value="@item.IdPost" />
                                     <button type="submit" class="btn btn-primary text-white w-25 my-2">Editar</button>
                                 </form>
