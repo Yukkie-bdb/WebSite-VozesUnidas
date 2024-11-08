@@ -92,10 +92,6 @@ internal class Program
                 user.Email = email;
                 user.UserName = email;
                 user.Foto = foto;
-
-                user.Email = email;
-                user.UserName = email;
-                user.Foto = foto;
                 user.Sobre = "Admin";
                 user.CPF = "123123";
                 user.Nascimento = new DateOnly(1985, 5, 20);
@@ -108,20 +104,7 @@ internal class Program
                 user.Objetivos = "Aprimorar as compet�ncias em lideran�a e inova��o";
                 user.CNPJ = "12.345.678/0001-99";
 
-                user.Email = email;
-                user.UserName = email;
-                user.Foto = foto;
-                user.Sobre = "Admin";
-                user.CPF = "123123";
-                user.Nascimento = new DateOnly(1985, 5, 20);
-                user.Ramo = "Tecnologia";
-                user.Funcionarios = 50;
-                user.Portifolio = "https://portifolio.com/admin";
-                user.Cidade = "São Paulo";
-                user.Estado = "SP";
-                user.Habilidades = new List<string> { "Gerenciamento de Projetos", "Programação", "Liderança" };
-                user.Objetivos = "Aprimorar as competências em liderança e inovação";
-                user.CNPJ = "12.345.678/0001-99";
+                
 
                 await userManager.CreateAsync(user, senha);
 

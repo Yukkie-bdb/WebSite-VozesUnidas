@@ -19,6 +19,8 @@ namespace WebSiteVozesUnidas.Data
         public DbSet<Comentario> Comentarios { get; set; }
         public DbSet<Especialista> Especialistas { get; set; }
         public DbSet<LikesPost> LikesPosts { get; set; }
+        public DbSet<LikeComen> LikeComens { get; set; }
+
         public DbSet<Noticia> Noticias { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<VagaEmprego> VagaEmpregos { get; set; }
@@ -57,6 +59,10 @@ namespace WebSiteVozesUnidas.Data
             modelBuilder.Entity<LikesPost>()
                 .ToTable("tbLikesPost")
                 .HasKey(u => u.IdLikesPost);
+
+            modelBuilder.Entity<LikeComen>()
+                .ToTable("tbLikeComen")
+                .HasKey(u => u.IdLikeComen);
 
             modelBuilder.Entity<Noticia>()
                 .ToTable("tbNoticia")

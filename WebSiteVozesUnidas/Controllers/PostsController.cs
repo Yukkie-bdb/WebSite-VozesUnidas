@@ -63,12 +63,13 @@ namespace WebSiteVozesUnidas.Controllers
             }
 
             var Likes = await _context.LikesPosts.ToListAsync();
-            var lista = new List<LikesPost>();
-            foreach(var item in Likes)
-            {
-                lista.Add(item);
-            }
-            ViewBag.Likes = lista;
+
+            ViewBag.Likes = Likes.Where(l => l.IdPost == id).Count();
+            ViewBag.Likonas = Likes;
+
+            var LikesComen = await _context.LikeComens.ToListAsync();
+
+            ViewBag.LikesComen = LikesComen;
 
 
             var post = await _context.Posts.FirstOrDefaultAsync(m => m.IdPost == id);
@@ -151,7 +152,10 @@ namespace WebSiteVozesUnidas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Like([Bind("IdLikesPost,IdPost,Id")] LikesPost likesPost)
         {
-            
+            if (_signInManager.UserManager.GetUserId(User) is null)
+            {
+                return Redirect("/Identity/Account/Login");
+            }
             likesPost.Id = Guid.Parse(_signInManager.UserManager.GetUserId(User));
             if (ModelState.IsValid)
             {
@@ -175,6 +179,36 @@ namespace WebSiteVozesUnidas.Controllers
             return NoContent();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LikeComent([Bind("IdLikesPost,IdComentario,Id")] LikeComen likeComen, Guid post)
+        {
+            if(_signInManager.UserManager.GetUserId(User) is null)
+            {
+                return Redirect("/Identity/Account/Login");
+            }
+            likeComen.Id = Guid.Parse(_signInManager.UserManager.GetUserId(User));
+            if (ModelState.IsValid)
+            {
+                var Likes = await _context.LikeComens.ToListAsync();
+                if (Likes.FirstOrDefault(x => x.Id == likeComen.Id && x.IdComentario == likeComen.IdComentario) != null)
+                {
+                    var Likado = Likes.FirstOrDefault(x => x.Id == likeComen.Id && x.IdComentario == likeComen.IdComentario);
+                    _context.Remove(Likado);
+                    await _context.SaveChangesAsync();
+                    return Redirect($"/Posts/Details/{post}");
+                }
+                else
+                {
+                    likeComen.IdLikeComen = Guid.NewGuid();
+                    _context.Add(likeComen);
+                    await _context.SaveChangesAsync();
+                    return Redirect($"/Posts/Details/{post}");
+                }
+
+            }
+            return NoContent();
+        }
 
 
 
@@ -359,7 +393,31 @@ namespace WebSiteVozesUnidas.Controllers
                         System.IO.File.Delete(filePath);
                     }
                 }
-                
+                var likes = await _context.LikesPosts.ToListAsync();
+                foreach (var item in likes)
+                {
+                    if (item.IdPost == id)
+                    {
+                        _context.LikesPosts.Remove(item);
+                    }
+                }
+
+                var comentarios = await _context.Comentarios.ToListAsync();
+                foreach (var item in comentarios)
+                {
+                    if (item.IdPost == id)
+                    {
+                        var likesComenta = await _context.LikeComens.Where(c => c.IdComentario == item.IdComentario).ToListAsync();
+                        foreach(var item2 in likesComenta)
+                        {
+                            _context.LikeComens.Remove(item2);
+
+                        }
+                        _context.Comentarios.Remove(item);
+                    }
+                }
+
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
 
