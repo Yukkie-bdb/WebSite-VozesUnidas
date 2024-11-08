@@ -62,7 +62,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCandidatoVaga,Id,IdVaga")] CandidatoVaga candidatoVaga)
+        public async Task<IActionResult> Create(CandidatoVaga candidatoVaga, Guid Id)
         {
             if (ModelState.IsValid)
             {
@@ -70,6 +70,7 @@ namespace WebSiteVozesUnidas.Controllers
 
                 candidatoVaga.IdCandidatoVaga = Guid.NewGuid();
                 candidatoVaga.Id = Guid.Parse(userId);
+                candidatoVaga.IdVaga = Id;
 
                 _context.Add(candidatoVaga);
                 await _context.SaveChangesAsync();
@@ -165,6 +166,44 @@ namespace WebSiteVozesUnidas.Controllers
         private bool CandidatoVagaExists(Guid id)
         {
             return _context.CandidatoVagas.Any(e => e.IdCandidatoVaga == id);
+        }
+
+        public async Task<IActionResult> Candidatar(CandidatoVaga candidatoVaga, Guid Id)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                // Verifica se já existe uma candidatura para o mesmo candidato e vaga
+                bool candidaturaExistente = await _context.CandidatoVagas
+                    .AnyAsync(cv => cv.Id == Guid.Parse(userId) && cv.IdVaga == Id);
+
+                var vaga = _context.VagaEmpregos.Where(a => a.IdVagaEmprego == Id).FirstOrDefault();
+
+                if (candidaturaExistente)
+                {
+                    TempData["ErrorMessage"] = $"Erro! Você já se candidatou para a vaga {vaga.Cargo}.";
+                    return RedirectToAction("Details", "VagaEmpregos", new { id = Id });
+                }
+
+                candidatoVaga.IdCandidatoVaga = Guid.NewGuid();
+                candidatoVaga.Id = Guid.Parse(userId);
+                candidatoVaga.IdVaga = Id;
+
+                _context.Add(candidatoVaga);
+                await _context.SaveChangesAsync();
+
+                // Armazena a mensagem de sucesso em TempData
+                TempData["SuccessMessage"] = $"Parabéns! Você acaba de se candidatar a vaga de {vaga.Cargo}.";
+
+                //return Json(new { success = true, message = $"Parabéns! Você acaba de se candidatar a vaga de {Id}." });
+                return RedirectToAction("Details", "VagaEmpregos", new { id = Id });
+
+            }
+            //return Json(new { success = false, message = "Erro na validação dos dados." });
+            TempData["ErrorMessage"] = $"Erro! Não foi possivel realizar a ação.";
+            return RedirectToAction("Details", "VagaEmpregos", new { id = Id });
+
         }
     }
 }
