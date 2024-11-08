@@ -88,7 +88,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdComentario,Publicacao,comentario,IdPost,IdUsuario")] Comentario com, Guid post)
+        public async Task<IActionResult> Edit(Guid id, [Bind("IdComentario,Publicacao,comentario,IdPost,IdUsuario")] Comentario com, Guid post,Guid IdUsuario)
         {
             com.IdComentario = id;
             if (id != com.IdComentario)
@@ -98,6 +98,7 @@ namespace WebSiteVozesUnidas.Controllers
 
             if (ModelState.IsValid)
             {
+                com.Id = IdUsuario;
                 try
                 {
                     _context.Update(com);
@@ -148,6 +149,14 @@ namespace WebSiteVozesUnidas.Controllers
                 if (comentario != null)
                 {
                     _context.Comentarios.Remove(comentario);
+                }
+                var likes = await _context.LikeComens.ToListAsync();
+                foreach (var item in likes)
+                {
+                    if(item.IdComentario == id)
+                    {
+                        _context.LikeComens.Remove(item);
+                    }
                 }
 
                 await _context.SaveChangesAsync();
