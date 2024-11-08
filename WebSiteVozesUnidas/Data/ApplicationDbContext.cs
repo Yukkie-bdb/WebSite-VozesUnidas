@@ -82,6 +82,19 @@ namespace WebSiteVozesUnidas.Data
                 .ToTable("tbCategoriaMaterial")
                 .HasKey(u => u.IdCategoriaMaterial);
 
+            // Relacionamento entre CandidatoVaga e ApplicationUser (usuário)
+            modelBuilder.Entity<CandidatoVaga>()
+                .HasOne(cv => cv.Usuario)
+                .WithMany(u => u.CandidatoVagas)
+                .HasForeignKey(cv => cv.UsuarioId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Relacionamento entre CandidatoVaga e VagaEmprego
+            modelBuilder.Entity<CandidatoVaga>()
+                .HasOne(cv => cv.VagaEmprego)
+                .WithMany(ve => ve.Vagas)
+                .HasForeignKey(cv => cv.VagaEmpregoId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -26,11 +26,8 @@ namespace WebSiteVozesUnidas.Controllers
         // GET: CandidatoVagas
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.GetUserAsync(User);
-            var userId = user.Id; // Obtém o ID do usuário logado
-            ViewData["userId"] = userId;
-
-            return View(await _context.CandidatoVagas.ToListAsync());
+            var applicationDbContext = _context.CandidatoVagas.Include(c => c.Usuario).Include(c => c.VagaEmprego);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: CandidatoVagas/Details/5
@@ -42,6 +39,8 @@ namespace WebSiteVozesUnidas.Controllers
             }
 
             var candidatoVaga = await _context.CandidatoVagas
+                .Include(c => c.Usuario)
+                .Include(c => c.VagaEmprego)
                 .FirstOrDefaultAsync(m => m.IdCandidatoVaga == id);
             if (candidatoVaga == null)
             {
@@ -54,6 +53,8 @@ namespace WebSiteVozesUnidas.Controllers
         // GET: CandidatoVagas/Create
         public IActionResult Create()
         {
+            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["VagaEmpregoId"] = new SelectList(_context.VagaEmpregos, "IdVagaEmprego", "IdVagaEmprego");
             return View();
         }
 
@@ -62,20 +63,17 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CandidatoVaga candidatoVaga, Guid Id)
+        public async Task<IActionResult> Create([Bind("IdCandidatoVaga,UsuarioId,VagaEmpregoId")] CandidatoVaga candidatoVaga)
         {
             if (ModelState.IsValid)
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
                 candidatoVaga.IdCandidatoVaga = Guid.NewGuid();
-                candidatoVaga.Id = Guid.Parse(userId);
-                candidatoVaga.IdVaga = Id;
-
                 _context.Add(candidatoVaga);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", candidatoVaga.UsuarioId);
+            ViewData["VagaEmpregoId"] = new SelectList(_context.VagaEmpregos, "IdVagaEmprego", "IdVagaEmprego", candidatoVaga.VagaEmpregoId);
             return View(candidatoVaga);
         }
 
@@ -92,6 +90,8 @@ namespace WebSiteVozesUnidas.Controllers
             {
                 return NotFound();
             }
+            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", candidatoVaga.UsuarioId);
+            ViewData["VagaEmpregoId"] = new SelectList(_context.VagaEmpregos, "IdVagaEmprego", "IdVagaEmprego", candidatoVaga.VagaEmpregoId);
             return View(candidatoVaga);
         }
 
@@ -100,7 +100,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdCandidatoVaga,Id,IdVaga")] CandidatoVaga candidatoVaga)
+        public async Task<IActionResult> Edit(Guid id, [Bind("IdCandidatoVaga,UsuarioId,VagaEmpregoId")] CandidatoVaga candidatoVaga)
         {
             if (id != candidatoVaga.IdCandidatoVaga)
             {
@@ -127,6 +127,8 @@ namespace WebSiteVozesUnidas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", candidatoVaga.UsuarioId);
+            ViewData["VagaEmpregoId"] = new SelectList(_context.VagaEmpregos, "IdVagaEmprego", "IdVagaEmprego", candidatoVaga.VagaEmpregoId);
             return View(candidatoVaga);
         }
 
@@ -139,6 +141,8 @@ namespace WebSiteVozesUnidas.Controllers
             }
 
             var candidatoVaga = await _context.CandidatoVagas
+                .Include(c => c.Usuario)
+                .Include(c => c.VagaEmprego)
                 .FirstOrDefaultAsync(m => m.IdCandidatoVaga == id);
             if (candidatoVaga == null)
             {
@@ -176,7 +180,7 @@ namespace WebSiteVozesUnidas.Controllers
 
                 // Verifica se já existe uma candidatura para o mesmo candidato e vaga
                 bool candidaturaExistente = await _context.CandidatoVagas
-                    .AnyAsync(cv => cv.Id == Guid.Parse(userId) && cv.IdVaga == Id);
+                    .AnyAsync(cv => cv.UsuarioId == Guid.Parse(userId) && cv.VagaEmpregoId == Id);
 
                 var vaga = _context.VagaEmpregos.Where(a => a.IdVagaEmprego == Id).FirstOrDefault();
 
@@ -187,8 +191,8 @@ namespace WebSiteVozesUnidas.Controllers
                 }
 
                 candidatoVaga.IdCandidatoVaga = Guid.NewGuid();
-                candidatoVaga.Id = Guid.Parse(userId);
-                candidatoVaga.IdVaga = Id;
+                candidatoVaga.UsuarioId = Guid.Parse(userId);
+                candidatoVaga.VagaEmpregoId = Id;
 
                 _context.Add(candidatoVaga);
                 await _context.SaveChangesAsync();

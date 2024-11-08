@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Detalhes da Vaga";
     var listaVagas = ViewData["VagasEmpregos"] as List<WebSiteVozesUnidas.Models.VagaEmprego>;
+    var listaCandidatos = ViewData["Candidatos"] as List<WebSiteVozesUnidas.Models.CandidatoVaga>;
 }
 
 <div class="d-flex justify-content-between">
@@ -271,3 +272,19 @@
         overflow-y: auto;
     }
 </style>
+
+<div>
+    @foreach (var item in listaCandidatos)
+    {
+        @if (item != null)
+        {
+            <img src="~/img/@item.Usuario.Foto" />
+            <p>@item.Usuario.UserName</p>
+        }
+        else
+        {
+            <p>Usuário não encontrado.</p>
+        }
+
+    }
+</div>

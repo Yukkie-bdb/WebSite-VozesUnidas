@@ -115,6 +115,28 @@ namespace WebSiteVozesUnidas.Controllers
                 .OrderByDescending(vagaEmprego => vagaEmprego.Salario)
                 .ToListAsync();
 
+            ViewData["Candidatos"] = await _context.CandidatoVagas
+                .Include(a => a.Usuario)
+                .ToListAsync();
+
+
+            //var candidaturas = await _context.CandidatoVagas.Where(c => c.IdVaga == id).ToListAsync();
+            //var usuarios = await _context.Users.ToListAsync();
+            //var lista = new List<ApplicationUser>();
+            //if(candidaturas != null)
+            //{
+            //    foreach(var item in candidaturas)
+            //    {
+            //        foreach(var user in usuarios)
+            //        {
+            //            if(item.Id == user.Id)
+            //            {
+            //                lista.Add(user);
+            //            }
+            //        }
+            //    }
+            //}
+            //ViewBag.Candidatos = lista;
             return View(vagaEmprego);
         }
 
