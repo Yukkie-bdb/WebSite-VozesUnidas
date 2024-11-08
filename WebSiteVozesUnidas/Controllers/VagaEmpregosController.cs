@@ -111,6 +111,7 @@ namespace WebSiteVozesUnidas.Controllers
             }
 
             ViewData["VagasEmpregos"] = await _context.VagaEmpregos
+                .Include(a => a.Usuario)
                 .OrderByDescending(vagaEmprego => vagaEmprego.Salario)
                 .ToListAsync();
 
@@ -235,6 +236,14 @@ namespace WebSiteVozesUnidas.Controllers
         private bool VagaEmpregoExists(Guid id)
         {
             return _context.VagaEmpregos.Any(e => e.IdVagaEmprego == id);
+        }
+
+        public async Task<IActionResult> VagasCandidatos(Guid Id)
+        {
+            var userId = _signInManager.UserManager.GetUserId(User);
+            var vaga = _context.VagaEmpregos.Include(v => v.Usuario).Where(a => a.IdVagaEmprego == Id).AsQueryable();
+
+            return View(await vaga.ToListAsync());
         }
     }
 }
