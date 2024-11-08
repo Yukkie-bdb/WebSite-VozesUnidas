@@ -111,9 +111,32 @@ namespace WebSiteVozesUnidas.Controllers
             }
 
             ViewData["VagasEmpregos"] = await _context.VagaEmpregos
+                .Include(a => a.Usuario)
                 .OrderByDescending(vagaEmprego => vagaEmprego.Salario)
                 .ToListAsync();
 
+            ViewData["Candidatos"] = await _context.CandidatoVagas
+                .Include(a => a.Usuario)
+                .ToListAsync();
+
+
+            //var candidaturas = await _context.CandidatoVagas.Where(c => c.IdVaga == id).ToListAsync();
+            //var usuarios = await _context.Users.ToListAsync();
+            //var lista = new List<ApplicationUser>();
+            //if(candidaturas != null)
+            //{
+            //    foreach(var item in candidaturas)
+            //    {
+            //        foreach(var user in usuarios)
+            //        {
+            //            if(item.Id == user.Id)
+            //            {
+            //                lista.Add(user);
+            //            }
+            //        }
+            //    }
+            //}
+            //ViewBag.Candidatos = lista;
             return View(vagaEmprego);
         }
 
@@ -235,6 +258,14 @@ namespace WebSiteVozesUnidas.Controllers
         private bool VagaEmpregoExists(Guid id)
         {
             return _context.VagaEmpregos.Any(e => e.IdVagaEmprego == id);
+        }
+
+        public async Task<IActionResult> VagasCandidatos(Guid Id)
+        {
+            var userId = _signInManager.UserManager.GetUserId(User);
+            var vaga = _context.VagaEmpregos.Include(v => v.Usuario).Where(a => a.IdVagaEmprego == Id).AsQueryable();
+
+            return View(await vaga.ToListAsync());
         }
     }
 }

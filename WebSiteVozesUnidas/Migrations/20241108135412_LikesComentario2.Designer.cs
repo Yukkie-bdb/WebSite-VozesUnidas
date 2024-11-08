@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebSiteVozesUnidas.Data;
 
@@ -11,9 +12,11 @@ using WebSiteVozesUnidas.Data;
 namespace WebSiteVozesUnidas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241108135412_LikesComentario2")]
+    partial class LikesComentario2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -300,17 +303,23 @@ namespace WebSiteVozesUnidas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UsuarioId")
+                    b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("VagaEmpregoId")
+                    b.Property<Guid>("IdVaga")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("VagasEmpregoIdVagaEmprego")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("IdCandidatoVaga");
 
                     b.HasIndex("UsuarioId");
 
-                    b.HasIndex("VagaEmpregoId");
+                    b.HasIndex("VagasEmpregoIdVagaEmprego");
 
                     b.ToTable("tbCandidatoVaga", (string)null);
                 });
@@ -753,19 +762,15 @@ namespace WebSiteVozesUnidas.Migrations
                 {
                     b.HasOne("WebSiteVozesUnidas.Models.ApplicationUser", "Usuario")
                         .WithMany("CandidatoVagas")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("UsuarioId");
 
-                    b.HasOne("WebSiteVozesUnidas.Models.VagaEmprego", "VagaEmprego")
+                    b.HasOne("WebSiteVozesUnidas.Models.VagaEmprego", "VagasEmprego")
                         .WithMany("Vagas")
-                        .HasForeignKey("VagaEmpregoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("VagasEmpregoIdVagaEmprego");
 
                     b.Navigation("Usuario");
 
-                    b.Navigation("VagaEmprego");
+                    b.Navigation("VagasEmprego");
                 });
 
             modelBuilder.Entity("WebSiteVozesUnidas.Models.CandidatosJornalistas", b =>

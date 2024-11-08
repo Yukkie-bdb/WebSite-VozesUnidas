@@ -19,6 +19,8 @@ namespace WebSiteVozesUnidas.Data
         public DbSet<Comentario> Comentarios { get; set; }
         public DbSet<Especialista> Especialistas { get; set; }
         public DbSet<LikesPost> LikesPosts { get; set; }
+        public DbSet<LikeComen> LikeComens { get; set; }
+
         public DbSet<Noticia> Noticias { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<VagaEmprego> VagaEmpregos { get; set; }
@@ -58,6 +60,10 @@ namespace WebSiteVozesUnidas.Data
                 .ToTable("tbLikesPost")
                 .HasKey(u => u.IdLikesPost);
 
+            modelBuilder.Entity<LikeComen>()
+                .ToTable("tbLikeComen")
+                .HasKey(u => u.IdLikeComen);
+
             modelBuilder.Entity<Noticia>()
                 .ToTable("tbNoticia")
                 .HasKey(u => u.IdNoticia);
@@ -82,6 +88,19 @@ namespace WebSiteVozesUnidas.Data
                 .ToTable("tbCategoriaMaterial")
                 .HasKey(u => u.IdCategoriaMaterial);
 
+            // Relacionamento entre CandidatoVaga e ApplicationUser (usuário)
+            modelBuilder.Entity<CandidatoVaga>()
+                .HasOne(cv => cv.Usuario)
+                .WithMany(u => u.CandidatoVagas)
+                .HasForeignKey(cv => cv.UsuarioId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Relacionamento entre CandidatoVaga e VagaEmprego
+            modelBuilder.Entity<CandidatoVaga>()
+                .HasOne(cv => cv.VagaEmprego)
+                .WithMany(ve => ve.Vagas)
+                .HasForeignKey(cv => cv.VagaEmpregoId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

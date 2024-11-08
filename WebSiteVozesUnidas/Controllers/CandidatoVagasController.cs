@@ -26,11 +26,8 @@ namespace WebSiteVozesUnidas.Controllers
         // GET: CandidatoVagas
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.GetUserAsync(User);
-            var userId = user.Id; // Obtém o ID do usuário logado
-            ViewData["userId"] = userId;
-
-            return View(await _context.CandidatoVagas.ToListAsync());
+            var applicationDbContext = _context.CandidatoVagas.Include(c => c.Usuario).Include(c => c.VagaEmprego);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: CandidatoVagas/Details/5
@@ -42,6 +39,8 @@ namespace WebSiteVozesUnidas.Controllers
             }
 
             var candidatoVaga = await _context.CandidatoVagas
+                .Include(c => c.Usuario)
+                .Include(c => c.VagaEmprego)
                 .FirstOrDefaultAsync(m => m.IdCandidatoVaga == id);
             if (candidatoVaga == null)
             {
@@ -54,6 +53,8 @@ namespace WebSiteVozesUnidas.Controllers
         // GET: CandidatoVagas/Create
         public IActionResult Create()
         {
+            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["VagaEmpregoId"] = new SelectList(_context.VagaEmpregos, "IdVagaEmprego", "IdVagaEmprego");
             return View();
         }
 
@@ -62,19 +63,17 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCandidatoVaga,Id,IdVaga")] CandidatoVaga candidatoVaga)
+        public async Task<IActionResult> Create([Bind("IdCandidatoVaga,UsuarioId,VagaEmpregoId")] CandidatoVaga candidatoVaga)
         {
             if (ModelState.IsValid)
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
                 candidatoVaga.IdCandidatoVaga = Guid.NewGuid();
-                candidatoVaga.Id = Guid.Parse(userId);
-
                 _context.Add(candidatoVaga);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", candidatoVaga.UsuarioId);
+            ViewData["VagaEmpregoId"] = new SelectList(_context.VagaEmpregos, "IdVagaEmprego", "IdVagaEmprego", candidatoVaga.VagaEmpregoId);
             return View(candidatoVaga);
         }
 
@@ -91,6 +90,8 @@ namespace WebSiteVozesUnidas.Controllers
             {
                 return NotFound();
             }
+            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", candidatoVaga.UsuarioId);
+            ViewData["VagaEmpregoId"] = new SelectList(_context.VagaEmpregos, "IdVagaEmprego", "IdVagaEmprego", candidatoVaga.VagaEmpregoId);
             return View(candidatoVaga);
         }
 
@@ -99,7 +100,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdCandidatoVaga,Id,IdVaga")] CandidatoVaga candidatoVaga)
+        public async Task<IActionResult> Edit(Guid id, [Bind("IdCandidatoVaga,UsuarioId,VagaEmpregoId")] CandidatoVaga candidatoVaga)
         {
             if (id != candidatoVaga.IdCandidatoVaga)
             {
@@ -126,6 +127,8 @@ namespace WebSiteVozesUnidas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", candidatoVaga.UsuarioId);
+            ViewData["VagaEmpregoId"] = new SelectList(_context.VagaEmpregos, "IdVagaEmprego", "IdVagaEmprego", candidatoVaga.VagaEmpregoId);
             return View(candidatoVaga);
         }
 
@@ -138,6 +141,8 @@ namespace WebSiteVozesUnidas.Controllers
             }
 
             var candidatoVaga = await _context.CandidatoVagas
+                .Include(c => c.Usuario)
+                .Include(c => c.VagaEmprego)
                 .FirstOrDefaultAsync(m => m.IdCandidatoVaga == id);
             if (candidatoVaga == null)
             {
@@ -165,6 +170,44 @@ namespace WebSiteVozesUnidas.Controllers
         private bool CandidatoVagaExists(Guid id)
         {
             return _context.CandidatoVagas.Any(e => e.IdCandidatoVaga == id);
+        }
+
+        public async Task<IActionResult> Candidatar(CandidatoVaga candidatoVaga, Guid Id)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                // Verifica se já existe uma candidatura para o mesmo candidato e vaga
+                bool candidaturaExistente = await _context.CandidatoVagas
+                    .AnyAsync(cv => cv.UsuarioId == Guid.Parse(userId) && cv.VagaEmpregoId == Id);
+
+                var vaga = _context.VagaEmpregos.Where(a => a.IdVagaEmprego == Id).FirstOrDefault();
+
+                if (candidaturaExistente)
+                {
+                    TempData["ErrorMessage"] = $"Erro! Você já se candidatou para a vaga {vaga.Cargo}.";
+                    return RedirectToAction("Details", "VagaEmpregos", new { id = Id });
+                }
+
+                candidatoVaga.IdCandidatoVaga = Guid.NewGuid();
+                candidatoVaga.UsuarioId = Guid.Parse(userId);
+                candidatoVaga.VagaEmpregoId = Id;
+
+                _context.Add(candidatoVaga);
+                await _context.SaveChangesAsync();
+
+                // Armazena a mensagem de sucesso em TempData
+                TempData["SuccessMessage"] = $"Parabéns! Você acaba de se candidatar a vaga de {vaga.Cargo}.";
+
+                //return Json(new { success = true, message = $"Parabéns! Você acaba de se candidatar a vaga de {Id}." });
+                return RedirectToAction("Details", "VagaEmpregos", new { id = Id });
+
+            }
+            //return Json(new { success = false, message = "Erro na validação dos dados." });
+            TempData["ErrorMessage"] = $"Erro! Não foi possivel realizar a ação.";
+            return RedirectToAction("Details", "VagaEmpregos", new { id = Id });
+
         }
     }
 }

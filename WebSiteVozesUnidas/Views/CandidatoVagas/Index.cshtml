@@ -2,47 +2,33 @@
 
 @{
     ViewData["Title"] = "Index";
-    var userId = ViewData["userId"];
-    // var tipoUser = ViewData["userTipo"];
 }
 
-
-@* @if (tipoUser == "Empresa")
-{
-    <h1>Suas Vagas de Empregos</h1>
-
-}
-@if (tipoUser == "PessoaFisica")
-{
-    <h1>Suas Candidaturas</h1>
-} *@
-
-<h1>Suas Candidaturas</h1>
-
+<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
- <table class="table">
+<table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.DisplayNameFor(model => model.Usuario)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdVaga)
+                @Html.DisplayNameFor(model => model.VagaEmprego)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Where(i => i.Id.ToString() == userId.ToString())) {
+@foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
+                @Html.DisplayFor(modelItem => item.Usuario.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdVaga)
+                @Html.DisplayFor(modelItem => item.VagaEmprego.IdVagaEmprego)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdCandidatoVaga">Edit</a> |
@@ -53,4 +39,3 @@
 }
     </tbody>
 </table>
- 

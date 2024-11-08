@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebSiteVozesUnidas.Data;
 
@@ -11,9 +12,11 @@ using WebSiteVozesUnidas.Data;
 namespace WebSiteVozesUnidas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241108173101_CandidatoVagas")]
+    partial class CandidatoVagas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -428,38 +431,6 @@ namespace WebSiteVozesUnidas.Migrations
                     b.ToTable("tbEspecialista", (string)null);
                 });
 
-            modelBuilder.Entity("WebSiteVozesUnidas.Models.LikeComen", b =>
-                {
-                    b.Property<Guid>("IdLikeComen")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ComentarioIdComentario")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ComentarioIdPost")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("IdComentario")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UsuarioId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("IdLikeComen");
-
-                    b.HasIndex("ComentarioIdComentario");
-
-                    b.HasIndex("ComentarioIdPost");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("tbLikeComen", (string)null);
-                });
-
             modelBuilder.Entity("WebSiteVozesUnidas.Models.LikesPost", b =>
                 {
                     b.Property<Guid>("IdLikesPost")
@@ -794,25 +765,6 @@ namespace WebSiteVozesUnidas.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("WebSiteVozesUnidas.Models.LikeComen", b =>
-                {
-                    b.HasOne("WebSiteVozesUnidas.Models.Comentario", null)
-                        .WithMany("LikeComens")
-                        .HasForeignKey("ComentarioIdComentario");
-
-                    b.HasOne("WebSiteVozesUnidas.Models.Post", "Comentario")
-                        .WithMany()
-                        .HasForeignKey("ComentarioIdPost");
-
-                    b.HasOne("WebSiteVozesUnidas.Models.ApplicationUser", "Usuario")
-                        .WithMany("LikeComens")
-                        .HasForeignKey("UsuarioId");
-
-                    b.Navigation("Comentario");
-
-                    b.Navigation("Usuario");
-                });
-
             modelBuilder.Entity("WebSiteVozesUnidas.Models.LikesPost", b =>
                 {
                     b.HasOne("WebSiteVozesUnidas.Models.Post", "Post")
@@ -891,8 +843,6 @@ namespace WebSiteVozesUnidas.Migrations
 
                     b.Navigation("Comentarios");
 
-                    b.Navigation("LikeComens");
-
                     b.Navigation("LikesPosts");
 
                     b.Navigation("MidiaSocials");
@@ -912,11 +862,6 @@ namespace WebSiteVozesUnidas.Migrations
             modelBuilder.Entity("WebSiteVozesUnidas.Models.CategoriaPost", b =>
                 {
                     b.Navigation("Posts");
-                });
-
-            modelBuilder.Entity("WebSiteVozesUnidas.Models.Comentario", b =>
-                {
-                    b.Navigation("LikeComens");
                 });
 
             modelBuilder.Entity("WebSiteVozesUnidas.Models.Especialista", b =>
