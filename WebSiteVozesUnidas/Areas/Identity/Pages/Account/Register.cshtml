@@ -120,7 +120,52 @@
         <span asp-validation-for="Input.Objetivos" class="text-danger"></span>
     </div>
 
-    <!-- Campo HABILIDADES -->
+    <!-- Habilidades -->
+    <div>
+        <input class="form-control" id="habilidadeInput" placeholder="Digite uma habilidade" />
+        <button type="button" class="btn btn-primary" onclick="AddHabilidade()">+</button>
+    </div>
+
+    <div>
+        <h5>Habilidades adicionadas:</h5>
+        <ul id="habilidadesList">
+            <!-- As habilidades serão listadas aqui -->
+        </ul>
+    </div>
+
+    <script>
+        // Array para armazenar as habilidades no frontend
+        let habilidades = [];
+
+
+        // Função para adicionar a habilidade à lista
+        function AddHabilidade() {
+            let habilidadeInput = document.getElementById("habilidadeInput");
+            let habilidade = habilidadeInput.value.trim();
+
+            if (habilidade) {
+                //Model.Input.Habilidades.Add(habilidade); // Adiciona a habilidade ao array
+                habilidadeInput.value = ''; // Limpa o campo de input
+
+                // Atualiza a lista de habilidades exibidas
+                UpdateHabilidadesList();
+            }
+        }
+
+        // Função para atualizar a lista de habilidades no HTML
+        function UpdateHabilidadesList() {
+            let listElement = document.getElementById("habilidadesList");
+            listElement.innerHTML = ''; // Limpa a lista antes de atualizar
+
+            habilidades.forEach(function (habilidade, index) {
+                let li = document.createElement('li');
+                li.textContent = habilidade;
+                listElement.appendChild(li);
+            });
+        }
+    </script>
+
+    @* <!-- Campo HABILIDADES -->
     <div class="justify-content-between" id="habilidades">
         <div class="col-12">
             <!-- Campo para adicionar novas habilidades -->
@@ -144,7 +189,7 @@
 
         <!-- Campo oculto para enviar a lista de habilidades -->
         <input type="hidden" id="habilidadesHidden" name="Input.Habilidades" />
-    </div>
+    </div> *@
 
     <!-- Campo Ramo -->
     <div class="form-floating mb-3 d-none" id="ramo">
@@ -301,7 +346,7 @@
 
 </script>
 
-<!-- Script para adicionar e gerenciar habilidades -->
+@* <!-- Script para adicionar e gerenciar habilidades -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const addButton = document.getElementById('addHabilidade');
@@ -350,7 +395,7 @@
             habilidadesHidden.value = JSON.stringify(habilidades);
         }
     });
-</script>
+</script> *@
 
 <script>
     function trocarCor() {

@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -266,5 +267,22 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account
             }
             return (IUserEmailStore<ApplicationUser>)_userStore;
         }
+
+        public async Task<IActionResult> AddHabilidade(string habilidade)
+        {
+            if (habilidade == null)
+                Input.Habilidades.Add(habilidade);
+
+            return Page();
+        }
+
+        public async Task<IActionResult> RemoveHabilidade(string habilidade)
+        {
+            if (habilidade == null)
+                Input.Habilidades.Add(habilidade);
+
+            return Page();
+        }
+
     }
 }

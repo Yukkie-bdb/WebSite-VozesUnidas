@@ -13,50 +13,33 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/img/LOGO.png" style="height:12vh" alt="Logo" />
+                    <img src="~/img/LOGO.png" style="height:10vh" alt="Logo" />
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse d-sm-inline-flex w-100">
+                    <ul class="navbar-nav d-flex justify-content-evenly w-100">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark h3 fw-bold" asp-area="" asp-controller="Noticias" asp-action="Index">Notícias</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark h3 fw-bold" asp-area="" asp-controller="Especialista" asp-action="index">Aconselhamentos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="VagaEmpregos" asp-action="Index">Vagas Empregos</a>
+                            <a class="nav-link text-dark h3 fw-bold" asp-area="" asp-controller="MaterialDidatico" asp-action="index">Materiais</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="CandidatoVagas" asp-action="Index">Vagas Candidatos LISTA</a>
+                            <a class="nav-link text-dark h3 fw-bold" asp-area="" asp-controller="VagaEmpregos" asp-action="Index">Empregos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Noticias" asp-action="Index">Noticias</a>
+                            <a class="nav-link text-dark h3 fw-bold" asp-area="" asp-controller="Home" asp-action="Privacy">Sobre</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Posts" asp-action="Index">Fórum</a>
+                            <a class="nav-link text-dark h3 fw-bold" asp-area="" asp-controller="Posts" asp-action="Index">Fórum</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="CategoriaPosts" asp-action="Index">Categoria Posts</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="CandidatosJornalistas" asp-action="Index">CandidatosJornalistas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Especialista" asp-action="index">Especialistas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="AvaliacaoEspecialistas" asp-action="index"> Avaliação Especialistas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="MaterialDidatico" asp-action="index">Material Didático</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="CategoriaMaterials" asp-action="index">Categorias de Materiais</a>
-                        </li>
+
                     </ul>
                     <partial name="_LoginPartial" />
 
@@ -71,10 +54,100 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - WebSiteVozesUnidas - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="border-top  text-muted float-end">
+        <div class=" pt-5 d-none d-md-block" style="background-color:#303030;" >
+            <div class="mx-5  d-flex">
+                <div class="col-2">
+                    <img src="~/img/LOGO2 4.png" class="w-100" alt="Logo" />
+                    <div class="d-flex flex-column mb-5 mt-5 bg-white ">
+                        <div class="mh25px">
+                            <a href="" class="ms-3">Artigos</a>
+                        </div>
+                        <div class="mh25px">
+                            <a href="" class="ms-3">Vídeo</a>
+                        </div>
+                        <div class="mh25px">
+                            <a href="" class="ms-3">Relatórios</a>
+                        </div>
+                        <div class="mh25px">
+                            <a href="" class="ms-3">Ferramentas</a>
+                        </div>
+                        <div class="mh25px">
+                            <a href="" class="ms-3">Sobre nós</a>
+                        </div>
+                        <div class="mh25px">
+                            <a href="" class="ms-3">Projetos</a>
+                        </div>
+                        <div class="mh25px">
+                            <a href="" class="ms-3">Eventos</a>
+                        </div>
+                        <div class="mh25px">
+                            <a href="" class="ms-3">Blog</a>
+                        </div>
+                        <div class="mh25px">
+                            <a href="" class="ms-3">Contato</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 d-flex flex-column bg-white ms-5 h-100">
+                    <div class="h-50">
+                        <p class="text-wrap text-center h2 text-black my-3">
+                            Nossa missão é promover a igualdade de gênero e a igualdade para todos, criando uma sociedade mais justa e inclusiva.
+                        </p>
+                    </div>
+                    <div class="h-50">
+                        <img src="~/img/image 21.png" class="w-100 h-auto overflow-hidden" alt="Logo" />
+                    </div>
+                </div>
+                <div class="col-6 mw-100 overflow-hidden d-flex">
+                    <div class="col-1 text-white h3 fw-bold " style="transform: rotate(270deg);margin-top: 5rem !important;height:15px;">
+                        Contato:
+                    </div>
+                    <div class="col-11">
+                        <div class="h-25 d-flex justify-content-around align-items-center">
+                            <img src="~/img/image 16.png" class="h-50 w-auto" alt="Logo Instagram" />
+                            <img src="~/img/image 17.png" class="h-50 w-auto" alt="Logo Linkedin" />
+                            <img src="~/img/image 19.png" class="h-50 w-auto" alt="Logo Twitter" />
+                            <img src="~/img/image 18.png" class="h-50 w-auto" alt="Logo Facebook" />
+                            <img src="~/img/image 20.png" class="h-50 w-auto" alt="Logo Youtube" />
+
+                        </div>
+                        <div class="h-75 ms-4">
+                            <div class="my-4">
+                                <p class="text-white fw-bold h3">
+                                    Email:
+                                </p>
+                                <p class="text-white h4 my-2">
+                                    contato@vozesunidas.org
+                                </p>
+                            </div>
+                            <div class="my-4">
+                                <p class="text-white fw-bold h3">
+                                    Telefone:
+                                </p>
+                                <p class="text-white h4 my-2">
+                                    (XX) XXXX-XXXX
+                                </p>
+                            </div>
+                            <div class="my-4">
+                                <p class="text-white fw-bold h3">
+                                    Endereço:
+                                </p>
+                                <p class="text-white h4 my-2">
+                                    Rua Exemplo, 123, Cidade, Estado
+                                </p>
+                            </div>
+                            
+                            
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        <p class="w-100 text-white text-center mb-0" style="background-color:#303030;">
+            © 2024 Vozes Unidas. Todos os direitos reservados.
+        </p>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -82,3 +155,13 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<style>
+    .mh25px {
+        max-height: 40px;
+        margin: 0.7rem 0px !important;
+        */ display:flex;
+        align-items: center;
+    }
+
+</style>

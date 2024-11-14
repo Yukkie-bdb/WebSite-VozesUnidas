@@ -35,3 +35,52 @@ function trocarElementos(categoria, btn) {
 
 
 
+
+//function openModal() {
+//    document.getElementById("myModal").style.display = "flex";
+//}
+
+//function closeModal() {
+//    document.getElementById("myModal").style.display = "none";
+//}
+
+//function flipCard(cardElement) {
+//    cardElement.querySelector('.card-inner').classList.toggle('is-flipped');
+//}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const stars = document.querySelectorAll('.star');
+    const inputField = document.getElementById('Estrelas');
+
+    // Atualizar as estrelas ao passar o mouse
+    stars.forEach(star => {
+        star.addEventListener('mouseover', function () {
+            const value = parseInt(star.getAttribute('data-value'));
+            updateStars(value);
+        });
+
+        star.addEventListener('mouseout', function () {
+            const selectedValue = parseInt(inputField.value) || 0;
+            updateStars(selectedValue);
+        });
+
+        // Capturar o clique nas estrelas
+        star.addEventListener('click', function () {
+            const value = parseInt(star.getAttribute('data-value'));
+            inputField.value = value;  // Atualiza o valor no input oculto
+            updateStars(value);
+        });
+    });
+
+    // Função para atualizar as estrelas com base no valor
+    function updateStars(value) {
+        stars.forEach(star => {
+            const starValue = parseInt(star.getAttribute('data-value'));
+            if (starValue <= value) {
+                star.classList.add('selected');
+            } else {
+                star.classList.remove('selected');
+            }
+        });
+    }
+});
