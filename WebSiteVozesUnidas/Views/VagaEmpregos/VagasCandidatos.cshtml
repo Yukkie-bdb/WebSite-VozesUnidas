@@ -1,107 +1,25 @@
-﻿@model IEnumerable<WebSiteVozesUnidas.Models.VagaEmprego>
+﻿@model IEnumerable<WebSiteVozesUnidas.Models.CandidatoVaga>
 
 @{
     ViewData["Title"] = "VagasCandidatos";
 }
 
-<h1>VagasCandidatos</h1>
+<div class="d-flex">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Cargo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumeroVagas)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HorarioExpediente)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Beneficios)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Requisitos)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RegimeContratacao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DescricaoVaga)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Salario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LocalTrabalho)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cidade)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Publicacao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Usuario)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cargo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumeroVagas)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HorarioExpediente)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Beneficios)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Requisitos)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RegimeContratacao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DescricaoVaga)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Salario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LocalTrabalho)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cidade)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Publicacao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Usuario.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdVagaEmprego">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdVagaEmprego">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdVagaEmprego">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    @foreach (var item in Model)
+    {
+        <div class="d-flex flex-column rounded shadow border border-dark border-2 col-3">
+
+            <img src="~/img/@item.Usuario.Foto" class="border"/>
+
+            <p class="fw-bold mb-1">Nome: <span class="fw-normal">@item.Usuario.UserName</span></p>
+            <p class="fw-bold mb-1">Estado: <span class="fw-normal">@item.Usuario.Estado</span></p>
+            <p class="fw-bold mb-1">Cidade: <span class="fw-normal">@item.Usuario.Cidade</span></p>
+            <p class="fw-bold mb-1">Portfólio: <span class="fw-normal"><a href="@item.Usuario.Portifolio" target="_blank">@item.Usuario.Portifolio</a></span></p>
+
+      
+
+            <button class="btn btn-success rounded-0">Ver Mais</button>
+        </div>
+    }
+</div>

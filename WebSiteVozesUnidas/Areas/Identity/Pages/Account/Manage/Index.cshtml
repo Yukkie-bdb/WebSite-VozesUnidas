@@ -3,11 +3,13 @@
 @{
     ViewData["Title"] = "Perfil";
     ViewData["ActivePage"] = ManageNavPages.Index;
+    ViewData["UseContainer"] = true;
+
 }
 
 
 <div class="d-flex col-12">
-    <div class="d-flex flex-column bg-secondary col-4 justify-content-center align-items-center position-relative">
+    <div class="d-flex flex-column col-3 justify-content-center align-items-center position-relative border border-1 border-dark shadow">
 
         <img id="profileImage" src="@(string.IsNullOrEmpty(Model.Input.Foto) ? Url.Content("~/img/default.jpg") : Url.Content($"~/img/{Model.Input.Foto}"))"
              class="rounded-circle mb-3"
@@ -33,7 +35,7 @@
         </div>
     </div>
 
-    <div class="bg-info col-8">
+    <div class="col-9 offset-1 border border-1 border-dark shadow p-2">
 
         <h2>@ViewData["Title"]</h2>
         <hr />
@@ -41,10 +43,12 @@
         <h3>Sobre</h3>
         <p>@Model.Input.Sobre</p>
 
-        <div class="d-flex flex-wrap">
+        <h3>Vagas de empregos criadas</h3>
+
+        <div class="d-flex flex-wrap justify-content-start mt-4">
         @foreach(var item in Model.Input.Vagas)
         {
-                <div class="card col-4">
+                <div class="card col-5 me-4 mb-4">
                     <div class="card-body">
                         <h5 class="card-title">@item.Cargo</h5>
                         <p class="card-text">@item.DescricaoVaga</p>

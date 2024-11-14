@@ -262,10 +262,10 @@ namespace WebSiteVozesUnidas.Controllers
 
         public async Task<IActionResult> VagasCandidatos(Guid Id)
         {
-            var userId = _signInManager.UserManager.GetUserId(User);
-            var vaga = _context.VagaEmpregos.Include(v => v.Usuario).Where(a => a.IdVagaEmprego == Id).AsQueryable();
+            var userId = Guid.Parse(_signInManager.UserManager.GetUserId(User));
+            var candidatos = _context.CandidatoVagas.Include(c => c.Usuario).Include(c => c.VagaEmprego).Where(c => c.VagaEmpregoId == Id);
 
-            return View(await vaga.ToListAsync());
+            return View(await candidatos.ToListAsync());
         }
     }
 }

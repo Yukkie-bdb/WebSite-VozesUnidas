@@ -27,6 +27,7 @@ namespace WebSiteVozesUnidas.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.CandidatoVagas.Include(c => c.Usuario).Include(c => c.VagaEmprego);
+
             return View(await applicationDbContext.ToListAsync());
         }
 

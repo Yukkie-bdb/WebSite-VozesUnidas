@@ -95,7 +95,7 @@
 
     <!-- Campo ESTADO -->
     <div class="form-floating mb-3" id="estado">
-        <select id="estado-pf" class="form-select" onchange="selecionarEstado(this)" placeholder="Selecione um estado">
+        <select asp-for="Input.Estado" id="estado-pf" class="form-select" onchange="selecionarEstado(this)" placeholder="Selecione um estado">
             <option value="">Selecione um estado</option>
         </select>
         <label for="estado-pf">Estado</label>
@@ -103,7 +103,7 @@
 
     <!-- Campo CIDADE -->
     <div class="form-floating mb-3" id="cidade">
-        <select id="cidade-pf" class="form-select" disabled onchange="selecionarCidade(this)" placeholder="Selecione uma cidade">
+        <select asp-for="Input.Cidade" id="cidade-pf" class="form-select" disabled onchange="selecionarCidade(this)" placeholder="Selecione uma cidade">
             <option value="">Selecione uma cidade</option>
         </select>
         <label for="cidade-pf">Cidade</label>
