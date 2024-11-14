@@ -409,3 +409,33 @@ p {
     color: #007bff;
     margin-bottom: 20px;
 }*/
+
+/* Estilos gerais para as estrelas */
+.star-rating {
+    display: flex;
+    direction: row;
+}
+
+.star {
+    font-size: 2rem; /* Tamanho da estrela */
+    color: #ccc; /* Cor das estrelas desmarcadas */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+    /* Estilo das estrelas selecionadas */
+    .star.selected {
+        color: gold; /* Cor das estrelas selecionadas */
+    }
+
+/* Estilos para o campo invisível (input) */
+input[type="hidden"] {
+    display: none; /* Oculta o campo de entrada */
+}
+
+/* Estilos de validação (se houver erro na validação) */
+.text-danger {
+    font-size: 0.875rem;
+    color: red;
+    margin-top: 5px;
+}

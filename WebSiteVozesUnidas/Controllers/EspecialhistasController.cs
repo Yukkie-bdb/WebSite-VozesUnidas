@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -30,7 +31,7 @@ namespace WebSiteVozesUnidas.Controllers
 
             var especialistas = _context.Especialistas.ToList();
             var avalia = await _context.AvaliacaoEspecialistas.Include(a => a.Usuario).ToListAsync();
-
+            ViewBag.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             ViewBag.Avaliacoes = avalia;
             return View(especialistas ?? new List<Especialista>());
         }
