@@ -17,13 +17,20 @@
                 <span asp-validation-for="Descricao" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="Estrelas" class="control-label"></label>
-                <input asp-for="Estrelas" class="form-control" />
-                <span asp-validation-for="Estrelas" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
                 <label asp-for="EspecialistaId" class="control-label"></label>
                 <select asp-for="EspecialistaId" class ="form-control" asp-items="ViewBag.EspecialistaId"></select>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Estrelas" class="control-label">Avaliação</label>
+                <div class="star-rating">
+                    <span class="star" data-value="1">&#9733;</span>
+                    <span class="star" data-value="2">&#9733;</span>
+                    <span class="star" data-value="3">&#9733;</span>
+                    <span class="star" data-value="4">&#9733;</span>
+                    <span class="star" data-value="5">&#9733;</span>
+                </div>
+                <input type="hidden" asp-for="Estrelas" id="Estrelas" name="Estrelas" />
+                <span asp-validation-for="Estrelas" class="text-danger"></span>
             </div>
             <div style="display:flex; flex-direction:column; justify-content: center; align-items: center">
                 <button type="submit" value="Criar" style="margin-bottom:10px; border-radius:10px; border: solid; border-width: 1px; background-color:#FFFFFF; align-items:center; width:250px; height:40px">
@@ -37,4 +44,6 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="~/js/site.js"></script>
 }
