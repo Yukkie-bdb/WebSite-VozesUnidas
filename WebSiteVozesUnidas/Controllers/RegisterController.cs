@@ -157,6 +157,7 @@ namespace WebSiteVozesUnidas.Controllers
             }
             return (IUserEmailStore<ApplicationUser>)_userStore;
         }
+
     }
 
 }
