@@ -158,14 +158,15 @@ namespace WebSiteVozesUnidas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var candidatoVaga = await _context.CandidatoVagas.FindAsync(id);
+            var candidatoVaga = await _context.CandidatoVagas.FirstOrDefaultAsync(m => m.VagaEmpregoId == id);
+
             if (candidatoVaga != null)
             {
                 _context.CandidatoVagas.Remove(candidatoVaga);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "VagaEmpregos", new { id = id });
         }
 
         private bool CandidatoVagaExists(Guid id)

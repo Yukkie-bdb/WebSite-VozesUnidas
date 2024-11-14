@@ -79,6 +79,7 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
             public string CNPJ { get; set; }
             public int Funcionarios { get; set; }
             public List<VagaEmprego> Vagas { get; set; }
+            public List<VagaEmprego> VagasCandidatadas { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -107,6 +108,17 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
             };
 
             Input.Vagas = _context.VagaEmpregos.Where(a => a.UsuarioId == user.Id).ToList();
+
+            // Obtemos os IDs das vagas para as quais o usuário se candidatou
+            var vagasCandidatadasIds = _context.CandidatoVagas
+                .Where(a => a.UsuarioId == user.Id)
+                .Select(a => a.VagaEmpregoId)  // Seleciona apenas o IdVagaEmprego
+                .ToList();
+
+            // Usamos os IDs das vagas para buscar as vagas no contexto de VagaEmpregos
+            Input.VagasCandidatadas = _context.VagaEmpregos
+                .Where(a => vagasCandidatadasIds.Contains(a.IdVagaEmprego))
+                .ToList();
         }
 
         public async Task<IActionResult> OnGetAsync()

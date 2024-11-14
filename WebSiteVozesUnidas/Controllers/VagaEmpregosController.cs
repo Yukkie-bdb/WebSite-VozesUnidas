@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,14 @@ namespace WebSiteVozesUnidas.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        
 
-        public VagaEmpregosController(ApplicationDbContext context, SignInManager<ApplicationUser> signInManager)
+        public VagaEmpregosController(ApplicationDbContext context, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         // GET: VagaEmpregos
@@ -119,24 +123,14 @@ namespace WebSiteVozesUnidas.Controllers
                 .Include(a => a.Usuario)
                 .ToListAsync();
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            //var candidaturas = await _context.CandidatoVagas.Where(c => c.IdVaga == id).ToListAsync();
-            //var usuarios = await _context.Users.ToListAsync();
-            //var lista = new List<ApplicationUser>();
-            //if(candidaturas != null)
-            //{
-            //    foreach(var item in candidaturas)
-            //    {
-            //        foreach(var user in usuarios)
-            //        {
-            //            if(item.Id == user.Id)
-            //            {
-            //                lista.Add(user);
-            //            }
-            //        }
-            //    }
-            //}
-            //ViewBag.Candidatos = lista;
+            // Obtém a lista de candidaturas do usuário
+            var candidaturas = await _context.CandidatoVagas.Where(c => c.VagaEmpregoId == id && c.UsuarioId == Guid.Parse(userId)).ToListAsync() ;
+
+            // Verifica se o usuário já se candidatou
+            ViewData["Candidatado"] = candidaturas.Any();
+
             return View(vagaEmprego);
         }
 
