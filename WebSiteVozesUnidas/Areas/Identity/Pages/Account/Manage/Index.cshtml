@@ -15,9 +15,20 @@
              class="rounded-circle mb-3"
              style="width: 24vh; height: 24vh; object-fit: cover; cursor:pointer;" />
 
+        @if(Model.Input.Nome != null)
+        {   
         <p class="mb-1">@Model.Input.Nome</p>
+        }
+
+        @if (Model.Input.Nascimento != null)
+        {
         <p class="mb-1">@Model.Input.Nascimento</p>
+        }
+
+        @if (Model.Input.Email != null)
+        {
         <p class="mb-1">@Model.Input.Email</p>
+        }
 
         <!-- Ícone de três pontos no canto superior direito -->
         <div class="position-absolute top-0 end-0 m-2">

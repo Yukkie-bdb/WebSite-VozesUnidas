@@ -71,7 +71,7 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
             public string Email { get; set; }
             public string Sobre { get; set; }
             public TipoUsuario Tipo { get; set; }
-            public DateOnly Nascimento { get; set; }
+            public DateOnly? Nascimento { get; set; }
             public List<string> Habilidades { get; set; } = new List<string>();
             public string Objetivos { get; set; }
             public bool Jornalista { get; set; }
@@ -98,7 +98,7 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
                 Email = user.Email,
                 Sobre = user.Sobre,
                 Tipo = user.Tipo,
-                Nascimento = (DateOnly)user.Nascimento,
+                Nascimento = user.Nascimento,
                 Habilidades = user.Habilidades,
                 Objetivos = user.Objetivos,
                 Jornalista = user.Jornalista,

@@ -106,8 +106,8 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account
             [Display(Name = "Sobre o Usuário")]
             public string Sobre { get; set; }
 
-            //[Display(Name = "Tipo de Usuário")]
-            //public TipoUsuario Tipo { get; set; }
+            [Display(Name = "Tipo de Usuário")]
+            public string Tipo { get; set; }
 
             //[Display(Name = "Mídias Sociais")]
             //public List<MidiaSocial> MidiaSocials { get; set; } = new List<MidiaSocial>();
@@ -117,7 +117,7 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account
             public string CPF { get; set; }
 
             [Display(Name = "Data de Nascimento")]
-            public DateOnly Nascimento { get; set; }
+            public DateOnly? Nascimento { get; set; }
 
             [Display(Name = "Habilidades")]
             public List<string> Habilidades { get; set; }
@@ -134,7 +134,7 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account
             [Display(Name = "Ramo")]
             public string Ramo { get; set; }
             [Display(Name = "Funcionarios")]
-            public int Funcionarios { get; set; }
+            public int? Funcionarios { get; set; }
             [Display(Name = "Portifolio")]
             public string Portifolio { get; set; }
             [Display(Name = "Estado")]
@@ -197,6 +197,10 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account
                     }
                     user.Foto = uniqueFileName;
                 }
+                else
+                {
+                    user.Foto = new[] { "profile1.jpg", "profile2.jpg", "profile3.jpg" }[new Random().Next(3)];
+                }
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
@@ -215,6 +219,9 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                    var roleResult = await _userManager.AddToRoleAsync(user, Input.Tipo.ToString());
+
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

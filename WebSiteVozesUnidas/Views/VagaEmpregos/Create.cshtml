@@ -122,22 +122,20 @@
                 <span asp-validation-for="Salario" class="text-danger"></span>
             </div>
 
-            <div>
-                <select class="form-select" aria-label="Default select example" asp-for="Estado">
-                    <option selected>Selecione o Estado</option>
-                    <option value="SP">SP</option>
-                    <option value="RJ">RJ</option>
-                    <option value="BH">BH</option>
+            <!-- Campo ESTADO -->
+            <div class="form-floating mb-3" id="estado">
+                <select asp-for="Estado" id="estado-pf" class="form-select" onchange="selecionarEstado(this)" placeholder="Selecione um estado">
+                    <option value="">Selecione um estado</option>
                 </select>
+                <label for="estado-pf">Estado</label>
             </div>
 
-            <div>
-                <select class="form-select" aria-label="Default select example" asp-for="Cidade">
-                    <option selected>Selecione o Estado</option>
-                    <option value="BR">BROTAS</option>
-                    <option value="TR">TORRINHA</option>
-                    <option value="MG">MINAS GERAIS</option>
+            <!-- Campo CIDADE -->
+            <div class="form-floating mb-3" id="cidade">
+                <select asp-for="Cidade" id="cidade-pf" class="form-select" disabled onchange="selecionarCidade(this)" placeholder="Selecione uma cidade">
+                    <option value="">Selecione uma cidade</option>
                 </select>
+                <label for="cidade-pf">Cidade</label>
             </div>
 
             <button type="submit" class="btn btn-outline-success">CRIAR</button>
@@ -152,3 +150,78 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    let estados = [];
+    let cidades = {};
+
+    // Carregar os estados ao iniciar a página
+    document.addEventListener('DOMContentLoaded', carregarEstados);
+
+    // Função para carregar os estados do IBGE
+    function carregarEstados() {
+        fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome')
+            .then(response => response.json())
+            .then(data => {
+                estados = data.map(estado => ({
+                    id: estado.id,
+                    nome: estado.nome,
+                    sigla: estado.sigla
+                }));
+                preencherSelectEstados();
+            });
+    }
+
+    // Preenche o select de estados
+    function preencherSelectEstados() {
+        const selectEstado = document.getElementById('estado-pf');
+        estados.forEach(estado => {
+            const option = document.createElement('option');
+            option.value = estado.nome; // Define o nome do estado como valor
+            option.textContent = `${estado.nome} (${estado.sigla})`;
+            selectEstado.appendChild(option);
+        });
+    }
+
+    // Quando um estado é selecionado, carrega as cidades
+    function selecionarEstado(select) {
+        const estadoNome = select.value;
+        const estadoSelecionado = estados.find(estado => estado.nome === estadoNome);
+
+        if (estadoSelecionado) {
+            carregarCidades(estadoSelecionado.id);
+            document.getElementById('cidade-pf').disabled = false;
+        } else {
+            document.getElementById('cidade-pf').innerHTML = '<option value="">Selecione uma cidade</option>';
+            document.getElementById('cidade-pf').disabled = true;
+        }
+    }
+
+    // Carrega as cidades do estado selecionado
+    function carregarCidades(estadoId) {
+        fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoId}/municipios`)
+            .then(response => response.json())
+            .then(data => {
+                cidades[estadoId] = data.map(cidade => cidade.nome);
+                preencherSelectCidades(estadoId);
+            });
+    }
+
+    // Preenche o select de cidades com base no estado selecionado
+    function preencherSelectCidades(estadoId) {
+        const selectCidade = document.getElementById('cidade-pf');
+        selectCidade.innerHTML = '<option value="">Selecione uma cidade</option>';
+        cidades[estadoId].forEach(cidade => {
+            const option = document.createElement('option');
+            option.value = cidade; // Nome da cidade como valor
+            option.textContent = cidade;
+            selectCidade.appendChild(option);
+        });
+    }
+
+    // Exemplo de função que pode ser usada ao selecionar uma cidade
+    function selecionarCidade(select) {
+        const cidadeSelecionada = select.value;
+        console.log('Cidade selecionada:', cidadeSelecionada);
+    }
+</script>

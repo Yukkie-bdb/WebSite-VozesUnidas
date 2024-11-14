@@ -4,27 +4,24 @@
     ViewData["Title"] = "Register";
 }
 
-<script>
-
-</script>
-
 <h1 class="text-center">CADASTRO</h1>
 
-<!-- Campo TipoUsuario -->
-<div class="col-12 d-flex">
-    <input class="d-none" id="formCampoPF" type="radio" name="tipoUser" checked onchange="trocarCor()">
-    <label for="formCampoPF" class="tipo-label bg-black text-white border col-6 text-center p-3 cursor-pointer">
-        Pessoa Física
-    </label>
-
-    <input class="d-none" id="formCampoE" type="radio" name="tipoUser" onchange="trocarCor()">
-    <label for="formCampoE" class="tipo-label bg-white border col-6 text-center p-3 cursor-pointer">
-        Empresa
-    </label>
-</div>
 
 <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+    <!-- Campo TipoUsuario -->
+    <div class="col-12 d-flex">
+        <input asp-for="Input.Tipo" value="PessoaFisica" class="d-none" id="formCampoPF" type="radio" checked onchange="trocarCor()">
+        <label for="formCampoPF" class="tipo-label bg-black text-white border col-6 text-center p-3 cursor-pointer">
+            Pessoa Física
+        </label>
+
+        <input asp-for="Input.Tipo" value="Empresa" class="d-none" id="formCampoE" type="radio" onchange="trocarCor()">
+        <label for="formCampoE" class="tipo-label bg-white border col-6 text-center p-3 cursor-pointer">
+            Empresa
+        </label>
+    </div>
 
     @* CAMPOS SUPERIOR *@
     <div class="col-12 d-flex justify-content-between mt-5 mb-3 align-items-stretch">
@@ -35,7 +32,7 @@
             <input asp-for="Input.Foto" type="file" class="form-control d-none" name="imgUp" id="imgUp" accept=".jpg,.jpeg,.png, .gif" onchange="startCropper()" />
         </div>
 
-  
+
 
         @* CAMPOS AO LADO IMG *@
         <div class="d-flex flex-column col-6 ">
@@ -88,7 +85,7 @@
 
     <!-- Campo Funcionarios -->
     <div class="form-floating mb-3 d-none" id="funcionarios">
-        <input asp-for="Input.Funcionarios" class="form-control" value="0" placeholder="Funcionarios" />
+        <input asp-for="Input.Funcionarios" class="form-control" placeholder="Funcionarios" />
         <label asp-for="Input.Funcionarios">Funcionarios</label>
         <span asp-validation-for="Input.Funcionarios" class="text-danger"></span>
     </div>
@@ -226,7 +223,7 @@
         const selectEstado = document.getElementById('estado-pf');
         estados.forEach(estado => {
             const option = document.createElement('option');
-            option.value = estado.id;
+            option.value = estado.nome; // Define o nome do estado como valor
             option.textContent = `${estado.nome} (${estado.sigla})`;
             selectEstado.appendChild(option);
         });
@@ -234,9 +231,11 @@
 
     // Quando um estado é selecionado, carrega as cidades
     function selecionarEstado(select) {
-        const estadoId = select.value;
-        if (estadoId) {
-            carregarCidades(estadoId);
+        const estadoNome = select.value;
+        const estadoSelecionado = estados.find(estado => estado.nome === estadoNome);
+
+        if (estadoSelecionado) {
+            carregarCidades(estadoSelecionado.id);
             document.getElementById('cidade-pf').disabled = false;
         } else {
             document.getElementById('cidade-pf').innerHTML = '<option value="">Selecione uma cidade</option>';
@@ -260,7 +259,7 @@
         selectCidade.innerHTML = '<option value="">Selecione uma cidade</option>';
         cidades[estadoId].forEach(cidade => {
             const option = document.createElement('option');
-            option.value = cidade;
+            option.value = cidade; // Nome da cidade como valor
             option.textContent = cidade;
             selectCidade.appendChild(option);
         });
@@ -375,7 +374,7 @@
         let habilidades = document.getElementById("habilidades");
         let ramo = document.getElementById("ramo");
         let senha = document.getElementById("senha");
-        
+
 
         if (pessoaFisica.checked) {
             labelPessoaFisica.classList.add("bg-black", "text-white");
@@ -394,6 +393,7 @@
             funcionarios.classList.add("d-none");
             ramo.classList.add("d-none");
 
+            Input.Tipo = "PessoaFisica";
 
         } else {
             labelEmpresa.classList.add("bg-black", "text-white");
@@ -411,6 +411,9 @@
             sobre.classList.remove("d-none");
             funcionarios.classList.remove("d-none");
             ramo.classList.remove("d-none");
+
+            Input.Tipo = "Empresa";
+
         }
     }
 </script>
