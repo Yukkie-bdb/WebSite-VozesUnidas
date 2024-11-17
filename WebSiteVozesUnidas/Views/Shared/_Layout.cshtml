@@ -12,49 +12,97 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
+
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/img/LOGO.png" style="height:10vh" alt="Logo" />
+                    <img src="~/img/LOGO.png" style="height:42px; width:42px;" alt="Logo" />
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex w-100">
+
+                    <div class="col-7 offset-1">
+                        <ul class="navbar-nav d-flex justify-content-start w-100">
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 h5 hover-dark-underline" asp-area="" asp-controller="Noticias" asp-action="Index">Notícias</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 h5 hover-dark-underline" asp-area="" asp-controller="Especialista" asp-action="index">Aconselhamentos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 h5 hover-dark-underline" asp-area="" asp-controller="MaterialDidatico" asp-action="index">Materiais</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 h5 hover-dark-underline" asp-area="" asp-controller="VagaEmpregos" asp-action="Index">Empregos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 h5 hover-dark-underline" asp-area="" asp-controller="Posts" asp-action="Index">Fórum</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 h5 hover-dark-underline" asp-area="" asp-controller="Home" asp-action="Privacy">Sobre</a>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <div class="d-flex col justify-content-center">
+                        <partial name="_LoginPartial" />
+                    </div>
+
+                </div>
+            </div>
+
+        </nav>
+    </header>
+
+    @* <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/img/LOGO.png" style="height:8vh;" alt="Logo" />
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
                 <div class="navbar-collapse collapse d-sm-inline-flex w-100">
                     <ul class="navbar-nav d-flex justify-content-evenly w-100">
                         <li class="nav-item">
-                            <a class="nav-link text-dark h3 fw-bold" asp-area="" asp-controller="Noticias" asp-action="Index">Notícias</a>
+                            <a class="nav-link text-dark mb-0 h5" asp-area="" asp-controller="Noticias" asp-action="Index">Notícias</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark h3 fw-bold" asp-area="" asp-controller="Especialista" asp-action="index">Aconselhamentos</a>
+                            <a class="nav-link text-dark mb-0 h5" asp-area="" asp-controller="Home" asp-action="Privacy">Sobre</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark h3 fw-bold" asp-area="" asp-controller="MaterialDidatico" asp-action="index">Materiais</a>
+                            <a class="nav-link text-dark mb-0 h5" asp-area="" asp-controller="Especialista" asp-action="index">Aconselhamentos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark h3 fw-bold" asp-area="" asp-controller="VagaEmpregos" asp-action="Index">Empregos</a>
+                            <a class="nav-link text-dark mb-0 h5" asp-area="" asp-controller="MaterialDidatico" asp-action="index">Materiais</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark h3 fw-bold" asp-area="" asp-controller="Home" asp-action="Privacy">Sobre</a>
+                            <a class="nav-link text-dark mb-0 h5" asp-area="" asp-controller="VagaEmpregos" asp-action="Index">Empregos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark h3 fw-bold" asp-area="" asp-controller="Posts" asp-action="Index">Fórum</a>
+                            <a class="nav-link text-dark mb-0 h5" asp-area="" asp-controller="Posts" asp-action="Index">Fórum</a>
                         </li>
 
                     </ul>
-                    <partial name="_LoginPartial" />
-
+                      <partial name="_LoginPartial" />
 
                 </div>
             </div>
         </nav>
-    </header>
+    </header> *@
     <div class="@(ViewData["UseContainer"] as bool? == false ? "" : "container")">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top  text-muted float-end">
+    @*<footer class="border-top  text-muted float-end">
         <div class=" pt-5 d-none d-md-block" style="background-color:#303030;" >
             <div class="mx-5  d-flex">
                 <div class="col-2">
@@ -148,7 +196,7 @@
         <p class="w-100 text-white text-center mb-0" style="background-color:#303030;">
             © 2024 Vozes Unidas. Todos os direitos reservados.
         </p>
-    </footer>
+    </footer>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -157,11 +205,18 @@
 </html>
 
 <style>
+    body{
+    }
+
     .mh25px {
         max-height: 40px;
         margin: 0.7rem 0px !important;
-        */ display:flex;
+        display:flex;
         align-items: center;
     }
 
+    .hover-dark-underline:hover{
+        color: black;
+        text-decoration: underline;
+    }
 </style>

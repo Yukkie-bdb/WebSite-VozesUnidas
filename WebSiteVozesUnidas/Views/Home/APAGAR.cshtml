@@ -1,0 +1,436 @@
+﻿@using WebSiteVozesUnidas.Areas.Identity.Pages.Account
+@* @model LoginModel *@
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@* @Html.Partial("_Register", new RegisterModelSimples())
+ *@
+
+@* @model WebSiteVozesUnidas.ViewModels.UserDebugViewModel
+
+<h1>Informações do Usuário Logado</h1>
+
+<ul>
+    <li><strong>Username:</strong> @Model.UserName</li>
+    <li><strong>Email:</strong> @Model.Email</li>
+    <li><strong>Foto:</strong> <img src="@Model.Foto" alt="Foto do usuário" /></li>
+    <li><strong>Sobre:</strong> @Model.Sobre</li>
+    <li><strong>Portfólio:</strong> <a href="@Model.Portifolio" target="_blank">@Model.Portifolio</a></li>
+    <li><strong>Tipo:</strong> @Model.Tipo</li>
+    <li><strong>Estado:</strong> @Model.Estado</li>
+    <li><strong>Cidade:</strong> @Model.Cidade</li>
+
+    <!-- Lista de Mídias Sociais -->
+    <li><strong>Mídias Sociais:</strong>
+        <ul>
+            @foreach (var midia in Model.MidiaSocials)
+            {
+                <li>@midia.Plataforma: <a href="@midia.Url" target="_blank">@midia.Url</a></li>
+            }
+        </ul>
+    </li>
+
+    <!-- Exibição condicional para Pessoa Física -->
+    @if (Model.Tipo == TipoUsuario.PessoaFisica)
+    {
+        <li><strong>CPF:</strong> @Model.CPF</li>
+        <li><strong>Data de Nascimento:</strong> @Model.Nascimento</li>
+        <li><strong>Habilidades:</strong> @string.Join(", ", Model.Habilidades)</li>
+        <li><strong>Objetivos:</strong> @Model.Objetivos</li>
+        <li><strong>É jornalista?</strong> @(Model.Jornalista ? "Sim" : "Não")</li>
+    }
+
+    <!-- Exibição condicional para Empresa -->
+    @if (Model.Tipo == TipoUsuario.Empresa)
+    {
+        <li><strong>CNPJ:</strong> @Model.CNPJ</li>
+        <li><strong>Ramo:</strong> @Model.Ramo</li>
+        <li><strong>Número de Funcionários:</strong> @Model.Funcionarios</li>
+    }
+</ul>
+ *@
+
+@* VERSAO BOA *@
+
+<div class="container">
+    <div class="text">
+        <h2>Futuro do Mundo</h2>
+        <p>
+            O futuro do mundo será mais inclusivo e equitativo através de iniciativas que promovem a igualdade de gênero, garantindo que todas as pessoas, independentemente de seu gênero, tenham as mesmas oportunidades e direitos.
+        </p>
+
+        <div class="button-container">
+            <button class="alert-button" onclick="openModal()">OBJETIVO</button>
+        </div>
+    </div>
+
+    <div class="image">
+        <img src="~/img/legal.webp" alt="Exemplo de imagem">
+    </div>
+</div>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <h4 class="opa">PRINCIPAL OBJETIVO</h4>
+        <p class="fafas">O objetivo principal do nosso projeto é a criação de um site dedicado a promover a igualdade de gênero. Reconhecemos que, apesar dos avanços significativos ao longo das últimas décadas, ainda existem desigualdades substanciais entre homens e mulheres em diversas áreas, como mercado de trabalho, educação, política e direitos sociais</p>
+        <button class="close-button" onclick="closeModal()">Voltar</button>
+    </div>
+</div>
+
+<h1 class="fonte">Nossos Valores</h1>
+
+<div class="card-container">
+    <div class="card" onclick="flipCard(this)">
+        <div class="card-inner">
+            <div class="card-front">
+                <img src="~/img/resultado.png" alt="Imagem 1" class="img-card1">
+            </div>
+            <div class="card-back">
+                PROGRESSO
+            </div>
+        </div>
+    </div>
+
+    <div class="card" onclick="flipCard(this)">
+        <div class="card-inner">
+            <div class="card-front">
+                <img src="~/img/segurança.png" alt="Imagem 2" class="img-card2">
+            </div>
+            <div class="card-back">
+                SEGURANÇA
+            </div>
+        </div>
+    </div>
+
+    <div class="card" onclick="flipCard(this)">
+        <div class="card-inner">
+            <div class="card-front">
+                <img src="~/img/objetivo.jpg" alt="Imagem 3" class="img-card3">
+            </div>
+            <div class="card-back">
+                CERTEIROS
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<h1 class="bungas">Entenda nossas soluções</h1>
+<p class="kleber">
+    O site deve oferecer informações práticas e exemplos concretos de como a
+    igualdade de gênero pode ser implementada no cotidiano, tanto no ambiente
+    de trabalho quanto na vida pessoal. Recursos como guias, artigos e ferramentas
+    interativas podem ilustrar como políticas inclusivas beneficiam a todos, promovendo
+    um ambiente mais justo e produtivo. Além disso, depoimentos e histórias de sucesso
+    podem ajudar o público a se conectar emocionalmente e visualizar o impacto positivo das mudanças sugeridas.
+</p>
+
+
+<div class="boa">
+    <h1>Para quem são nossas soluções</h1>
+
+    <div class="layout-container">
+        <div class="info-box">
+            <div class="icon-large">🙋‍♂️</div>
+            <h2>Homens</h2>
+            <div class="button-group">
+                <button>Estereótipos </button>
+                <button>Sub-representação</button>
+                <button>Pressão financeira</button>
+            </div>
+            <p>
+                Homens têm um papel crucial na promoção da igualdade de gênero. Ao apoiar políticas
+                e práticas inclusivas, eles ajudam a construir ambientes de trabalho e comunidades
+                mais justas para todos. Ser um defensor da igualdade de gênero significa reconhecer
+                que as oportunidades e os direitos devem ser acessíveis a todos, independentemente
+                de gênero. Além disso, homens que se envolvem nessa causa contribuem para um futuro
+                mais equilibrado, onde a colaboração, o respeito mútuo e a diversidade criam benefícios
+                não só para as mulheres, mas para toda a sociedade. A igualdade de gênero também
+                desafia estereótipos prejudiciais que limitam as expectativas e os papéis masculinos,
+                promovendo um espaço onde os homens possam viver de forma mais autêntica e plena.
+            </p>
+        </div>
+
+        <div class="info-box">
+            <div class="icon-large">🙋‍♀️</div>
+            <h2>Mulheres</h2>
+            <div class="button-group">
+                <button>Desigualdade salarial </button>
+                <button>Sub-representação</button>
+                <button>Violência</button>
+            </div>
+            <p>
+                A igualdade de gênero é fundamental para que as mulheres possam alcançar seu pleno
+                potencial em todas as áreas da vida. Ser parte desse movimento significa lutar por
+                oportunidades justas, respeito e representação em espaços onde sua voz pode trazer
+                mudanças reais. O empoderamento feminino é um dos pilares dessa luta, permitindo que
+                mulheres de todas as origens ocupem seus lugares de direito na sociedade, sem limitações
+                impostas por preconceitos de gênero. Ao se engajar com a igualdade de gênero, você está
+                ajudando a criar um mundo mais justo e inclusivo, onde as mulheres podem viver sem
+                barreiras e conquistar os direitos e oportunidades que merecem.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+<script>
+    function openModal() {
+        document.getElementById("myModal").style.display = "flex";
+    }
+
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+
+    function flipCard(cardElement) {
+        cardElement.querySelector('.card-inner').classList.toggle('is-flipped');
+    }
+</script>
+
+<style>
+    .container {
+        display: flex;
+        height: 50%;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .text {
+        font-size: 1.5rem;
+        width: 50%;
+        margin-left: 4%;
+    }
+
+    p {
+        font-size: 20px;
+    }
+
+    .image {
+        flex: 1;
+        margin-right: 3%;
+        z-index: 1;
+    }
+
+        .image img {
+            width: 110%;
+            height: auto;
+            display: block;
+        }
+
+    .button-container {
+        margin-top: 20px;
+    }
+
+    .alert-button {
+        padding: 10px 20px;
+        font-size: 1rem;
+        background-color: blue;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+        .alert-button:hover {
+            background-color: #0056b3;
+        }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 80%;
+        max-width: 500px;
+        text-align: center;
+    }
+
+    .close-button {
+        padding: 10px 20px;
+        background-color: blue;
+        color: white;
+        border: none;
+        width: 30%;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+        .close-button:hover {
+            background-color: #0056b3;
+        }
+
+    .card-container {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 7%;
+        margin-top: 40px;
+    }
+
+    .card {
+        width: 200px;
+        height: 300px;
+        perspective: 1000px;
+    }
+
+    .card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+    }
+
+    .card-front, .card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.2rem;
+        flex-direction: column;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-front {
+        color: white;
+    }
+
+    .card-back {
+        background-color: #f8f9fa;
+        color: black;
+        transform: rotateY(180deg);
+    }
+
+    .is-flipped {
+        transform: rotateY(180deg);
+    }
+
+    .img-card1 {
+        width: 40%;
+        height: 22%;
+    }
+
+    .img-card2 {
+        width: 50%;
+        height: 30%;
+    }
+
+    .img-card3 {
+        width: 58%;
+        height: 48%;
+    }
+
+    .layout-container {
+        display: flex;
+        justify-content: space-around;
+        padding: 50px;
+        width:100%;
+        margin-top: -4%;
+    }
+
+    .info-box {
+        background-color: transparent;
+        padding: 20px;
+        text-align: center;
+        width: 45%;
+    }
+
+        .info-box h2 {
+            color: white;
+        }
+
+        .info-box p {
+            font-size: 14px;
+            text-align: center;
+            color: white;
+            line-height: 1.6;
+        }
+
+    .button-group {
+        margin: 20px 0;
+    }
+
+        .button-group button {
+            background-color: #e0e0e0;
+            border: none;
+            padding: 10px 15px;
+            margin-right: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .button-group button:hover {
+                background-color: #d4d4d4;
+            }
+
+    .icon-large {
+        font-size: 40px;
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+
+    .fonte {
+        text-align: center;
+        margin-top: 5%;
+        color: black;
+    }
+
+    .fafas {
+        text-align: center;
+        font-size: 18px;
+    }
+
+    .opa {
+        font-size: 20px;
+    }
+
+    .bungas {
+        text-align: center;
+    }
+
+    .kleber {
+        text-align: center;
+        padding: 3%;
+        margin-top: -2%;
+    }
+
+    .boa {
+        margin-bottom: 20%;
+        margin-top: 3%;
+        height: 500px;
+        background-color: black;
+    }
+
+        .boa h1 {
+            color: white;
+            text-align: center;
+        }
+</style>
