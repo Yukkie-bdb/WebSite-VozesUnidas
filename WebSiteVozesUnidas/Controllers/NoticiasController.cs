@@ -106,6 +106,8 @@ namespace WebSiteVozesUnidas.Controllers
                 ViewBag.UserTipo = tipo.Tipo;
             }
 
+            ViewBag.vejaMais = _context.Noticias.OrderBy(a => a.Publicacao).Take(5).ToListAsync();
+
             return View(noticia);
         }
 

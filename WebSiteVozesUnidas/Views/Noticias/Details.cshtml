@@ -1,4 +1,4 @@
-﻿@model WebSiteVozesUnidas.Models.Noticia
+﻿@* @model WebSiteVozesUnidas.Models.Noticia
 
 @{
     ViewData["Title"] = "Notícia";
@@ -18,9 +18,32 @@
 }
 
 <h1 class="d-flex justify-content-center my-4">@Html.DisplayFor(model => model.Titulo)</h1>
-<div class="d-flex justify-content-center">
-    <img src="~/img/@Html.DisplayFor(model => model.Imagem)" alt="Imagem da Notícia"  class="col-10" style="max-height:400px;"/>
+
+<div class="d-flex justify-content-center col-12">
+    <div class="d-flex justify-content-center col-3">
+
+        <img src="~/img/@Html.DisplayFor(model => model.Imagem)" alt="Imagem da Notícia"  class="col-12"/>
+
+    </div>
 </div>
+
+<div>
+    <div class="fw-bold my-1">
+        Publicado em: @Html.DisplayFor(model => model.Publicacao)
+    </div>
+    <div class="fw-bold my-1">
+        Autor: @ViewData["Autor"]
+    </div>
+
+</div>
+
+<div class="justify-content-center d-flex my-5 col-12">
+    <div class="col-10">
+        @Html.Raw(Model.Conteudo.Replace("\n", "<br />"))
+    </div>
+</div>
+
+
 @if (ViewBag.AutorId.ToString() == ViewBag.UserId.ToString() || ViewBag.UserTipo == TipoUsuario.ADM)
 {
     <div class="d-flex justify-content-between my-3">
@@ -31,21 +54,6 @@
 
 }
 
-        <div class="justify-content-center d-flex my-5 col-12">
-            <div class="col-10">
-                @Html.Raw(Model.Conteudo.Replace("\n", "<br />"))
-            </div>
-        </div>
-        
-        <div>
-            <div class="fw-bold my-1">
-                Publicado em: @Html.DisplayFor(model => model.Publicacao)
-            </div>
-            <div class="fw-bold my-1">
-                 Autor: @ViewData["Autor"]
-            </div>
-
-        </div>
 
 
 <div class="modal fade" id="ModalTrash" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" tabindex="-1" aria-hidden="true">
@@ -70,3 +78,62 @@
         </div>
     </div>
 </div>
+ *@@model WebSiteVozesUnidas.Models.Noticia
+
+@{
+    ViewData["Title"] = "Notícia";
+}
+
+<div class="d-flex flex-column align-items-center">
+
+    <h1 class="d-flex justify-content-center my-4">@Html.DisplayFor(model => model.Titulo)</h1>
+
+    <div class="col-6">
+
+        <div class="d-flex justify-content-center align-content-center align-items-center col-12 noticia-img">
+            <img src="~/img/@Html.DisplayFor(model => model.Imagem)" class="img-fluid custom-img" />
+        </div>
+
+        <div class="d-flex justify-content-between mt-1">
+            <span class="text-secondary">Por: @(Model.Usuario?.UserName ?? "Anônimo")</span>
+            <span class="text-secondary">Horario: @Html.DisplayFor(model => model.Publicacao)</span>
+        </div>
+
+        <div class="d-flex mt-5">
+
+            <span>@Html.DisplayFor(model => model.Conteudo)</span>
+
+        </div>
+
+        <div class="mt-5 d-flex">
+
+            <ul>
+                @foreach (var item in ViewBag.vejaMais)
+                {
+                    <li>
+                        <a asp-action="Details" asp-controller="Noticias" class="text-decoration-underline text-danger">@item.Titulo</a>
+                    </li>
+                }
+            </ul>
+
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .noticia-img{
+        background-image: url('/img/noticaFundo.jpg');
+        border: 1px solid;
+        border-radius:10px;
+        border-color: black;
+    }
+
+    .custom-img {
+        height: 360px; /* Defina a altura desejada */
+        width: 100%;
+        object-fit: cover; /* Ajusta a imagem para cobrir todo o espaço disponível sem distorção */
+
+        border-radius: 10px;
+    }
+</style>

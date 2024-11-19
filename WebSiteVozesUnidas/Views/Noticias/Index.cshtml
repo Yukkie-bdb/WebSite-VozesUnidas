@@ -11,22 +11,33 @@
     }
 }
 
+<style>
+    .bg-gradient-eric {
+        background: linear-gradient(to bottom, transparent, black);
+    }
+</style>
+
 <h1 class="fw-bold justify-content-center d-flex my-4">Principais Notícias</h1>
+
 <div class="col-12 d-flex ">
+
     <div class="col-6 col-md-8 me-3">
-            <a asp-action="Details" asp-route-id="@ViewData["0Id"]" class="text-decoration-none mb-3 align-content-end flex-wrap Img0 d-flex" style="color: inherit;">
-                <p class="text-white BorderTexto Letratas m-1" >@ViewData["0Titulo"]</p>
-            </a>
-            <a asp-action="Details" asp-route-id="@ViewData["1Id"]" class="text-decoration-none align-content-end flex-wrap Img1 d-flex" style="color: inherit;">
-                <p class="text-white BorderTexto Letratas m-1">@ViewData["1Titulo"]</p>
-            </a>
+        <a asp-action="Details" asp-route-id="@ViewData["0Id"]" class="text-decoration-none mb-3 align-content-end flex-wrap Img0 d-flex " style="color: inherit;">
+            <p class="text-white BorderTexto Letratas m-1">@ViewData["0Titulo"]</p>
+        </a>
+        <a asp-action="Details" asp-route-id="@ViewData["1Id"]" class="text-decoration-none align-content-end flex-wrap Img1 d-flex" style="color: inherit;">
+            <p class="text-white BorderTexto Letratas m-1">@ViewData["1Titulo"]</p>
+        </a>
     </div>
+
     <div class="col-6 col-md-4 d-flex">
         <a asp-action="Details" asp-route-id="@ViewData["2Id"]" class="text-decoration-none mb-3 align-content-end flex-wrap Img2 d-flex w-100" style="color: inherit;">
             <p class="text-white BorderTexto Letratas m-1">@ViewData["2Titulo"]</p>
         </a>
     </div>
+
 </div>
+
 @if (ViewBag.userJorn == true)
 {
     <div class="h1 fw-bold my-5 ">Suas Notícias</div>
@@ -85,6 +96,9 @@
 }
 
 <style>
+
+
+
     .Img0{
         background-image: url("/img/@ViewData["0"]");
         background-position: initial;
