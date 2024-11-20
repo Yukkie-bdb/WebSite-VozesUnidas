@@ -53,8 +53,7 @@
             <div class="card bg-black text-white mb-3">
 
                 <a asp-action="Details" asp-route-id="@ViewBag.noticiasPrincipais[0].IdNoticia" class="text-decoration-none text-white">
-                    <img src="~/img/@ViewBag.noticiasPrincipais[0].Imagem" class="card-img" width="100%" height="260px" />
-
+                    <img src="~/img/@(string.IsNullOrEmpty(ViewBag.noticiasPrincipais[0].Imagem) ? "noImgFound.jpg" : ViewBag.noticiasPrincipais[0].Imagem)" class="card-img" width="100%" height="260px" style="object-fit:cover;"/>
                     <div class="card-img-overlay">
                         <h3 class="card-title">@ViewBag.noticiasPrincipais[0].Titulo</h3>
                         <p class="card-text">@ViewBag.noticiasPrincipais[0].SubTitulo</p>
@@ -66,7 +65,7 @@
             <div class="card bg-black text-white">
                 <a asp-action="Details" asp-route-id="@ViewBag.noticiasPrincipais[1].IdNoticia" class="text-decoration-none text-white">
 
-                    <img src="~/img/@ViewBag.noticiasPrincipais[1].Imagem" class="card-img" width="100%" height="260px" />
+                    <img src="~/img/@(string.IsNullOrEmpty(ViewBag.noticiasPrincipais[1].Imagem) ? "noImgFound.jpg" : ViewBag.noticiasPrincipais[1].Imagem)" class="card-img" width="100%" height="260px" style="object-fit:cover;" />
 
                     <div class="card-img-overlay">
                         <h3 class="card-title">@ViewBag.noticiasPrincipais[1].Titulo</h3>
@@ -82,7 +81,7 @@
             <div class="card bg-black text-white">
                 <a asp-action="Details" asp-route-id="@ViewBag.noticiasPrincipais[2].IdNoticia" class="text-decoration-none text-white">
 
-                    <img src="~/img/@ViewBag.noticiasPrincipais[2].Imagem" class="card-img" width="100%" height="536px" />
+                    <img src="~/img/@(string.IsNullOrEmpty(ViewBag.noticiasPrincipais[2].Imagem) ? "noImgFound.jpg" : ViewBag.noticiasPrincipais[2].Imagem)" class="card-img" width="100%" height="536px" style="object-fit:cover;" />
 
                     <div class="card-img-overlay">
                         <h3 class="card-title">@ViewBag.noticiasPrincipais[2].Titulo</h3>

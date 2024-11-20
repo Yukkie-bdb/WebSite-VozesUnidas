@@ -131,20 +131,20 @@
 
             @foreach (var item in ViewBag.noticias)
             {
-                <div class="d-flex my-5">
+                    <a asp-action="Details" asp-controller="Noticias" asp-route-id="@item.IdNoticia" class="d-flex my-5 text-black">
 
-                    <div class="d-flex flex-column col-5">
-                        <img src="~/img/@item.Imagem" class="rounded border border-dark"/>
-                    </div>
+                        <div class="d-flex flex-column col-5">
+                            <img src="~/img/@(string.IsNullOrEmpty(item.Imagem) ? "noImgFound.jpg" : item.Imagem)" class="rounded border border-dark" height="180px" />
+                        </div>
 
-                    <div class="d-flex flex-column col ms-3">
+                        <div class="d-flex flex-column col ms-3">
 
-                        <h4>@item.Titulo</h4>
-                        <p>@item.SubTitulo</p>
+                            <h4>@item.Titulo</h4>
+                            <p>@item.SubTitulo</p>
 
-                    </div>
+                        </div>
+                    </a>
 
-                </div>
 
                 <hr />
             }
