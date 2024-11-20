@@ -46,4 +46,11 @@
     <PackageReference Include="xunit.extensibility.core" Version="2.9.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Shared\_EmpregosHeader.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

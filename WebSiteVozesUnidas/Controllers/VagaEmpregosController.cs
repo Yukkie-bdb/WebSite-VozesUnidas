@@ -30,6 +30,8 @@ namespace WebSiteVozesUnidas.Controllers
         // GET: VagaEmpregos
         public async Task<IActionResult> Index(FiltroVagaEmprego filtroVagaEmprego)
         {
+            ViewData["CustomHeader"] = "EmpregosHeader";
+
             var applicationDbContext = _context.VagaEmpregos.Include(v => v.Usuario).AsQueryable();
 
             if (!string.IsNullOrEmpty(filtroVagaEmprego.Cargo))
@@ -101,6 +103,8 @@ namespace WebSiteVozesUnidas.Controllers
         // GET: VagaEmpregos/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
+            ViewData["CustomHeader"] = "EmpregosHeader";
+
             if (id == null)
             {
                 return NotFound();
@@ -137,6 +141,8 @@ namespace WebSiteVozesUnidas.Controllers
         // GET: VagaEmpregos/Create
         public IActionResult Create()
         {
+            ViewData["CustomHeader"] = "EmpregosHeader";
+
             ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
@@ -148,6 +154,8 @@ namespace WebSiteVozesUnidas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdVagaEmprego,Cargo,NumeroVagas,HorarioExpediente,Beneficios,Requisitos,RegimeContratacao,DescricaoVaga,Salario,Estado,Cidade,Publicacao,LocalTrabalho")] VagaEmprego vagaEmprego)
         {
+            ViewData["CustomHeader"] = "EmpregosHeader";
+
             if (ModelState.IsValid)
             {
                 var userId = _signInManager.UserManager.GetUserId(User);
@@ -165,6 +173,8 @@ namespace WebSiteVozesUnidas.Controllers
         // GET: VagaEmpregos/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
+            ViewData["CustomHeader"] = "EmpregosHeader";
+
             if (id == null)
             {
                 return NotFound();
@@ -186,6 +196,8 @@ namespace WebSiteVozesUnidas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("IdVagaEmprego,Cargo,NumeroVagas,HorarioExpediente,Beneficios,Requisitos,RegimeContratacao,DescricaoVaga,Salario,Estado,Cidade,Publicacao,UsuarioId")] VagaEmprego vagaEmprego)
         {
+            ViewData["CustomHeader"] = "EmpregosHeader";
+
             if (id != vagaEmprego.IdVagaEmprego)
             {
                 return NotFound();
@@ -218,6 +230,8 @@ namespace WebSiteVozesUnidas.Controllers
         // GET: VagaEmpregos/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
+            ViewData["CustomHeader"] = "EmpregosHeader";
+
             if (id == null)
             {
                 return NotFound();
@@ -239,6 +253,8 @@ namespace WebSiteVozesUnidas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
+            ViewData["CustomHeader"] = "EmpregosHeader";
+
             var vagaEmprego = await _context.VagaEmpregos.FindAsync(id);
             if (vagaEmprego != null)
             {

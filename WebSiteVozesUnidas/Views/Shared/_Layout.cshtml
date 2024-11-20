@@ -62,7 +62,8 @@
         var customHeader = ViewData["CustomHeader"] as string;
         if (!string.IsNullOrEmpty(customHeader))
         {
-            Html.RenderPartial($"~/Views/Shared/_{customHeader}.cshtml", new Noticia());
+            Html.RenderPartial($"~/Views/Shared/_{customHeader}.cshtml");
+
         }
     }
 
