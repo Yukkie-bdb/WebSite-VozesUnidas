@@ -24,6 +24,11 @@
                     <input asp-for="Titulo" class="form-control border-1 border-dark" placeholder="Insira o título da notícia aqui." />
                     <span asp-validation-for="Titulo" class="text-danger"></span>
                 </div>
+                <div class="form-group my-3">
+                    <label class="control-label fw-bold mb-3">SubTítulo</label>
+                    <input asp-for="SubTitulo" class="form-control border-1 border-dark" placeholder="Insira o subtítulo da notícia aqui." />
+                    <span asp-validation-for="SubTitulo" class="text-danger"></span>
+                </div>
                 <div class="form-group my-3 d-flex justify-content-center">
                     <img src="~/img/AddImageTop.png" id="inputImage" class="w-50" />
                     <input asp-for="Imagem" type="file" class="form-control border-1 border-dark d-none" id="inputCampus" placeholder="Insira a foto da notícia aqui." name="imgUp" />

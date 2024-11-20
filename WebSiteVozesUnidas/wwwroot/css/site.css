@@ -21,6 +21,29 @@ body {
   margin-bottom: 60px;
 }
 
+a{
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+.card {
+    overflow: hidden; /* Garante que a imagem não ultrapasse os limites do card */
+}
+.card img {
+    transition: transform 0.3s ease; /* Animação suave para o efeito */
+}
+
+.card:hover img {
+    transform: scale(1.1); /* Aumenta a imagem em 10% no hover */
+}
+
+.card-img-overlay {
+    top: auto !important; /* Remover ou ajustar o top-0 */
+    background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1)) !important;
+}
+
 .MenorCancelarNoticia {
     width: 25%;
 }

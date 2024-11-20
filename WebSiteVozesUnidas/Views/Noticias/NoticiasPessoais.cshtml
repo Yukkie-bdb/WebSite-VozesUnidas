@@ -1,0 +1,162 @@
+﻿ @model IEnumerable<WebSiteVozesUnidas.Models.Noticia>
+@{
+    ViewData["Title"] = "Notícias";
+
+    var noticias = ViewBag.Noticias as List<WebSiteVozesUnidas.Models.Noticia>; // Substitua YourNamespace.Noticia pelo modelo correto.
+    int noticiasCarregadas = ViewBag.NoticiasCarregadas;
+    int totalNoticias = ViewBag.TotalNoticias;
+}
+
+@if (User.IsInRole("Jornalista"))
+{
+
+    <div class="dropup-center dropup position-fixed bottom-0 end-0 m-3">
+
+        <button class="btn btn-dark rounded-circle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-chat-right-dots-fill mb-1 mt-2" viewBox="0 0 16 16">
+                <path d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353zM5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 1a1 1 0 1 1 0-2 1 1 0 0 1 0 2" />
+            </svg>
+        </button>
+
+        <ul class="dropdown-menu" style="min-width: auto;">
+
+            <li class="my-2">
+                <a class="dropdown-item text-center" asp-action="Create" asp-controller="Noticias">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-newspaper text-success" viewBox="0 0 16 16">
+                        <path d="M0 2.5A1.5 1.5 0 0 1 1.5 1h11A1.5 1.5 0 0 1 14 2.5v10.528c0 .3-.05.654-.238.972h.738a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 1 1 0v9a1.5 1.5 0 0 1-1.5 1.5H1.497A1.497 1.497 0 0 1 0 13.5zM12 14c.37 0 .654-.211.853-.441.092-.106.147-.279.147-.531V2.5a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0-.5.5v11c0 .278.223.5.497.5z" />
+                        <path d="M2 3h10v2H2zm0 3h4v3H2zm0 4h4v1H2zm0 2h4v1H2zm5-6h2v1H7zm3 0h2v1h-2zM7 8h2v1H7zm3 0h2v1h-2zm-3 2h2v1H7zm3 0h2v1h-2zm-3 2h2v1H7zm3 0h2v1h-2z" />
+                    </svg>
+                </a>
+            </li>
+            <li class="my-2">
+                <a class="dropdown-item text-center bg-primary" asp-action="Index" asp-controller="Noticias">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-person-lines-fill text-white" viewBox="0 0 16 16">
+                        <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1z" />
+                    </svg>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+}
+
+<h1 class="fw-bold justify-content-center d-flex my-4">Minhas Notícias</h1>
+
+@if (@ViewBag.noticiasPrincipais != null)
+{
+
+    <div class="col-12 d-flex justify-content-between">
+
+        <div class="d-flex flex-column col-8 me-3">
+
+            <div class="card bg-black text-white mb-3">
+                <img src="~/img/@ViewBag.noticiasPrincipais[0].Imagem" class="card-img" width="100%" height="260px" />
+
+                <div class="card-img-overlay">
+                    <h3 class="card-title">@ViewBag.noticiasPrincipais[0].Titulo</h3>
+                    <p class="card-text">@ViewBag.noticiasPrincipais[0].SubTitulo</p>
+                </div>
+
+            </div>
+
+            <div class="card bg-black text-white">
+                <img src="~/img/@ViewBag.noticiasPrincipais[1].Imagem" class="card-img" width="100%" height="260px" />
+
+                <div class="card-img-overlay">
+                    <h3 class="card-title">@ViewBag.noticiasPrincipais[1].Titulo</h3>
+                    <p class="card-text">@ViewBag.noticiasPrincipais[1].SubTitulo</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="d-flex flex-column col">
+            <div class="card bg-black text-white">
+                <img src="~/img/@ViewBag.noticiasPrincipais[2].Imagem" class="card-img" width="100%" height="536px" />
+
+                <div class="card-img-overlay">
+                    <h3 class="card-title">@ViewBag.noticiasPrincipais[2].Titulo</h3>
+                    <p class="card-text">@ViewBag.noticiasPrincipais[2].SubTitulo</p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+}
+
+@if (Model == null || !Model.Any())
+{
+    <div class="d-flex col-12 justify-content-center">
+        <div class="card text-center" style="max-width: 500px;">
+            <h2 class="card-header">Opss...</h2>
+            <div class="card-body">
+                <p class="card-text">Parece que você ainda não tem nenhuma notícia publicada. Que tal criar uma agora mesmo?</p>
+            </div>
+            <div class="card-footer">
+                <a asp-action="Create" class="btn btn-success">Publicar</a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+
+    @foreach (var item in Model)
+    {
+
+        <div class="d-flex m-2 my-4 flex-md-row bg-white " style="border-radius:25px;">
+            <a asp-action="Details" asp-route-id="@item.IdNoticia" class="text-decoration-none  d-flex text-black ">
+                <div class="col-4 col-md-4 d-flex align-content-center justify-content-center me-2 order-1 order-md-0">
+                    <img src="~/img/@item.Imagem" alt="Imagem da Notícia" style="max-height:250px;border-radius:25px;" class="align-self-center w-100 mw-100" />
+                </div>
+                <div class="d-flex flex-column m-1 col-8 col-md-8 ps-1 order-0 order-md-1">
+                    <div class="me-2 fw-bold my-3 h3 h-25">
+                        @Html.DisplayFor(modelItem => item.Titulo)
+                    </div>
+                    <div class="fw-lighter h5 pe-5 d-none d-md-block" style="color:gray">
+                        @Html.DisplayFor(modelItem => item.Resumo)
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    }
+}
+@if (noticiasCarregadas < totalNoticias)
+{
+    <form method="get" class="">
+        <input type="hidden" name="count" value="@(noticiasCarregadas + 5)" />
+        <button type="submit" class="btn btn-danger col-12 fw-bold fs-4 mt-5">Veja Mais</button>
+    </form>
+}
+
+<style>
+
+    body{
+        background-color: #f9f9f9;
+    }
+
+    .BorderTexto{
+        text-shadow: 1px 0 #000, -1px 0 #000, 0 1px #000, 0 -1px #000,1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;
+    }
+
+
+
+</style>
+
+<script>
+    window.onbeforeunload = function () {
+        localStorage.setItem('scrollPosition', window.scrollY);
+    };
+
+    window.onload = function () {
+        var scrollPosition = localStorage.getItem('scrollPosition');
+    if (scrollPosition) {
+        window.scrollTo(0, scrollPosition);
+    localStorage.removeItem('scrollPosition');
+        }
+    };
+</script>

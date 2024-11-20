@@ -10,7 +10,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
             <div class="container-fluid">
 
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
@@ -57,6 +57,15 @@
         </nav>
     </header>
 
+    @{
+        // Renderiza o header adicional, se especificado
+        var customHeader = ViewData["CustomHeader"] as string;
+        if (!string.IsNullOrEmpty(customHeader))
+        {
+            Html.RenderPartial($"~/Views/Shared/_{customHeader}.cshtml", new Noticia());
+        }
+    }
+
     @* <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -102,7 +111,7 @@
         </main>
     </div>
 
-    @*<footer class="border-top  text-muted float-end">
+    <footer class="border-top  text-muted float-end">
         <div class=" pt-5 d-none d-md-block" style="background-color:#303030;" >
             <div class="mx-5  d-flex">
                 <div class="col-2">
@@ -196,7 +205,7 @@
         <p class="w-100 text-white text-center mb-0" style="background-color:#303030;">
             © 2024 Vozes Unidas. Todos os direitos reservados.
         </p>
-    </footer>*@
+    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

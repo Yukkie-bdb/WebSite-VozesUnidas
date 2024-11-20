@@ -6,6 +6,7 @@ namespace WebSiteVozesUnidas.Models
     {
         public Guid IdNoticia { get; set; }
         public string Titulo { get; set; }
+        public string SubTitulo { get; set; }
         public string? Imagem { get; set; }
         public string Resumo => ResumirTexto(Conteudo, 540);
         

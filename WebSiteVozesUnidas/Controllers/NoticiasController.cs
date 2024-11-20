@@ -15,6 +15,7 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using WebSiteVozesUnidas.Data;
 using WebSiteVozesUnidas.Models;
 using Microsoft.AspNetCore.Authorization;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WebSiteVozesUnidas.Controllers
 {
@@ -46,39 +47,114 @@ namespace WebSiteVozesUnidas.Controllers
 
             return randomItems;
         }
-        public async Task<IActionResult> Index()
+
+        public async Task<IActionResult> Index(string searchTitle)
         {
-            if (_context.Noticias.Count() > 3)
-            {
-            var randomItems = GetRandomItems(3).ToList();
-            var i = 0;
-            foreach (var item in randomItems)
-                {
-                    ViewData[i.ToString()] = item.Imagem;
-                    ViewData[$"{i}Id"] = item.IdNoticia;
-                    ViewData[$"{i}Titulo"] = item.Titulo;
+            ViewData["CustomHeader"] = "NoticiasHeader";
 
-                i++;
-                }
             var userid = _signInManager.UserManager.GetUserId(User);
-            var Jornalista = await _context.Users.FirstOrDefaultAsync(x => x.Id.ToString() == userid);
 
+            // Carregar todas as notícias antes de filtrar
+            var noticias = await _context.Noticias.ToListAsync();
+
+            // Filtrar por título, se o parâmetro de busca for informado
+            if (!string.IsNullOrEmpty(searchTitle))
+            {
+                noticias = noticias.Where(n => n.Titulo.Contains(searchTitle)).ToList(); // Busca parcial no título
+            }
+
+            // Obter as notícias de acordo com a quantidade solicitada
+            var noticiasExibidas = noticias.ToList();
+
+            // Passa o ID do usuário logado para a ViewBag
             if (userid != null)
             {
+                var Jornalista = await _context.Users.FirstOrDefaultAsync(x => x.Id.ToString() == userid);
                 ViewBag.UserId = userid;
-                ViewBag.UserJorn = Jornalista.Jornalista;
+                ViewBag.UserJorn = Jornalista?.Jornalista;
             }
 
-            }
+            var randomItems = GetRandomItems(3).ToList();
 
-            return View(await _context.Noticias.ToListAsync());
+            ViewBag.noticiasPrincipais = randomItems; // Exibe as notícias principais
+            //ViewBag.Noticias = noticiasExibidas;
+            //ViewBag.NoticiasCarregadas = count;
+            //ViewBag.TotalNoticias = noticias.Count(); // Exibe o total de notícias
+
+
+            return View(noticiasExibidas);
         }
 
+        //VEJA MAIS VEJA MAIS VEJA MAIS VEJA MAIS VEJA MAIS
+        //public async Task<IActionResult> Index(string searchTitle, int count = 7)
+        //{
+        //    ViewData["CustomHeader"] = "NoticiasHeader";
 
+        //    var userid = _signInManager.UserManager.GetUserId(User);
+
+        //    // Carregar todas as notícias antes de filtrar
+        //    var noticias = await _context.Noticias.ToListAsync();
+
+        //    // Filtrar por título, se o parâmetro de busca for informado
+        //    if (!string.IsNullOrEmpty(searchTitle))
+        //    {
+        //        noticias = noticias.Where(n => n.Titulo.Contains(searchTitle)).ToList(); // Busca parcial no título
+        //    }
+
+        //    // Obter as notícias de acordo com a quantidade solicitada
+        //    var noticiasExibidas = noticias.Take(count).ToList();
+
+        //    // Passa o ID do usuário logado para a ViewBag
+        //    if (userid != null)
+        //    {
+        //        var Jornalista = await _context.Users.FirstOrDefaultAsync(x => x.Id.ToString() == userid);
+        //        ViewBag.UserId = userid;
+        //        ViewBag.UserJorn = Jornalista?.Jornalista;
+        //    }
+
+        //    var randomItems = GetRandomItems(3).ToList();
+
+        //    ViewBag.noticiasPrincipais = randomItems; // Exibe as notícias principais
+        //    ViewBag.Noticias = noticiasExibidas;
+        //    ViewBag.NoticiasCarregadas = count;
+        //    ViewBag.TotalNoticias = noticias.Count(); // Exibe o total de notícias
+
+
+        //    return View(noticiasExibidas);
+        //}
+        public async Task<IActionResult> NoticiasPessoais (int count = 7)
+        {
+            ViewData["CustomHeader"] = "NoticiasHeader";
+
+            var userid = _signInManager.UserManager.GetUserId(User);
+
+            // Se o parâmetro isUserNews for true, mostramos apenas as notícias do usuário
+            var noticias = await _context.Noticias.Where(n => n.Id.ToString() == userid).Take(count).ToListAsync(); // Apenas as do usuário logado
+
+            // Passa o ID do usuário logado para a ViewBag
+            if (userid != null)
+            {
+                var Jornalista = await _context.Users.FirstOrDefaultAsync(x => x.Id.ToString() == userid);
+                ViewBag.UserId = userid;
+                ViewBag.UserJorn = Jornalista?.Jornalista;
+            }
+
+            var randomItems = GetRandomItems(3).ToList();
+
+            ViewBag.noticiasPrincipais = null; // Apenas as do usuário logado
+
+            ViewBag.Noticias = noticias;
+            ViewBag.NoticiasCarregadas = count;
+            ViewBag.TotalNoticias = _context.Noticias.Where(n => n.Id.ToString() == userid).Count(); // Apenas as do usuário logado
+
+            return View(noticias);
+        }
 
         // GET: Noticias/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
+            ViewData["CustomHeader"] = "NoticiasHeader";
+
             if (id == null)
             {
                 return NotFound();
@@ -106,7 +182,10 @@ namespace WebSiteVozesUnidas.Controllers
                 ViewBag.UserTipo = tipo.Tipo;
             }
 
-            ViewBag.vejaMais = _context.Noticias.OrderBy(a => a.Publicacao).Take(5).ToListAsync();
+            ViewBag.vejaMais = await _context.Noticias.OrderBy(a => a.Publicacao).Take(5).ToListAsync();
+
+            ViewBag.noticias = await _context.Noticias.Take(10).ToListAsync();
+
 
             return View(noticia);
         }
@@ -115,6 +194,8 @@ namespace WebSiteVozesUnidas.Controllers
         //[Authorize(Roles = "Admin,Jornalista")]
         public async Task<IActionResult> Create()
         {
+            ViewData["CustomHeader"] = "NoticiasHeader";
+
             var userId = _signInManager.UserManager.GetUserId(User);
 
             if (!string.IsNullOrEmpty(userId) && Guid.TryParse(userId, out var parsedUserId))
@@ -134,8 +215,10 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdNoticia,Titulo,Conteudo,Publicacao,Id")] Noticia noticia, IFormFile imgUp)
+        public async Task<IActionResult> Create([Bind("IdNoticia,SubTitulo,Titulo,Conteudo,Publicacao,Id")] Noticia noticia, IFormFile imgUp)
         {
+            ViewData["CustomHeader"] = "NoticiasHeader";
+
             if (ModelState.IsValid)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -174,6 +257,8 @@ namespace WebSiteVozesUnidas.Controllers
         
         public async Task<IActionResult> Edit(Guid? id)
         {
+            ViewData["CustomHeader"] = "NoticiasHeader";
+
             if (id == null)
             {
                 return NotFound();
@@ -206,6 +291,8 @@ namespace WebSiteVozesUnidas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("IdNoticia,Titulo,Imagem,Conteudo,Publicacao,Id")] Noticia noticia, IFormFile? imgUp)
         {
+            ViewData["CustomHeader"] = "NoticiasHeader";
+
             if (id != noticia.IdNoticia)
             {
                 return NotFound();
@@ -262,6 +349,8 @@ namespace WebSiteVozesUnidas.Controllers
         // GET: Noticias/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
+            ViewData["CustomHeader"] = "NoticiasHeader";
+
             if (id == null)
             {
                 return NotFound();
@@ -282,7 +371,8 @@ namespace WebSiteVozesUnidas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id,string? name)
         {
-            
+            ViewData["CustomHeader"] = "NoticiasHeader";
+
             var noticia = await _context.Noticias.FindAsync(id);
             if(name == "Quero Apagar")
             {
