@@ -35,7 +35,7 @@ namespace WebSiteVozesUnidas.Controllers
             _userManager = userManager;
         }
 
-        public List<Noticia> GetRandomItems(int count)
+        public IEnumerable<Noticia> GetRandomItems(int count)
         {
 
             var allIds = _context.Noticias.Select(x => x.IdNoticia).ToList();
@@ -127,13 +127,28 @@ namespace WebSiteVozesUnidas.Controllers
             }
 
             var randomItems = GetRandomItems(3).ToList();
-
-            ViewBag.noticiasPrincipais = randomItems; // Exibe as notícias principais
+            ViewBag.NotNum = noticias.Count();
+            if(noticias.Count() != 0)
+            {
+                ViewBag.noticiasPrincipais = randomItems; // Exibe as notícias principais
+            }
+            else
+            {
+                ViewBag.noticiasPrincipais = null;
+            }
             //ViewBag.Noticias = noticiasExibidas;
             //ViewBag.NoticiasCarregadas = count;
             //ViewBag.TotalNoticias = noticias.Count(); // Exibe o total de notícias
 
+            if(searchTitle != null)
+            {
+                ViewBag.PerguntaOuNao = true;
+            }
+            else
+            {
+                ViewBag.PerguntaOuNao = false;
 
+            }
             return View(noticiasExibidas);
         }
 
@@ -231,7 +246,6 @@ namespace WebSiteVozesUnidas.Controllers
             if (userid != null)
             {
                 ViewBag.UserId = userid;
-                ViewBag.UserTipo = tipo.Tipo;
             }
 
             ViewBag.vejaMais = await _context.Noticias.OrderBy(a => a.Publicacao).Take(5).ToListAsync();

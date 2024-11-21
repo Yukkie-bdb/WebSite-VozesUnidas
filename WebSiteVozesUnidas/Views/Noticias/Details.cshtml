@@ -2,15 +2,11 @@
 
 @{
     ViewData["Title"] = "Notícia";
-    ViewData["Id"] = Model.IdNoticia;
     if (ViewBag.UserTipo is null)
     {
         ViewBag.UserTipo = TipoUsuario.PessoaFisica;
     }
-    if (ViewBag.UserId is null)
-    {
-        ViewBag.UserId = 0;
-    }
+    
     if (ViewBag.AutorId is null)
     {
         ViewBag.AutorId = 0;
@@ -56,34 +52,22 @@
 
 
 
-<div class="modal fade" id="ModalTrash" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header justify-content-center border-0">
-                <h5 class="modal-title text-center volt px-5 py-1 fs">Apagar</h5>
-            </div>
-            <div class="modal-body text-center border-0">
-                <p class="text-dark fs-3 fst-normal alert-danger">Tem certeza que deseja apagar os dados dessa notícia?</p>
-            </div>
-            <div class="modal-footer d-flex flex-column justify-content-center border-0 w-100">
-                <form asp-action="Delete" asp-route-id="@ViewData["Id"]" class="d-flex flex-column justify-content-center align-items-center w-100">
-                    <input type="hidden" asp-for="@ViewData["Id"]" />
-                    <input type="text" name="name" placeholder="Digite 'Quero Apagar' para apagar a notícia" class="form-control border-1 border-dark w-100 my-2" />
-                    <p class="h1" style="color:red;">@ViewBag.erro</p>
-                    <button type="submit" class="btn btn-danger apag text-white w-25 my-2">Deletar</button>
-                </form>
-                <button data-bs-dismiss="modal" class="btn volt2 w-25 my-2">Cancelar</button>
 
-            </div>
-        </div>
-    </div>
-</div>
  *@
 
 @model WebSiteVozesUnidas.Models.Noticia
 
 @{
     ViewData["Title"] = "Notícia";
+    ViewData["Id"] = Model.IdNoticia;
+    if (ViewData["Autor"] is null)
+    {
+        ViewData["Autor"] = "Anônimo";
+    }
+    if (ViewBag.User is null)
+    {
+        ViewBag.User = new ApplicationUser();
+    }
 }
 
 <div class="d-flex flex-column align-items-center">
@@ -97,15 +81,24 @@
         </div>
 
         <div class="d-flex justify-content-between mt-1">
-            <span class="text-secondary">Por: @(Model.Usuario?.UserName ?? "Anônimo")</span>
+            <span class="text-secondary">Por: @ViewData["Autor"]</span>
             <span class="text-secondary">Horario: @Html.DisplayFor(model => model.Publicacao)</span>
         </div>
+        @if (ViewBag.AutorId.ToString() == ViewBag.UserId.ToString() || User.IsInRole("ADM"))
+        {
+            <div class="d-flex justify-content-between my-3">
 
+                <a asp-action="Edit" asp-route-id="@ViewData["Id"]" class="btn px-5 d-flex align-items-center justify-content-center" style="background-color:#6CAD55;border-radius:0px 25px 25px 0px;"><img src="~/img/edit.png" class="mh-50 h-50 mx-3" /></a>
+                <a data-bs-toggle="modal" data-bs-target="#ModalTrash" class="btn px-5 d-flex align-items-center justify-content-center" style="background-color:#C0245F;border-radius:25px 0px 0px 25px;"><img src="~/img/trash 2.png" class="mh-50 h-50 mx-3" /></a>
+            </div>
+
+        }
         <div class="d-flex mt-5">
 
-            <span>@Html.DisplayFor(model => model.Conteudo)</span>
+            <span>@Html.Raw(Model.Conteudo.Replace("\n", "<br />"))</span>
 
         </div>
+
 
         <div class="mt-5 d-flex flex-column fundo-cheio-2">
 
@@ -151,6 +144,28 @@
 
         </div>
 
+    </div>
+</div>
+<div class="modal fade" id="ModalTrash" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center border-0">
+                <h5 class="modal-title text-center volt px-5 py-1 fs">Apagar</h5>
+            </div>
+            <div class="modal-body text-center border-0">
+                <p class="text-dark fs-3 fst-normal alert-danger">Tem certeza que deseja apagar os dados dessa notícia?</p>
+            </div>
+            <div class="modal-footer d-flex flex-column justify-content-center border-0 w-100">
+                <form asp-action="Delete" asp-route-id="@ViewData["Id"]" class="d-flex flex-column justify-content-center align-items-center w-100">
+                    <input type="hidden" asp-for="@ViewData["Id"]" />
+                    <input type="text" name="name" placeholder="Digite 'Quero Apagar' para apagar a notícia" class="form-control border-1 border-dark w-100 my-2" />
+                    <p class="h1" style="color:red;">@ViewBag.erro</p>
+                    <button type="submit" class="btn btn-danger apag text-white w-25 my-2">Deletar</button>
+                </form>
+                <button data-bs-dismiss="modal" class="btn volt2 w-25 my-2">Cancelar</button>
+
+            </div>
+        </div>
     </div>
 </div>
 
