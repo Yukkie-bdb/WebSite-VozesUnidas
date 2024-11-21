@@ -18,7 +18,6 @@
                 <path d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353zM5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 1a1 1 0 1 1 0-2 1 1 0 0 1 0 2" />
             </svg>
         </button>
-
         <ul class="dropdown-menu" style="min-width: auto;">
 
             <li class="my-2">
@@ -41,58 +40,86 @@
     </div>
 }
 
-<h1 class="fw-bold justify-content-center d-flex my-4">Principais Notícias</h1>
-
-@if (@ViewBag.noticiasPrincipais != null)
+@if (ViewBag.PerguntaOuNao == true)
 {
+    if (ViewBag.NotNum == 0)
+    {
+        <div class="card col-6">
+            <h5 class="card-header">Erro</h5>
+            <div class="card-body">
+                <h5 class="card-title">Não há notícias que correspondem a essa pesquisa.</h5>
+                @* <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>*@
+            </div>
+        </div>
+       // <h1 class="fw-bold justify-content-center d-flex my-4">Não há notícias que correspondem a essa pesquisa.</h1>
+    }
+}
+    @if (ViewBag.NotNum > 2)
+{
+    if (ViewBag.PerguntaOuNao == false)
+    {
 
-    <div class="col-12 d-flex justify-content-between">
 
-        <div class="d-flex flex-column col-8 me-3">
+        <h1 class="fw-bold justify-content-center d-flex my-4">Principais Notícias</h1>
 
-            <div class="card bg-black text-white mb-3">
+        <div class="col-12 d-flex justify-content-between">
 
-                <a asp-action="Details" asp-route-id="@ViewBag.noticiasPrincipais[0].IdNoticia" class="text-decoration-none text-white">
-                    <img src="~/img/@(string.IsNullOrEmpty(ViewBag.noticiasPrincipais[0].Imagem) ? "noImgFound.jpg" : ViewBag.noticiasPrincipais[0].Imagem)" class="card-img" width="100%" height="260px" style="object-fit:cover;"/>
-                    <div class="card-img-overlay">
-                        <h3 class="card-title">@ViewBag.noticiasPrincipais[0].Titulo</h3>
-                        <p class="card-text">@ViewBag.noticiasPrincipais[0].SubTitulo</p>
-                    </div>
+            <div class="d-flex flex-column col-8 me-3">
 
-                </a>
+                <div class="card bg-black text-white mb-3">
+
+                    <a asp-action="Details" asp-route-id="@ViewBag.noticiasPrincipais[0].IdNoticia" class="text-decoration-none text-white">
+                        <img src="~/img/@(string.IsNullOrEmpty(ViewBag.noticiasPrincipais[0].Imagem) ? "noImgFound.jpg" : ViewBag.noticiasPrincipais[0].Imagem)" class="card-img" width="100%" height="260px" style="object-fit:cover;"/>
+                        <div class="card-img-overlay">
+                            <h3 class="card-title">@ViewBag.noticiasPrincipais[0].Titulo</h3>
+                            <p class="card-text">@ViewBag.noticiasPrincipais[0].SubTitulo</p>
+                        </div>
+
+                    </a>
+                </div>
+
+                <div class="card bg-black text-white">
+                    <a asp-action="Details" asp-route-id="@ViewBag.noticiasPrincipais[1].IdNoticia" class="text-decoration-none text-white">
+
+                        <img src="~/img/@(string.IsNullOrEmpty(ViewBag.noticiasPrincipais[1].Imagem) ? "noImgFound.jpg" : ViewBag.noticiasPrincipais[1].Imagem)" class="card-img" width="100%" height="260px" style="object-fit:cover;" />
+
+                        <div class="card-img-overlay">
+                            <h3 class="card-title">@ViewBag.noticiasPrincipais[1].Titulo</h3>
+                            <p class="card-text">@ViewBag.noticiasPrincipais[1].SubTitulo</p>
+                        </div>
+                    </a>
+
+                </div>
+
             </div>
 
-            <div class="card bg-black text-white">
-                <a asp-action="Details" asp-route-id="@ViewBag.noticiasPrincipais[1].IdNoticia" class="text-decoration-none text-white">
+            <div class="d-flex flex-column col">
+                <div class="card bg-black text-white">
+                    <a asp-action="Details" asp-route-id="@ViewBag.noticiasPrincipais[2].IdNoticia" class="text-decoration-none text-white">
 
-                    <img src="~/img/@(string.IsNullOrEmpty(ViewBag.noticiasPrincipais[1].Imagem) ? "noImgFound.jpg" : ViewBag.noticiasPrincipais[1].Imagem)" class="card-img" width="100%" height="260px" style="object-fit:cover;" />
+                        <img src="~/img/@(string.IsNullOrEmpty(ViewBag.noticiasPrincipais[2].Imagem) ? "noImgFound.jpg" : ViewBag.noticiasPrincipais[2].Imagem)" class="card-img" width="100%" height="536px" style="object-fit:cover;" />
 
-                    <div class="card-img-overlay">
-                        <h3 class="card-title">@ViewBag.noticiasPrincipais[1].Titulo</h3>
-                        <p class="card-text">@ViewBag.noticiasPrincipais[1].SubTitulo</p>
-                    </div>
-                </a>
+                        <div class="card-img-overlay">
+                            <h3 class="card-title">@ViewBag.noticiasPrincipais[2].Titulo</h3>
+                            <p class="card-text">@ViewBag.noticiasPrincipais[2].SubTitulo</p>
+                        </div>
+                    </a>
 
+                </div>
             </div>
 
         </div>
-
-        <div class="d-flex flex-column col">
-            <div class="card bg-black text-white">
-                <a asp-action="Details" asp-route-id="@ViewBag.noticiasPrincipais[2].IdNoticia" class="text-decoration-none text-white">
-
-                    <img src="~/img/@(string.IsNullOrEmpty(ViewBag.noticiasPrincipais[2].Imagem) ? "noImgFound.jpg" : ViewBag.noticiasPrincipais[2].Imagem)" class="card-img" width="100%" height="536px" style="object-fit:cover;" />
-
-                    <div class="card-img-overlay">
-                        <h3 class="card-title">@ViewBag.noticiasPrincipais[2].Titulo</h3>
-                        <p class="card-text">@ViewBag.noticiasPrincipais[2].SubTitulo</p>
-                    </div>
-                </a>
-
-            </div>
-        </div>
-
-    </div>
+    }
+}
+else
+{
+    if (ViewBag.NotNum == 0)
+    {
+        if (ViewBag.PerguntaOuNao == false)
+        {
+            <h1 class="fw-bold justify-content-center d-flex my-4">Não há notícias atualmente.</h1>
+        }
+    }
 }
 
 @foreach (var item in Model)
