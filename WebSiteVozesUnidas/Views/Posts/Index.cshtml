@@ -7,7 +7,7 @@
 <div class="col-12 d-flex">
     <div class="col-10">
         <div class="me-3">
-            <a asp-action="Create" class="text-decoration-none text-black btn w-100 py-3 border-2 border-dark">Adicionar novo post</a>
+            <a asp-action="Create" class="text-decoration-none text-black btn w-100 py-3 border-1 border-dark" style="font-size:20px;">Adicionar novo post</a>
         </div>
         @foreach (var item in Model)
         {
@@ -15,7 +15,7 @@
             @if (item.Imagem != null)
             {
                 <a asp-action="Details" asp-route-id="@item.IdPost" class="text-decoration-none text-black">
-                    <div class="d-flex p-2 border border-1 border-dark border pe-4 my-5 me-3">
+                    <div class="d-flex p-2 border border-1 border-dark border pe-4 my-5 me-3" style="border-radius:5px">
                         <div class="d-flex flex-column col-6 me-2">
                             <p>
                                 @item.Titulo
@@ -52,11 +52,11 @@
         }
 
     </div>
-    <div class="col-2 border border-1 border-dark px-4 w-auto">
-        <div class="ms-2 mt-2">
-            <p class="h1 text-black fw-bold py-2 d-flex justify-content-center">
+    <div class="col-2 border border-1 border-dark px-4 w-auto" style="border-radius:5px">
+        <div>
+            <h2 class="text-black fw-bold fst-italic py-2 d-flex justify-content-center">
                 Categorias
-            </p>
+            </h2>
             <div>
                 <a asp-action="Index" asp-route-id="@null" class="text-decoration-none text-black fw-bold">Limpar Filtro</a>
             </div>

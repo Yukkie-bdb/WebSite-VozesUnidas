@@ -32,7 +32,8 @@ namespace WebSiteVozesUnidas.Controllers
         // GET: Posts
         public async Task<IActionResult> Index(Guid? id)
         {
-            
+            ViewData["CustomHeader"] = "ForumHeader";
+
             var Categorias = await _context.CategoriaPosts.ToListAsync();
             ViewBag.Categorias = Categorias;
             if(id != null)
@@ -57,6 +58,7 @@ namespace WebSiteVozesUnidas.Controllers
         // GET: Posts/Details/5
         public async Task<IActionResult> Details(Guid? id, int? order)
         {
+            ViewData["CustomHeader"] = "ForumHeader";
             if (id == null)
             {
                 return NotFound();
@@ -125,6 +127,7 @@ namespace WebSiteVozesUnidas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Comentar([Bind("IdComentario,Publicacao,comentario,IdPost,Id")] Comentario com)
         {
+            ViewData["CustomHeader"] = "ForumHeader";
             if (ModelState.IsValid)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -152,6 +155,7 @@ namespace WebSiteVozesUnidas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Like([Bind("IdLikesPost,IdPost,Id")] LikesPost likesPost)
         {
+            ViewData["CustomHeader"] = "ForumHeader";
             if (_signInManager.UserManager.GetUserId(User) is null)
             {
                 return Redirect("/Identity/Account/Login");
@@ -183,7 +187,8 @@ namespace WebSiteVozesUnidas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LikeComent([Bind("IdLikesPost,IdComentario,Id")] LikeComen likeComen, Guid post)
         {
-            if(_signInManager.UserManager.GetUserId(User) is null)
+            ViewData["CustomHeader"] = "ForumHeader";
+            if (_signInManager.UserManager.GetUserId(User) is null)
             {
                 return Redirect("/Identity/Account/Login");
             }
@@ -218,6 +223,7 @@ namespace WebSiteVozesUnidas.Controllers
         // GET: Posts/Create
         public async Task<IActionResult> Create()
         {
+            ViewData["CustomHeader"] = "ForumHeader";
             var userId = _signInManager.UserManager.GetUserId(User);
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id.ToString() == userId);
             var Categorias = await _context.CategoriaPosts.ToListAsync();
