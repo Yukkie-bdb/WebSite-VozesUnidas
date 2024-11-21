@@ -7,6 +7,54 @@
     var empregos = ViewBag.empregos as List<VagaEmprego>;
 }
 
+<div class="d-flex">
+    <p>Jornalista</p>
+    <form asp-action="AddRole" asp-controller="Noticias" method="post">
+        <input type="hidden" name="roleName" value="Jornalista" />
+        <button type="submit" class="btn btn-success">Adicionar Role</button>
+    </form>
+    <form asp-action="RemoveRole" asp-controller="Noticias" method="post">
+        <input type="hidden" name="roleName" value="Jornalista" />
+        <button type="submit" class="btn btn-danger">Remover Role</button>
+    </form>
+</div>
+
+<div class="d-flex">
+    <p>Pessoa Fisica</p>
+    <form asp-action="AddRole" asp-controller="Noticias" method="post">
+        <input type="hidden" name="roleName" value="PessoaFisica" />
+        <button type="submit" class="btn btn-success">Adicionar Role</button>
+    </form>
+    <form asp-action="RemoveRole" asp-controller="Noticias" method="post">
+        <input type="hidden" name="roleName" value="PessoaFisica" />
+        <button type="submit" class="btn btn-danger">Remover Role</button>
+    </form>
+</div>
+
+<div class="d-flex">
+    <p>Empresa</p>
+    <form asp-action="AddRole" asp-controller="Noticias" method="post">
+        <input type="hidden" name="roleName" value="Empresa" />
+        <button type="submit" class="btn btn-success">Adicionar Role</button>
+    </form>
+    <form asp-action="RemoveRole" asp-controller="Noticias" method="post">
+        <input type="hidden" name="roleName" value="Empresa" />
+        <button type="submit" class="btn btn-danger">Remover Role</button>
+    </form>
+</div>
+
+<div class="d-flex">
+    <p>ADM</p>
+    <form asp-action="AddRole" asp-controller="Noticias" method="post">
+        <input type="hidden" name="roleName" value="ADM" />
+        <button type="submit" class="btn btn-success">Adicionar Role</button>
+    </form>
+    <form asp-action="RemoveRole" asp-controller="Noticias" method="post">
+        <input type="hidden" name="roleName" value="ADM" />
+        <button type="submit" class="btn btn-danger">Remover Role</button>
+    </form>
+</div>
+
 <div class="d-flex justify-content-center align-items-center">
 
     <div class="col-7">
