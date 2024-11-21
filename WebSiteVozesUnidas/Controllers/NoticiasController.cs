@@ -24,13 +24,15 @@ namespace WebSiteVozesUnidas.Controllers
         private readonly ApplicationDbContext _context;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private string _caminho;
+        private readonly UserManager<ApplicationUser> _userManager;
+    
 
-        public NoticiasController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment, SignInManager<ApplicationUser> signInManager)
+        public NoticiasController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _signInManager = signInManager;
             _caminho = hostEnvironment.WebRootPath;
-
+            _userManager = userManager;
         }
 
         public List<Noticia> GetRandomItems(int count)
@@ -48,6 +50,56 @@ namespace WebSiteVozesUnidas.Controllers
             return randomItems;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddRole(string userId, string roleName)
+        {
+            userId = _userManager.GetUserId(User); 
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(roleName))
+            {
+                return BadRequest("Usuário ou Role inválido.");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound("Usuário não encontrado.");
+            }
+
+            var result = await _userManager.AddToRoleAsync(user, roleName);
+            if (result.Succeeded)
+            {
+                return NoContent();
+            }
+
+            ModelState.AddModelError(string.Empty, "Erro ao adicionar a Role.");
+            return NoContent();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveRole(string userId, string roleName)
+        {
+            userId = _userManager.GetUserId(User);
+
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(roleName))
+            {
+                return BadRequest("Usuário ou Role inválido.");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound("Usuário não encontrado.");
+            }
+
+            var result = await _userManager.RemoveFromRoleAsync(user, roleName);
+            if (result.Succeeded)
+            {
+                return NoContent();
+            }
+
+            ModelState.AddModelError(string.Empty, "Erro ao remover a Role.");
+            return NoContent();
+        }
         public async Task<IActionResult> Index(string searchTitle)
         {
             ViewData["CustomHeader"] = "NoticiasHeader";
