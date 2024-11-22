@@ -64,9 +64,9 @@
     {
         ViewData["Autor"] = "Anônimo";
     }
-    if (ViewBag.User is null)
+    if (ViewBag.UserId is null)
     {
-        ViewBag.User = new ApplicationUser();
+        ViewBag.UserId = 0;
     }
 }
 
@@ -74,7 +74,7 @@
 
     <h1 class="d-flex justify-content-center my-4">@Html.DisplayFor(model => model.Titulo)</h1>
 
-    <div class="col-6">
+    <div class="col-12 col-sm-6">
 
         <div class="d-flex justify-content-center align-content-center align-items-center col-12 noticia-img">
             <img src="~/img/@Html.DisplayFor(model => model.Imagem)" class="img-fluid custom-img" />
