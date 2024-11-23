@@ -257,7 +257,7 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: Noticias/Create
-        //[Authorize(Roles = "Admin,Jornalista")]
+        [Authorize(Roles = "Admin,Jornalista")]
         public async Task<IActionResult> Create()
         {
             ViewData["CustomHeader"] = "NoticiasHeader";
@@ -319,7 +319,7 @@ namespace WebSiteVozesUnidas.Controllers
 
 
         // GET: Noticias/Edit/5
-        //[Authorize(Roles = "Admin,Jornalista")]
+        [Authorize(Roles = "Admin,Jornalista")]
         
         public async Task<IActionResult> Edit(Guid? id)
         {
@@ -355,8 +355,10 @@ namespace WebSiteVozesUnidas.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdNoticia,Titulo,Imagem,Conteudo,Publicacao,Id")] Noticia noticia, IFormFile? imgUp)
+        public async Task<IActionResult> Edit(Guid id, [Bind("IdNoticia,Titulo,SubTitulo,Imagem,Conteudo,Publicacao")] Noticia noticia, IFormFile? imgUp)
         {
+            var noticinha = await _context.Noticias.AsNoTracking().FirstOrDefaultAsync(n => n.IdNoticia == id);
+            noticia.Id = noticinha.Id;
             ViewData["CustomHeader"] = "NoticiasHeader";
 
             if (id != noticia.IdNoticia)
@@ -389,7 +391,6 @@ namespace WebSiteVozesUnidas.Controllers
                     }
                     else
                     {
-                        var noticinha = await _context.Noticias.AsNoTracking().FirstOrDefaultAsync(n => n.IdNoticia == id);
                         noticia.Imagem = noticinha.Imagem;
                     }
                     
@@ -413,6 +414,7 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: Noticias/Delete/5
+        [Authorize(Roles = "Admin,Jornalista")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             ViewData["CustomHeader"] = "NoticiasHeader";
