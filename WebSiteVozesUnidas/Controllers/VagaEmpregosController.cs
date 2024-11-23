@@ -28,76 +28,163 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: VagaEmpregos
-        public async Task<IActionResult> Index(FiltroVagaEmprego filtroVagaEmprego)
+        public async Task<IActionResult> Index(FiltroVagaEmprgoNovo filtroVagaEmprego)
         {
             ViewData["CustomHeader"] = "EmpregosHeader";
 
             var applicationDbContext = _context.VagaEmpregos.Include(v => v.Usuario).AsQueryable();
 
+            // Filtra por Cargo
             if (!string.IsNullOrEmpty(filtroVagaEmprego.Cargo))
+            {
                 applicationDbContext = applicationDbContext.Where(v => v.Cargo.Contains(filtroVagaEmprego.Cargo));
-
-            if (filtroVagaEmprego.NumeroVagas.HasValue)
-            {
-                applicationDbContext = applicationDbContext.Where(v => v.NumeroVagas == filtroVagaEmprego.NumeroVagas.Value);
             }
 
-            if (!string.IsNullOrEmpty(filtroVagaEmprego.HorarioExpediente))
-            {
-                applicationDbContext = applicationDbContext.Where(v => v.HorarioExpediente == filtroVagaEmprego.HorarioExpediente);
-            }
-
-            if (!string.IsNullOrEmpty(filtroVagaEmprego.Beneficios))
-            {
-                applicationDbContext = applicationDbContext.Where(v => v.Beneficios.Contains(filtroVagaEmprego.Beneficios));
-            }
-
-            if (!string.IsNullOrEmpty(filtroVagaEmprego.Requisitos))
-            {
-                applicationDbContext = applicationDbContext.Where(v => v.Requisitos.Contains(filtroVagaEmprego.Requisitos));
-            }
-
+            // Filtra por Regime de Contratação
             if (!string.IsNullOrEmpty(filtroVagaEmprego.RegimeContratacao))
             {
                 applicationDbContext = applicationDbContext.Where(v => v.RegimeContratacao == filtroVagaEmprego.RegimeContratacao);
             }
 
-            if (filtroVagaEmprego.SalarioMin.HasValue)
+            // Filtra por Salário
+            if (!string.IsNullOrEmpty(filtroVagaEmprego.Salario))
             {
-                applicationDbContext = applicationDbContext.Where(v => v.Salario >= filtroVagaEmprego.SalarioMin.Value);
+                var salarioString = filtroVagaEmprego.Salario.Trim();
+                if (salarioString.EndsWith("+"))
+                {
+                    if (decimal.TryParse(salarioString.TrimEnd('+'), out var salario))
+                    {
+                        applicationDbContext = applicationDbContext.Where(v => v.Salario >= salario);
+                    }
+                }
+                else
+                {
+                    if (decimal.TryParse(salarioString, out var salario))
+                    {
+                        applicationDbContext = applicationDbContext.Where(v => v.Salario <= salario);
+                    }
+                }
             }
 
-            if (filtroVagaEmprego.SalarioMax.HasValue)
+            // Filtra por Home Office, Hibrido, ou Presencial
+            if (filtroVagaEmprego.HomeOffice || filtroVagaEmprego.Hibrido || filtroVagaEmprego.Presencial)
             {
-                applicationDbContext = applicationDbContext.Where(v => v.Salario <= filtroVagaEmprego.SalarioMax.Value);
+                // Se todos estiverem marcados, exibe todas as vagas (não há filtro específico)
+                if (filtroVagaEmprego.HomeOffice && filtroVagaEmprego.Hibrido && filtroVagaEmprego.Presencial)
+                {
+                    // Não faz nada, pois todas as vagas passam
+                }
+                else
+                {
+                    applicationDbContext = applicationDbContext.Where(v =>
+                        (filtroVagaEmprego.HomeOffice && v.LocalTrabalho.Contains("Remoto")) ||
+                        (filtroVagaEmprego.Hibrido && v.LocalTrabalho.Contains("Hibrido")) ||
+                        (filtroVagaEmprego.Presencial && v.LocalTrabalho.Contains("Presencial"))
+                    );
+                }
             }
 
-            if (!string.IsNullOrEmpty(filtroVagaEmprego.LocalTrabalho))
-            {
-                applicationDbContext = applicationDbContext.Where(v => v.LocalTrabalho.Contains(filtroVagaEmprego.LocalTrabalho));
-            }
-
+            // Filtra por Estado
             if (!string.IsNullOrEmpty(filtroVagaEmprego.Estado))
             {
-                applicationDbContext = applicationDbContext.Where(v => v.Estado.Contains(filtroVagaEmprego.Estado));
+                applicationDbContext = applicationDbContext.Where(v => v.Estado == filtroVagaEmprego.Estado);
             }
 
+            // Filtra por Cidade
             if (!string.IsNullOrEmpty(filtroVagaEmprego.Cidade))
             {
                 applicationDbContext = applicationDbContext.Where(v => v.Cidade.Contains(filtroVagaEmprego.Cidade));
             }
 
-            if (filtroVagaEmprego.DataPublicacao.HasValue)
+            // Filtra por Data de Publicação
+            if (!string.IsNullOrEmpty(filtroVagaEmprego.DataPublicacao) && filtroVagaEmprego.DataPublicacao != "todas")
             {
-                applicationDbContext = applicationDbContext.Where(v => v.Publicacao.Date == filtroVagaEmprego.DataPublicacao.Value.Date);
+                DateTime dataFiltro = DateTime.MinValue;
+
+                if (filtroVagaEmprego.DataPublicacao == "hoje")
+                {
+                    dataFiltro = DateTime.Today;
+                    applicationDbContext = applicationDbContext.Where(v => v.Publicacao.Date == dataFiltro.Date);
+                }
+                else if (filtroVagaEmprego.DataPublicacao == "ultimos2dias")
+                {
+                    dataFiltro = DateTime.Today.AddDays(-2);
+                    applicationDbContext = applicationDbContext.Where(v => v.Publicacao >= dataFiltro);
+                }
+                else if (filtroVagaEmprego.DataPublicacao == "ultimos3dias")
+                {
+                    dataFiltro = DateTime.Today.AddDays(-3);
+                    applicationDbContext = applicationDbContext.Where(v => v.Publicacao >= dataFiltro);
+                }
+                else if (filtroVagaEmprego.DataPublicacao == "ultimaSemana")
+                {
+                    dataFiltro = DateTime.Today.AddDays(-7);
+                    applicationDbContext = applicationDbContext.Where(v => v.Publicacao >= dataFiltro);
+                }
+                else if (filtroVagaEmprego.DataPublicacao == "ultimos15dias")
+                {
+                    dataFiltro = DateTime.Today.AddDays(-15);
+                    applicationDbContext = applicationDbContext.Where(v => v.Publicacao >= dataFiltro);
+                }
+                else if (filtroVagaEmprego.DataPublicacao == "ultimoMes")
+                {
+                    dataFiltro = DateTime.Today.AddDays(-30);
+                    applicationDbContext = applicationDbContext.Where(v => v.Publicacao >= dataFiltro);
+                }
             }
 
-            if (!string.IsNullOrEmpty(filtroVagaEmprego.Usuario))
+            var categoriaMap = new Dictionary<string, string>
             {
-                applicationDbContext = applicationDbContext.Where(v => v.Usuario.UserName.Contains(filtroVagaEmprego.Usuario));
-            }
+                { "Autônomo", "Autônomo" },
+                { "CLT", "CLT (Efetivo)" },
+                { "Cooperado", "Cooperado" },
+                { "Freelancer", "Free-lancer" },
+                { "PJ", "Prestador de serviços (PJ)" },
+                { "Temporário", "Temporário" },
+                { "Trainee", "Trainee" },
+                { "Estágio", "Estágio" }
+            };
+
+            // Obtém as categorias de vagas de emprego
+            var categorias = _context.VagaEmpregos
+                                      .Select(v => v.RegimeContratacao)
+                                      .Distinct()
+                                      .ToList();
+
+            // Passa o mapeamento e as categorias para a ViewBag
+            ViewBag.CategoriaMap = categoriaMap;
+            ViewBag.Categorias = categorias;
+
+            ViewBag.vagasRecomendadas = _context.VagaEmpregos.OrderBy(a => a.Salario).Take(9).ToList();
+
+            ViewBag.estados = _context.VagaEmpregos.Select(v => v.Estado).Distinct().OrderBy(x => x).ToList();
 
             return View(await applicationDbContext.ToListAsync());
+        }
+
+        public JsonResult PegarCargos(string query)
+        {
+            var cargos = _context.VagaEmpregos.Select(v => v.Cargo).Distinct().ToList();
+
+            if (!string.IsNullOrEmpty(query))
+            {
+                cargos = cargos.Where(c => c.ToLower().Contains(query.ToLower())).ToList();
+            }
+
+            return Json(cargos);
+        }
+
+        [HttpGet]
+        public IActionResult PegarCidadesPorEstado(string estado)
+        {
+            var cidades = _context.VagaEmpregos
+                                  .Where(v => v.Estado == estado)
+                                  .Select(v => v.Cidade)
+                                  .Distinct()
+                                  .OrderBy(x => x)
+                                  .ToList();
+
+            return Json(cidades);
         }
 
         // GET: VagaEmpregos/Details/5

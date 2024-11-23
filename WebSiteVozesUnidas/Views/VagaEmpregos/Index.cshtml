@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    var modelVaga = new FiltroVagaEmprgoNovo();
 }
 
 @if (User.IsInRole("Empresa"))
@@ -59,7 +60,7 @@
                     </div>
                 </div>
             </div>
-       
+
     }
     @if (Model.Count() == 0)
     {
@@ -69,39 +70,427 @@
     }
 </div> *@
 
-<div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
-    <div class="carousel-inner">
-        @{
-            int index = 0;
-            foreach (var group in Model.Select((x, i) => new { Item = x, Index = i }).GroupBy(x => x.Index / 3))
-            {
-                var isActive = index == 0 ? "active" : "";
-                <div class="carousel-item @isActive">
-                    <div class="row">
-                        @foreach (var item in group)
-                        {
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">@item.Item.Cargo</h5>
-                                        <p class="card-text">@item.Item.DescricaoVaga</p>
+<div class="d-flex flex-column">
+
+    <div class="fundo-cheio3 py-3">
+
+        <h1 class="mb-4 text-center d-flex justify-content-center bg-white align-items-center p-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-star-fill text-warning me-3" viewBox="0 0 16 16">
+                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+            </svg>
+            Principais vagas recomendadas para você
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-star-fill text-warning ms-3" viewBox="0 0 16 16">
+                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+            </svg>
+        </h1>
+        <div id="carouselExample" class="carousel slide" data-bs-ride="false">
+            <!-- Removido o autoplay -->
+            @* <div class="carousel-indicators bg-danger mt-5">
+            <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            *@
+            <div class="carousel-inner" >
+                @for (int i = 0; i < ViewBag.vagasRecomendadas.Count; i += 3)
+                {
+                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                        <div class="row justify-content-center">
+                            @for (int j = i; j < i + 3 && j < ViewBag.vagasRecomendadas.Count; j++)
+                            {
+                                var vaga = ViewBag.vagasRecomendadas[j];
+
+                                <a class="text-decoration-none text-black card col-10 col-md p-0 mx-md-3 acessar mb-4 mb-md-0" asp-action="Details" asp-controller="VagaEmpregos" asp-route-id="@vaga.IdVagaEmprego">
+
+                                    <div class="card-header h3">
+                                        @(vaga.Cargo.Length > 25 ? vaga.Cargo.Substring(0, 25) + "..." : vaga.Cargo)
                                     </div>
-                                </div>
-                            </div>
-                        }
+                                    <div class="card-body">
+                                        <h5 class="card-title d-flex justify-content-between">
+                                            <span class="d-flex flex-column">
+                                                <span class="text-secondary fs-6">Salario:</span>
+                                                <span>R$@vaga.Salario</span>
+                                            </span>
+                                            <span class="d-flex flex-column">
+                                                <span class="text-secondary fs-6 text-end">Região:</span>
+                                                <span>@vaga.Estado - @vaga.Cidade</span>
+                                            </span>
+                                        </h5>
+
+                                        <p class="card-text">
+
+                                            <span class="d-flex flex-column">
+                                                <span class="text-secondary fs-6 fw-bold">Descrição:</span>
+                                                @(vaga.DescricaoVaga.Length > 100 ? vaga.DescricaoVaga.Substring(0, 100) + "..." : vaga.DescricaoVaga)
+                                            </span>
+                                        </p>
+                                    </div>
+                                </a>
+
+                            }
+                        </div>
                     </div>
+                }
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+
+   
+
+    <div class="d-flex flex-column mt-5">
+
+        <h1 class="text-center mb-3 text-uppercase">Busque por vagas</h1>
+
+        <div class="d-flex flex-column col-12">
+
+            <form asp-action="Index" asp-controller="VagaEmpregos">
+                <div class="col-12 d-flex flex-wrap justify-content-between mb-3">
+
+                    <div class="col-12 col-md-8 d-flex">
+
+                        <div class="input-group ">
+
+                            <div class="col-12 col-md-4 mb-3 mb-md-0">
+                                <input type="text" class="form-control border border-danger" placeholder="Cargo" aria-label="Cargo" id="cargoInput" autocomplete="off" asp-for="@modelVaga.Cargo" name="Cargo">
+                            </div>
+                                <ul id="suggestionsList" class="list-group position-absolute w-100 mt-5 shadow" style="z-index:999;"></ul>
+
+                            <div class="col-6 col-md-4">
+                                <select id="estado" class="form-select border border-danger" asp-for="@modelVaga.Estado" name="Estado">
+                                    <option value="" disabled selected hidden>Selecione o Estado</option>
+                                    @foreach (var estado in ViewBag.estados)
+                                    {
+                                        <option value="@estado">@estado</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-6 col-md-4">
+                                <select id="cidade" class="form-select border border-danger" disabled asp-for="@modelVaga.Cidade" name="Cidade">
+                                    <option value="" disabled selected hidden>Cidade</option>
+                                    <option value="">Qualquer Cidade</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-none d-md-flex col-3">
+                        <button class="btn btn-danger col-12">Buscar</button>
+                    </div>
+
                 </div>
-                index++;
-            }
+
+                <div class="d-flex col-12 mb-3 flex-wrap">
+
+                    <div class="dropdown me-2 col-12 col-md-2 mb-3 mb-md-0">
+                        <select class="form-select border border-danger" name="Salario" asp-for="@modelVaga.Salario">
+                            <option value="">Indiferente</option>
+                            <option value="2000">Até R$2000,00</option>
+                            <option value="2000+">A partir de R$2.000,00</option>
+                            <option value="3000+">A partir de R$3.000,00</option>
+                            <option value="4000+">A partir de R$4.000,00</option>
+                            <option value="5000+">A partir de R$5.000,00</option>
+                            <option value="6000+">A partir de R$6.000,00</option>
+                            <option value="7000+">A partir de R$7.000,00</option>
+                            <option value="8000+">A partir de R$8.000,00</option>
+                            <option value="9000+">A partir de R$9.000,00</option>
+                            <option value="10000+">A partir de R$10.000,00</option>
+                            <option value="15000+">A partir de R$15.000,00</option>
+                            <option value="20000+">Acima de R$20.000,00</option>
+                        </select>
+                    </div>
+
+                    <div class="dropdown me-2 col-12 col-md-2 mb-3 mb-md-0">
+                        <select class="form-select border border-danger" asp-for="@modelVaga.RegimeContratacao" name="RegimeContratacao">
+                            <option value="">Regime de Contratação</option>
+                            @foreach (var categoria in ViewBag.Categorias)
+                            {
+                                var categoriaCompleta = ViewBag.CategoriaMap[categoria];
+
+                                <option value="@categoria">@categoriaCompleta</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="dropdown me-2 col-12 col-md-2 mb-3 mb-md-0">
+                        <select class="form-select border border-danger" asp-for="@modelVaga.DataPublicacao" name="DataPublicacao">
+                            <option value="todas" disabled selected hidden>Data</option>
+                            <option value="todas">Qualquer data</option>
+                            <option value="hoje">Hoje</option>
+                            <option value="ultimos2dias">Últimos 2 dias</option>
+                            <option value="ultimos3dias">Últimos 3 dias</option>
+                            <option value="ultimaSemana">Última semana</option>
+                            <option value="ultimos15dias">Últimos 15 dias</option>
+                            <option value="ultimoMes">Último mês</option>
+                        </select>
+                    </div>
+
+                    <div class="dropdown ms-0 col-12 col-md-2 mb-3 mb-md-0">
+                        <button class="btn border border-danger dropdown-toggle w-100" type="button" data-bs-auto-close="outside" data-bs-toggle="dropdown" aria-expanded="false" id="modalidadeButton">
+                            Modalidade
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <div class="form-check ms-3">
+                                    <input type="checkbox" class="form-check-input" asp-for="@modelVaga.HomeOffice" name="HomeOffice" id="dropdownCheck1" onclick="atualizarNumero()">
+                                    <label class="form-check-label h6" for="dropdownCheck1">
+                                        Home Office
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="form-check ms-3">
+                                    <input type="checkbox" class="form-check-input" asp-for="@modelVaga.Hibrido" name="Hibrido" id="dropdownCheck2" onclick="atualizarNumero()">
+                                    <label class="form-check-label h6" for="dropdownCheck2">
+                                        Híbrido
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="form-check ms-3">
+                                    <input type="checkbox" class="form-check-input" asp-for="@modelVaga.Presencial" name="Presencial" id="dropdownCheck3" onclick="atualizarNumero()">
+                                    <label class="form-check-label h6" for="dropdownCheck3">
+                                        Presencial
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <script>
+                        function atualizarNumero() {
+                            let count = 0;
+                            if (document.getElementById('dropdownCheck1').checked) count++;
+                            if (document.getElementById('dropdownCheck2').checked) count++;
+                            if (document.getElementById('dropdownCheck3').checked) count++;
+
+                            // Atualiza o texto do botão com o número de checkboxes marcados
+                            document.getElementById('modalidadeButton').innerHTML = 'Modalidade <span style="background-color: #fff3f3; padding: 2px 6px; border-radius: 5px;">' + (count > 0 ? count : '') + '</span>';
+
+                        }
+                    </script>
+
+
+                    <div class="d-flex d-md-none col-12">
+                        <button class="btn btn-danger col-12">Buscar</button>
+                    </div>
+
+
+                </div>
+            </form>
+
+        </div>
+
+
+
+    </div>
+
+    <div class="row g-3">
+        @foreach (var item in Model)
+        {
+            <div class="col-12 col-md-6 col-lg-6">
+                <a class="fundo-escurecer text-decoration-none text-black shadow p-3 d-block" style="background-color:white" asp-action="Details" asp-controller="VagaEmpregos" asp-route-id="@item.IdVagaEmprego">
+
+                    <div class="d-flex flex-column">
+                        <h2 class="text-primary texto-underline-decoration">@item.Cargo</h2>
+                        <p>empresa</p>
+                        <h4>@item.Usuario.UserName</h4>
+                        <div>
+                            <p>R$@item.Salario</p>
+                            <p><span class="fw-bold">@item.Vagas Vaga: </span> @item.Cidade - @item.Estado</p>
+                            <p>Publicada em: @item.Publicacao</p>
+                        </div>
+                        <div>
+                            <p>Descrição:</p>
+                            <p>@item.DescricaoVaga</p>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-outline-danger col-12 px-5">Se candidatar</button>
+                        </div>
+                    </div>
+
+                </a>
+            </div>
+        }
+        @if (Model.Count() == 0)
+        {
+            <h3 class="text-secondary">Não há vagas</h3>
+            <h1>Não há vagas com base no seu filtro</h1>
+            <h3 class="text-secondary">Não há vagas</h3>
         }
     </div>
-    <!-- Controles do carrossel -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
+
 </div>
+
+<style>
+    body{
+        background-color: #f9f9f9;
+    }
+
+    .fundo-escurecer {
+        transition: background-color 0.3s ease-in-out;
+    }
+
+        .fundo-escurecer:hover {
+            background-color: #f9f9f9 !important; /* Ajuste a cor conforme necessário */
+        }
+
+    .texto-underline-decoration:hover{
+        text-decoration:underline;
+    }
+
+    #suggestionsList li {
+        cursor: pointer;
+    }
+
+        #suggestionsList li:hover {
+            background-color: #f8f9fa;
+        }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        background-color: black;
+        width: 5vh;
+        height: 5vh;
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+
+    /* .carousel-control-prev {
+        left: -50px;
+    }
+
+    .carousel-control-next {
+        right: -3rem;
+    } 
+    */
+
+    .fundo-cheio3 {
+        background-color: #FCA5A5;
+        box-shadow: 0 0 0 100vmax #FCA5A5;
+        clip-path: inset(0-100vmax);
+    }
+
+    .fundo-rosa {
+        background-color: #fff3f3;
+    }
+
+
+    .acessar::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5); /* Sombra */
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        z-index: 1;
+    }
+
+    .acessar:hover::before {
+        opacity: 1; /* Mostra a sombra ao passar o mouse */
+    }
+
+    .acessar:hover {
+        z-index: 2;
+    }
+
+    .acessar::after {
+        color: white;
+        content: 'Clique para acessar...';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: 2; /* Garante que o texto fique acima da sombra */
+    }
+
+    .acessar:hover::after {
+        opacity: 1;
+    }
+</style>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#estado').change(function () {
+                var estado = $(this).val();
+                if (estado) {
+                    $.ajax({
+                        url: '@Url.Action("PegarCidadesPorEstado", "VagaEmpregos")',
+                        data: { estado: estado },
+                        type: 'GET',
+                        success: function (cidades) {
+                            var options = '<option value="" disabled hidden>Cidade</option>';
+                            options += '<option value="" selected>Qualquer Cidade</option>';
+                            cidades.forEach(function (cidade) {
+                                options += '<option value="' + cidade + '">' + cidade + '</option>';
+                            });
+                            $('#cidade').html(options).prop('disabled', false);
+                        }
+                    });
+                } else {
+                    $('#cidade').html('<option value="" disabled selected hidden>Cidade</option>').prop('disabled', true);
+                }
+            });
+        });
+    </script>
+
+    <script>
+        const input = document.getElementById('cargoInput');
+        const suggestionsList = document.getElementById('suggestionsList');
+
+        input.addEventListener('input', function () {
+            const query = input.value;
+
+            if (query) {
+                fetch(`/VagaEmpregos/PegarCargos?query=${query}`)
+                    .then(response => response.json())
+                    .then(cargos => {
+                        suggestionsList.innerHTML = '';
+                        suggestionsList.style.display = 'none';
+
+                        if (cargos.length > 0) {
+                            cargos.forEach(cargo => {
+                                const li = document.createElement('li');
+                                li.classList.add('list-group-item');
+                                li.textContent = cargo;
+                                li.onclick = () => {
+                                    input.value = cargo;
+                                    suggestionsList.innerHTML = '';
+                                    suggestionsList.style.display = 'none';
+                                };
+                                suggestionsList.appendChild(li);
+                            });
+                            suggestionsList.style.display = 'block';
+                        }
+                    });
+            } else {
+                suggestionsList.innerHTML = '';
+                suggestionsList.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!input.contains(event.target) && !suggestionsList.contains(event.target)) {
+                suggestionsList.style.display = 'none';
+            }
+        });
+    </script>
+}
