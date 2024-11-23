@@ -4,10 +4,9 @@
     ViewData["Title"] = "Home Page";
 
     var noticiasList = ViewBag.noticiasList;
-    var empregos = ViewBag.empregos as List<VagaEmprego>;
 }
 
-<div class="d-flex">
+@* <div class="d-flex">
     <p>Jornalista</p>
     <form asp-action="AddRole" asp-controller="Noticias" method="post">
         <input type="hidden" name="roleName" value="Jornalista" />
@@ -53,11 +52,11 @@
         <input type="hidden" name="roleName" value="ADM" />
         <button type="submit" class="btn btn-danger">Remover Role</button>
     </form>
-</div>
+</div> *@
 
-<div class="d-flex justify-content-center align-items-center">
+<div class="d-flex flex-md-column flex-lg-row justify-content-center align-items-center mt-4 mt-lg-0">
 
-    <div class="col-7">
+    <div class="col-11 col-lg-7 order-0 order-md-1 order-lg-0">
         <h2>Conectando Pessoas, Oportunidades e Sabedoria</h2>
         <p>
             Junte-se a nós e descubra como nossa comunidade sem fins lucrativos pode ajudar você a crescer, 
@@ -65,22 +64,22 @@
             educativos e participar de discussões enriquecedoras.
         </p>
 
-        <button class="btn btn-outline-primary px-5  mt-3">Saiba mais</button>
+        <a class="btn btn-outline-primary px-5  mt-3 col-12 col-lg-4" asp-action="Privacy">Saiba mais</a>
        
 
     </div>
 
-    <div class="col-5">
+    <div class="col-md-8 col-lg-5 d-none d-md-flex order-1 order-md-0 order-lg-1">
         <img src="img/legal.webp" alt="Exemplo de imagem" class="w-100 h-100">
     </div>
 
 </div>
 
-<div class="d-flex">
+<div class="d-flex col-11 col-lg justify-content-center justify-content-lg-start m-auto m-lg-0">
 
-    <div class="d-flex col-8 mb-5 flex-wrap">
+    <div class="d-flex col-12 col-lg-8 mb-1 mb-md-5 flex-wrap mt-4 mt-lg-0 justify-content-center justify-content-lg-start">
 
-        <a class="card p-3 border text-decoration-none text-danger ms-0 col-3 mb-2" asp-area="" asp-controller="Noticias" asp-action="Index">
+        <a class="card p-3 border text-decoration-none text-danger ms-0 col-6 col-md-4 col-lg-3 mb-2 me-0 me-lg-2" asp-area="" asp-controller="Noticias" asp-action="Index">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-newspaper" viewBox="0 0 16 16">
                 <path d="M0 2.5A1.5 1.5 0 0 1 1.5 1h11A1.5 1.5 0 0 1 14 2.5v10.528c0 .3-.05.654-.238.972h.738a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 1 1 0v9a1.5 1.5 0 0 1-1.5 1.5H1.497A1.497 1.497 0 0 1 0 13.5zM12 14c.37 0 .654-.211.853-.441.092-.106.147-.279.147-.531V2.5a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0-.5.5v11c0 .278.223.5.497.5z" />
                 <path d="M2 3h10v2H2zm0 3h4v3H2zm0 4h4v1H2zm0 2h4v1H2zm5-6h2v1H7zm3 0h2v1h-2zM7 8h2v1H7zm3 0h2v1h-2zm-3 2h2v1H7zm3 0h2v1h-2zm-3 2h2v1H7zm3 0h2v1h-2z" />
@@ -89,7 +88,7 @@
             <p class="text-black">Saiba sobre assuntos do momento em relação a gêneros</p>
         </a>
 
-        <a class="card p-3 border text-decoration-none text-success ms-0 col-3 mb-2" asp-area="" asp-controller="Especialista" asp-action="Index">
+        <a class="card p-3 border text-decoration-none text-success ms-0 col-6 col-md-4 col-lg-3 mb-2 me-0 me-lg-2" asp-area="" asp-controller="Especialista" asp-action="Index">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
                 <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
             </svg>
@@ -97,7 +96,7 @@
             <p class="text-black">Receba orientações de especialistas em saúde mental</p>
         </a>
 
-        <a class="card p-3 border text-decoration-none text-primary ms-0 col-3 mb-2" asp-area="" asp-controller="MaterialDidatico" asp-action="Index">
+        <a class="card p-3 border text-decoration-none text-primary ms-0 col-6 col-md-4 col-lg-3 mb-2 me-0 me-lg-2" asp-area="" asp-controller="MaterialDidatico" asp-action="Index">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-book-half" viewBox="0 0 16 16">
                 <path d="M8.5 2.687c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783" />
             </svg>
@@ -105,7 +104,7 @@
             <p class="text-black">Acesse materiais educativos sobre diversos tópicos</p>
         </a>
 
-        <a class="card p-3 border text-decoration-none text-warning ms-0 col-3 mb-2" asp-area="" asp-controller="VagaEmpregos" asp-action="Index">
+        <a class="card p-3 border text-decoration-none text-warning ms-0 col-6 col-md-4 col-lg-3 mb-2 me-0 me-lg-2" asp-area="" asp-controller="VagaEmpregos" asp-action="Index">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-briefcase-fill" viewBox="0 0 16 16">
                 <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v1.384l7.614 2.03a1.5 1.5 0 0 0 .772 0L16 5.884V4.5A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5" />
                 <path d="M0 12.5A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5V6.85L8.129 8.947a.5.5 0 0 1-.258 0L0 6.85z" />
@@ -114,7 +113,7 @@
             <p class="text-black">Encontre vagas de emprego e oportunidades de carreira</p>
         </a>
 
-        <a class="card p-3 border text-decoration-none text-info ms-0 col-3 mb-2" asp-area="" asp-controller="Posts" asp-action="Index">
+        <a class="card p-3 border text-decoration-none text-info ms-0 col-6 col-md-4 col-lg-3 mb-2 me-0 me-lg-2" asp-area="" asp-controller="Posts" asp-action="Index">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-chat-square-text-fill" viewBox="0 0 16 16">
                 <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1z" />
             </svg>
@@ -122,7 +121,7 @@
             <p class="text-black">Participe de discussões e compartilhe suas experiências</p>
         </a>
 
-        <a class="card p-3 border text-decoration-none text-secondary ms-0 col-3 mb-2" asp-area="" asp-controller="Home" asp-action="Privacy">
+        <a class="card p-3 border text-decoration-none text-secondary ms-0 col-6 col-md-4 col-lg-3 mb-2 me-0 me-lg-2" asp-area="" asp-controller="Home" asp-action="Privacy">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
                 <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2" />
             </svg>
@@ -130,7 +129,7 @@
             <p class="text-black">Saiba mais sobre o objetivo deste projeto</p>
         </a>
 
-        <div class="mb-2 d-flex align-items-end">
+        <div class="mb-2 d-none d-lg-flex align-items-end mt-3 mt-md-0">
 
             <div class="d-flex flex-column " id="arrows">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
@@ -156,33 +155,69 @@
 <div class="d-flex flex-column fundo-cheio justify-content-center p-3">
     <h2 class="text-center text-white">Principais Noticias</h2>
 
-    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
+    <div id="carouselExample" class="carousel slide" >
         <div class="carousel-inner">
             @for (int i = 0; i < (ViewBag.noticiasList.Count + 2) / 3; i++)
             {
                 <div class="carousel-item @(i == 0 ? "active" : "")">
-                    <div class="row">
+                    <div class="row d-flex d-md-none d-lg-flex">
                         @for (int j = i * 3; j < (i * 3) + 3 && j < ViewBag.noticiasList.Count; j++)
                         {
                             var item = (WebSiteVozesUnidas.Models.Noticia)ViewBag.noticiasList[j];
 
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 mb-4 mb-md-0 p-0">
                                 <div class="card d-flex flex-column position-relative justify-content-end p-0" style="height: 350px;">
                                     <!-- Defina um tamanho fixo aqui -->
-                                    <a asp-action="Details" asp-controller="Noticias" asp-route-id="@item.IdNoticia" class="text-decoration-none text-white">
+                                    <a asp-action="Details" asp-controller="Noticias" asp-route-id="@item.IdNoticia" class="text-decoration-none text-white ">
 
                                         <!-- Imagem com posição absoluta para ficar atrás do conteúdo -->
-                                        <img src="~/img/@item.Imagem" class="card-img position-absolute top-0 start-0 w-100 h-100" alt="@item.Titulo">
+                                        <img src="~/img/@(string.IsNullOrEmpty(item.Imagem) ? "noImgFound.jpg" : item.Imagem)" class="card-img position-absolute top-0 start-0 w-100 h-100" alt="@item.Titulo">
 
                                         <!-- Conteúdo do card -->
                                         <div class="card-body d-flex flex-column position-relative z-index-1 bg-gradient-eric">
                                             <h3 class="card-title text-end text-shadow">@item.Titulo</h3>
                                             <hr class="m-1"/>
-                                            <p class="card-text text-end">@item.Resumo</p>
+                                            <p class="card-text text-end">
+                                                @(item.Conteudo.Length > 200 ? item.Conteudo.Substring(0, 200) + "..." : item.Conteudo)
+                                                </p>
+                                        </div>
+                                    </a>
+                                </div> 
+
+                                
+                            </div>
+
+
+                        }
+                    </div>
+                    <div class="row d-none d-md-flex d-lg-none">
+                        @for (int j = i * 2; j < (i * 2) + 2 && j < ViewBag.noticiasList.Count; j++)
+                        {
+                            var item = (WebSiteVozesUnidas.Models.Noticia)ViewBag.noticiasList[j];
+
+                            <div class="col-12 col-md-6 col-lg-4 mb-4 mb-md-0 p-0">
+                                <div class="card d-flex flex-column position-relative justify-content-end p-0" style="height: 350px;">
+                                    <!-- Defina um tamanho fixo aqui -->
+                                    <a asp-action="Details" asp-controller="Noticias" asp-route-id="@item.IdNoticia" class="text-decoration-none text-white ">
+
+                                        <!-- Imagem com posição absoluta para ficar atrás do conteúdo -->
+                                        <img src="~/img/@(string.IsNullOrEmpty(item.Imagem) ? "noImgFound.jpg" : item.Imagem)" class="card-img position-absolute top-0 start-0 w-100 h-100" alt="@item.Titulo">
+
+                                        <!-- Conteúdo do card -->
+                                        <div class="card-body d-flex flex-column position-relative z-index-1 bg-gradient-eric">
+                                            <h3 class="card-title text-end text-shadow">@item.Titulo</h3>
+                                            <hr class="m-1" />
+                                            <p class="card-text text-end">
+                                                @(item.Conteudo.Length > 200 ? item.Conteudo.Substring(0, 200) + "..." : item.Conteudo)
+                                            </p>
                                         </div>
                                     </a>
                                 </div>
+
+
                             </div>
+
+
                         }
                     </div>
                 </div>
@@ -203,16 +238,16 @@
 
 <h2 class="text-center text-black mt-5  text-shadow-2">Nossos melhores Especialista</h2>
 
-<div class="d-flex justify-content-evenly mt-5 ">
+<div class="d-flex flex-column flex-lg-row justify-content-evenly mt-5 align-items-center">
 
 
     @foreach (var item in ViewBag.especialistasList)
     {
-        <div class="card col-3 rounded-3" >
+        <div class="card col-11 col-lg-3 rounded-3 mb-3 mb-lg-0 flex-column flex-md-row flex-lg-column">
             <img src="~/img/@item.ImgEspecialista" class="m-auto rounded-circle mt-3" alt="@item.Nome" width="200" height="200">
             <div class="card-body">
-                <h5 class="card-title text-center">@item.Nome</h5>
-                <p class="card-text text-center">
+                <h5 class="card-title text-center text-md-start text-lg-center">@item.Nome</h5>
+                <p class="card-text text-center text-md-start text-lg-center">
                 @for (int i = 1; i <= 5; i++) // Alterado para percorrer até 5 (máximo de estrelas)
                 {
                     if (i <= item.MediaEstrelas)
@@ -249,17 +284,17 @@
 
 
 
-<div class="d-flex flex-column my-5 fundo-cheio">
+<div class="d-flex flex-column my-5 p-3 fundo-cheio">
 
-<h2 class="text-center text-white mt-5 ">Materiais didáticos gratuitos</h2>
+    <h2 class="text-center text-white ">Materiais didáticos gratuitos</h2>
 
     @foreach (var categoria in ViewBag.CategoriasComMateriais as List<CategoriaMaterials>)
     {
-        <div class="d-flex flex-column col-12 mb-5">
+        <div class="d-flex flex-column col-12 mb-5 mt-2">
 
             @* <div class="d-flex align-items-center text-rotate">
-                <h2 class="categoriaMaterial bg-success ">@categoria.Categoria</h2>
-            </div> *@
+        <h2 class="categoriaMaterial bg-success ">@categoria.Categoria</h2>
+        </div> *@
 
             <div class="d-flex bg-success rounded-top justify-content-center">
                 <h2 class="ms-2 mt-1 text-white">@categoria.Categoria</h2>
@@ -272,11 +307,18 @@
                     @foreach (var material in categoria.MaterialDidaticos)
                     {
                         <div class="carousel-item @(material == categoria.MaterialDidaticos.First() ? "active" : "")">
-                            <div class="d-flex">
-                                <img src="~/img/@material.ImgMaterial" class="col-3" height="250" alt="@material.Titulo">
-                                <div class="d-flex flex-column ms-4">
+                            <div class="d-flex flex-wrap flex-md-nowrap">
+                                <img src="~/img/@material.ImgMaterial" class="col-12 col-md-6 col-lg-3" height="250" alt="@material.Titulo">
+                                <div class="d-none d-md-flex flex-column ms-4">
                                     <h3>@material.Titulo</h3>
-                                    <p>@material.Descricao</p>
+                                    <p class="d-none d-lg-inline">@material.Descricao</p>
+                                    <p class="d-none d-md-inline d-lg-none">
+                                        @(material.Descricao.Length > 240 ? material.Descricao.Substring(0, 240) + "..." : material.Descricao)
+                                    </p>
+                                    @* <p class="d-inline d-md-none">
+                                        @(material.Descricao.Length > 100 ? material.Descricao.Substring(0, 200) + "..." : material.Descricao)
+                                    </p> *@
+
 
                                 </div>
                             </div>
@@ -299,61 +341,94 @@
         </div>
     }
 
-
+    <a class="col-12 btn btn-light mb-5" asp-action="Index" asp-controller="MaterialDidatico">Ver Mais</a>
 
 </div>
 
 
-<div class="d-flex flex-column my-5">
+<div class="d-flex flex-column my-5 ">
 
-    <h2 class="text-center text-black mt-5  text-shadow-2">Vagas de empregos</h2>
+    <h1 class="text-center text-black mt-5 mb-5  text-shadow-2">Vagas de empregos</h1>
 
+    <div class="d-flex row g-3 acessar">
 
-    <table class="table table-striped ">
-        <thead>
-            <tr>
-                <th>
-                    Cargo
-                </th>
-                <th>
-                    Salário
-                </th>
-                <th>
-                    Descrição da vaga
-                </th>
-                <th>
-                    Estado
-                </th>
-                <th>
-                    Cidade
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in empregos.Take(7))
-            {
-                <tr>
-                    <td>
-                        @item.Cargo
-                    </td>
-                    <td>
-                        R$@item.Salario
-                    </td>
-                    <td>
-                        @item.DescricaoVaga
-                    </td>
-                    <td>
-                        @item.Estado
-                    </td>
-                    <td>
-                        @item.Cidade
-                    </td>
-                </tr>
-            }
-    </table>
+        @foreach (var item in ViewBag.empregos)
+        {
+            <div class="d-flex col-12 col-md-6 col-lg-4 align-items-stretch">
+                <a class="fundo-escurecer text-decoration-none text-black shadow p-3 d-flex flex-column col-12" style="background-color:white" asp-action="Details" asp-controller="VagaEmpregos" asp-route-id="@item.IdVagaEmprego">
+
+                    <h2 class="text-primary texto-underline-decoration">@item.Cargo</h2>
+                    <p class="mb-0 fs-6 text-secondary fw-bold">Empresa:</p>
+                    <h4>@item.Usuario.UserName</h4>
+
+                    <div>
+                        <p class="mb-0 fs-6 text-secondary fw-bold">Empresa:</p>
+                        <p class="fs-4">R$@item.Salario</p>
+                        <p class="mb-0"><span class="fw-bold">@item.NumeroVagas Vagas: </span> @item.Cidade - @item.Estado</p>
+                        <p>Publicada em: @item.Publicacao.ToString("dd/MM/yyyy")</p>
+                    </div>
+
+                    <div>
+                        <p class="mb-0 fs-6 text-secondary fw-bold">Descrição:</p>
+                        <p>@item.DescricaoVaga</p>
+                    </div>
+
+                    <div class="mt-auto">
+                        <button class="btn btn-outline-danger col-12 px-5">Se candidatar</button>
+                    </div>
+                </a>
+            </div>
+
+        }
+    </div>
+
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const acessarDiv = document.querySelector('.acessar');
+
+        if (acessarDiv) {
+            acessarDiv.addEventListener('click', function () {
+                window.location.href = '/VagaEmpregos/Index';
+            });
+        }
+    });
+</script>
 
 <style>
+    .acessar {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .acessar::before {
+        content: "Clique para ver mais...";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        font-size: 1.2rem;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .acessar:hover::before {
+        opacity: 1;
+    }
+</style>
+
+<style>
+  
+
     .text-shadow-2 {
         text-shadow: 1px 1px white;
     }

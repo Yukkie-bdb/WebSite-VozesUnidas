@@ -55,17 +55,16 @@ namespace WebSiteVozesUnidas.Controllers
                    .ToListAsync();
 
             var categoriasComMateriais = materiaisPorCategoria
-                .Select(group => new CategoriaMaterials
-                {
-                    Categoria = group.Key,
-                    MaterialDidaticos = group
-                })
-                .ToList();
+    .Select(group => new CategoriaMaterials
+    {
+        Categoria = group.Key,
+        MaterialDidaticos = group.Take(2) // Limita a 2 materiais por categoria
+    })
+    .ToList();
 
             ViewBag.CategoriasComMateriais = categoriasComMateriais;
 
-            ViewBag.empregos = await _context.VagaEmpregos.ToListAsync();
-
+            ViewBag.empregos = _context.VagaEmpregos.Include(u => u.Usuario).Take(3).ToList();
 
 
             return View();

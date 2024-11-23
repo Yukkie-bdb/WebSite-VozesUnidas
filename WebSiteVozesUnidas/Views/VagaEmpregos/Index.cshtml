@@ -303,15 +303,16 @@
 
                     <div class="d-flex flex-column">
                         <h2 class="text-primary texto-underline-decoration">@item.Cargo</h2>
-                        <p>empresa</p>
+                        <p class="mb-0 fs-6 text-secondary fw-bold">Empresa:</p>
                         <h4>@item.Usuario.UserName</h4>
                         <div>
-                            <p>R$@item.Salario</p>
-                            <p><span class="fw-bold">@item.Vagas Vaga: </span> @item.Cidade - @item.Estado</p>
-                            <p>Publicada em: @item.Publicacao</p>
+                            <p class="mb-0 fs-6 text-secondary fw-bold">Empresa:</p>
+                            <p class="fs-4">R$@item.Salario</p>
+                            <p class="mb-0"><span class="fw-bold">@item.NumeroVagas Vagas: </span> @item.Cidade - @item.Estado</p>
+                            <p>Publicada em: @item.Publicacao.ToString("dd/MM/yyyy")</p>
                         </div>
                         <div>
-                            <p>Descrição:</p>
+                            <p class="mb-0 fs-6 text-secondary fw-bold">Descrição:</p>
                             <p>@item.DescricaoVaga</p>
                         </div>
                         <div class="col-12">
