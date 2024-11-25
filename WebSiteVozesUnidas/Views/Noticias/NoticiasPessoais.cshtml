@@ -3,7 +3,6 @@
     ViewData["Title"] = "Notícias";
 
     var noticias = ViewBag.Noticias as List<WebSiteVozesUnidas.Models.Noticia>; // Substitua YourNamespace.Noticia pelo modelo correto.
-    int noticiasCarregadas = ViewBag.NoticiasCarregadas;
     int totalNoticias = ViewBag.TotalNoticias;
 }
 
@@ -107,10 +106,11 @@ else
     @foreach (var item in Model)
     {
 
-        <div class="d-flex m-2 my-4 flex-md-row bg-white " style="border-radius:25px;">
-            <a asp-action="Details" asp-route-id="@item.IdNoticia" class="text-decoration-none  d-flex text-black ">
+        <div class="d-flex m-2 my-4 flex-md-row bg-white" style="border-radius:25px;">
+
+            <a asp-action="Details" asp-route-id="@item.IdNoticia" class="text-decoration-none d-flex text-black col-12">
                 <div class="col-4 col-md-4 d-flex align-content-center justify-content-center me-2 order-1 order-md-0">
-                    <img src="~/img/@item.Imagem" alt="Imagem da Notícia" style="max-height:250px;border-radius:25px;" class="align-self-center w-100 mw-100" />
+                    <img src="~/img/@(string.IsNullOrEmpty(item.Imagem) ? "noImgFound.jpg" : item.Imagem)" style="max-height:250px;border-radius:25px;" class="align-self-center w-100 mw-100" />
                 </div>
                 <div class="d-flex flex-column m-1 col-8 col-md-8 ps-1 order-0 order-md-1">
                     <div class="me-2 fw-bold my-3 h3 h-25">
@@ -121,16 +121,9 @@ else
                     </div>
                 </div>
             </a>
-        </div>
 
+        </div>
     }
-}
-@if (noticiasCarregadas < totalNoticias)
-{
-    <form method="get" class="">
-        <input type="hidden" name="count" value="@(noticiasCarregadas + 5)" />
-        <button type="submit" class="btn btn-danger col-12 fw-bold fs-4 mt-5">Veja Mais</button>
-    </form>
 }
 
 <style>

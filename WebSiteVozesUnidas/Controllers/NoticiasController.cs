@@ -189,14 +189,14 @@ namespace WebSiteVozesUnidas.Controllers
 
         //    return View(noticiasExibidas);
         //}
-        public async Task<IActionResult> NoticiasPessoais (int count = 7)
+        public async Task<IActionResult> NoticiasPessoais (string searchTitle)
         {
             ViewData["CustomHeader"] = "NoticiasHeader";
 
             var userid = _signInManager.UserManager.GetUserId(User);
 
             // Se o parâmetro isUserNews for true, mostramos apenas as notícias do usuário
-            var noticias = await _context.Noticias.Where(n => n.Id.ToString() == userid).Take(count).ToListAsync(); // Apenas as do usuário logado
+            var noticias = await _context.Noticias.Where(n => n.Id.ToString() == userid).ToListAsync(); // Apenas as do usuário logado
 
             // Passa o ID do usuário logado para a ViewBag
             if (userid != null)
@@ -206,12 +206,17 @@ namespace WebSiteVozesUnidas.Controllers
                 ViewBag.UserJorn = Jornalista?.Jornalista;
             }
 
+            // Filtrar por título, se o parâmetro de busca for informado
+            if (!string.IsNullOrEmpty(searchTitle))
+            {
+                noticias = noticias.Where(n => n.Titulo.Contains(searchTitle)).ToList(); // Busca parcial no título
+            }
+
             var randomItems = GetRandomItems(3).ToList();
 
             ViewBag.noticiasPrincipais = null; // Apenas as do usuário logado
 
             ViewBag.Noticias = noticias;
-            ViewBag.NoticiasCarregadas = count;
             ViewBag.TotalNoticias = _context.Noticias.Where(n => n.Id.ToString() == userid).Count(); // Apenas as do usuário logado
 
             return View(noticias);

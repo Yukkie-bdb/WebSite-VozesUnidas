@@ -1,10 +1,11 @@
-﻿@model IEnumerable<WebSiteVozesUnidas.Models.Especialista>
+﻿@* @model IEnumerable<WebSiteVozesUnidas.Models.Especialista>
 
 @{
     ViewData["Title"] = "Especialistas";
+
     if(ViewBag.UserId is null)
     {
-        ViewBag.UserId = new Guid();
+        ViewBag.UserId = new Guid().ToString();
     }
 }
 
@@ -15,8 +16,7 @@
     </button>
 }
 
-<div class="tabcontent">
-    @* Lista de cores para os fundos dos cartões *@
+<!-- <div class="tabcontent">
     @{
         var colors = new[] { "#C0245F", "#A7FF88", "#388AD7" }; // Adicione mais cores se necessário
     }
@@ -24,6 +24,7 @@
     {
         var backgroundColor = colors[item.index % colors.Length]; // Seleciona a cor com base no índice
         var gradientDirection = (item.index % 2 == 0) ? "to left" : "to right";
+
         @if (User.IsInRole("ADM"))
         {
             <a href="@Url.Action("Details", new { id = item.value.IdEspecialista })" style="text-decoration: none; color: inherit;">
@@ -57,6 +58,31 @@
             </div>
         }
     }
+</div> -->
+
+<div class="d-flex flex-wrap gap-2">
+
+    @foreach (var item in Model)
+    {
+        <div class="card col-11 col-lg-3 rounded-3 mb-3 mb-lg-0 flex-column flex-md-row flex-lg-column">
+            <img src="~/img/@item.ImgEspecialista" class="m-auto rounded-circle mt-3" alt="@item.Nome" width="150" height="150">
+            <div class="card-body">
+                <h5 class="card-title text-center text-md-start text-lg-center">@item.Nome</h5>
+               
+                <p class="card-text"><span class="fw-bold ">Email: </span>@item.Email</p>
+                <p class="card-text"><span class="fw-bold">Telefone: </span>@item.Telefone</p>
+                <p class="card-text"><span class="fw-bold">Especialidade: </span>@item.Especialhidade</p>
+
+                <a href="#" class="btn btn-outline-primary  col-12">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-plus-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zM12.5 1a.5.5 0 0 1 .5.5V3h1.5a.5.5 0 0 1 0 1H13v1.5a.5.5 0 0 1-1 0V4h-1.5a.5.5 0 0 1 0-1H12V1.5a.5.5 0 0 1 .5-.5" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    }
+
+
 </div>
 
 <h3 style="text-align:center; margin-top:40px">Avaliações</h3>
@@ -156,4 +182,104 @@
                 </div>
             </div>
         }
+</div> *@
+
+@model IEnumerable<WebSiteVozesUnidas.Models.Especialista>
+
+@{
+    ViewData["Title"] = "Especialistas";
+
+}
+
+<div class="d-flex card text-center my-3">
+
+    <h1 >Descubra alguns de nossos melhores especialista</h1>
+    
 </div>
+
+<div class="d-flex">
+    <form asp-action="Index" class="d-flex justify-content-between gap-2 col-12">
+
+        <div class="d-flex col-8 gap-2">
+
+        <div class="form-floating mb-3 col">
+            <input type="text" class="form-control" id="floatingInput" placeholder="Nome" name="nome">
+            <label for="floatingInput">Buscar por Nome</label>
+        </div>
+
+            <div class="form-floating mb-3 col">
+                <input type="text" class="form-control" id="floatingInput" placeholder="Especialidade..." name="especialidade">
+                <label for="floatingInput">Buscar por Especialidade</label>
+            </div>
+        </div>
+
+        <div class="col-3 flex-grow-1 mb-3">
+                <button class="btn btn-primary col-12 h-100" >Pesquisar</button>
+        </div>
+    </form>
+
+</div>
+
+<div class="row g-2">
+    @foreach (var item in Model)
+    {
+        <div class="col-12 col-lg-4 card-ver-mais">
+            <div class="card rounded-3 mb-3 mb-lg-0 flex-column flex-md-row flex-lg-column ">
+                <img src="~/img/@item.ImgEspecialista" class="m-auto rounded-circle mt-3" alt="@item.Nome" width="150" height="150">
+                <div class="card-body">
+                    <h5 class="card-title text-center text-md-start text-lg-center">@item.Nome</h5>
+                    <p class="card-text"><span class="fw-bold">Email: </span>@item.Email</p>
+                    <p class="card-text"><span class="fw-bold">Telefone: </span>@item.Telefone</p>
+                    <p class="card-text"><span class="fw-bold">Especialidade: </span>@item.Especialhidade</p>
+                    <a href="#" class="btn btn-outline-primary col-12">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-plus-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zM12.5 1a.5.5 0 0 1 .5.5V3h1.5a.5.5 0 0 1 0 1H13v1.5a.5.5 0 0 1-1 0V4h-1.5a.5.5 0 0 1 0-1H12V1.5a.5.5 0 0 1 .5-.5" />
+                        </svg>
+                    </a>
+                    
+                </div>
+            </div>
+            <div class="bg-secondary ver-mais">
+                <a asp-action="Details" asp-route-id="@item.IdEspecialista">
+                    <p class="text-center text-white mb-0">
+                        Ver mais
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                        </svg>
+                    </p>
+                </a>
+            </div>
+        </div>
+
+    }
+</div>
+
+
+    @if (Model.Count() == 0)
+    {
+        <div class="d-flex justify-content-center my-5">
+
+        <div class="card">
+            <h5 class="card-header"></h5>
+            <div class="card-body">
+               
+                <p class="card-text">Nenhum especialista cadastrado.</p>
+            </div>
+        </div>
+        </div>
+    }
+
+
+<style>
+    .ver-mais {
+        border-radius: 0 0 25px 25px;
+        display: block;
+        opacity: 0; /* Inicialmente invisível */
+        transition: opacity 0.5s ease-in-out; /* Efeito de transição para suavizar o aparecimento */
+    }
+
+    .card-ver-mais:hover .ver-mais {
+        display: block;
+        opacity: 1; /* Torna visível com a transição */
+    }
+</style>

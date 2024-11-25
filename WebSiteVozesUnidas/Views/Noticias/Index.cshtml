@@ -125,18 +125,18 @@ else
 @foreach (var item in Model)
 {
 
-    <div class="d-flex m-2 my-4 flex-md-row bg-white" style="border-radius:25px;">
+    <div class="d-flex m-2 my-4 flex-md-row bg-white">
 
-        <a asp-action="Details" asp-route-id="@item.IdNoticia" class="text-decoration-none d-flex text-black col-12">
-            <div class="col-4 col-md-4 d-flex align-content-center justify-content-center me-2 order-1 order-md-0">
-                <img src="~/img/@(string.IsNullOrEmpty(item.Imagem) ? "noImgFound.jpg" : item.Imagem)" alt="Imagem da Notícia" style="max-height:250px;border-radius:25px;" class="align-self-center w-100 mw-100" />
+        <a asp-action="Details" asp-route-id="@item.IdNoticia" class="text-decoration-none d-flex text-black col-12 flex-column flex-md-row">
+            <div class="col-12 col-md-4 d-flex align-content-center justify-content-center me-2 order-1 order-md-0">
+                <img src="~/img/@(string.IsNullOrEmpty(item.Imagem) ? "noImgFound.jpg" : item.Imagem)" style="max-height:250px;" class="align-self-center w-100 mw-100" />
             </div>
-            <div class="d-flex flex-column m-1 col-8 col-md-8 ps-1 order-0 order-md-1">
-                <div class="me-2 fw-bold my-3 h3 h-25">
+            <div class="d-flex flex-column px-4 py-2 px-md-4 py-md-2 col-12 col-md-8 order-0 order-md-1">
+                <div class="me-2 fw-bold my-3 h3">
                     @Html.DisplayFor(modelItem => item.Titulo)
                 </div>
-                <div class="fw-lighter h5 pe-5 d-none d-md-block" style="color:gray">
-                    @Html.DisplayFor(modelItem => item.Resumo)
+                <div class="fw-lighter h5 d-block" style="color:gray">
+                    @(item.Resumo.Length > 250 ? item.Resumo.Substring(0, 250) + "..." : item.Resumo)
                 </div>
             </div>
         </a>

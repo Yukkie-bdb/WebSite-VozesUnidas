@@ -22,18 +22,26 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: MaterialDidatico
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? categoriaFiltro)
         {
-            ViewData["lista"] = await _context.CategoriaMaterials.Include(m => m.MaterialDidaticos).ToListAsync();
+            ViewBag.categorias = _context.CategoriaMaterials.ToList();
 
-            var vozesDbContext = _context.MaterialDidaticos.Include(m => m.Categoria);
-            var materiais = await vozesDbContext.ToListAsync();
+            var vozesDbContext = _context.MaterialDidaticos.Include(m => m.Categoria).AsQueryable();
 
-            return View(materiais);
+            var primeiraCategoria = vozesDbContext.Distinct().Select(o => o.Categoria.Categoria).First().ToString();
+
+            if (!string.IsNullOrEmpty(categoriaFiltro))
+            {
+                vozesDbContext = vozesDbContext.Where(e => e.Categoria.Categoria == categoriaFiltro);
+            }
+            else
+            {
+                vozesDbContext = vozesDbContext.Where(e => e.Categoria.Categoria == primeiraCategoria);
+
+            }
+
+            return View(await vozesDbContext.ToListAsync());
         }
-
-
-
         // GET: MaterialDidatico/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
@@ -65,7 +73,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdMaterialDidatico,Titulo,Descricao,CategoriaId,ImgMaterial,LinkYoutube")] MaterialDidatico materialDidatico, IFormFile imgUp)
+        public async Task<IActionResult> Create([Bind("IdMaterialDidatico,Titulo,Descricao,CategoriaId,LinkYoutube")] MaterialDidatico materialDidatico, IFormFile imgUp)
         {
             if (ModelState.IsValid)
             {

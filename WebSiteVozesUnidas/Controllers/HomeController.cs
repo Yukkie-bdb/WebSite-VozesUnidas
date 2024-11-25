@@ -49,16 +49,20 @@ namespace WebSiteVozesUnidas.Controllers
             ViewBag.noticiasList = await _context.Noticias.ToListAsync();
 
 
-            var materiaisPorCategoria = await _context.MaterialDidaticos
-                   .Include(m => m.Categoria) // Inclui a categoria relacionada
-                   .GroupBy(m => m.Categoria.Categoria) // Agrupa por categoria
-                   .ToListAsync();
+            var materiais = await _context.MaterialDidaticos
+     .Include(m => m.Categoria) // Inclui a categoria relacionada
+     .ToListAsync(); // Traz os dados para memória
+
+            var materiaisPorCategoria = materiais
+                .GroupBy(m => m.Categoria.Categoria) // Agrupa por categoria
+                .Take(2) // Limita a 2 categorias
+                .ToList();
 
             var categoriasComMateriais = materiaisPorCategoria
     .Select(group => new CategoriaMaterials
     {
         Categoria = group.Key,
-        MaterialDidaticos = group.Take(2) // Limita a 2 materiais por categoria
+        MaterialDidaticos = group // Limita a 2 materiais por categoria
     })
     .ToList();
 

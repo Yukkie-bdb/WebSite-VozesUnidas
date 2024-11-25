@@ -126,7 +126,7 @@
             {
                     <a asp-action="Details" asp-controller="Noticias" asp-route-id="@item.IdNoticia" class="d-flex my-5 text-black">
 
-                        <div class="d-flex flex-column col-5">
+                        <div class="d-flex flex-column col-6 col-md-5">
                             <img src="~/img/@(string.IsNullOrEmpty(item.Imagem) ? "noImgFound.jpg" : item.Imagem)" class="rounded border border-dark" height="180px" />
                         </div>
 

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using WebSiteVozesUnidas.Data;
 using WebSiteVozesUnidas.Models;
 
@@ -24,16 +25,23 @@ namespace WebSiteVozesUnidas.Controllers
             _caminho = hostEnvironment.WebRootPath;
         }
 
-        // GET: Especialista
-        public async Task<IActionResult> Index()
-        {
-            //var especialistas = _context.Especialistas.Include(e => e.AvaliacoesEspecialista).ThenInclude(a => a.Usuario).ToList();
 
-            var especialistas = _context.Especialistas.ToList();
-            var avalia = await _context.AvaliacaoEspecialistas.Include(a => a.Usuario).ToListAsync();
-            ViewBag.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            ViewBag.Avaliacoes = avalia;
-            return View(especialistas ?? new List<Especialista>());
+        // GET: Especialista
+        public async Task<IActionResult> Index(string nome, string especialidade)
+        {
+            var especialistas = _context.Especialistas.AsQueryable();
+
+            if (!string.IsNullOrEmpty(nome))
+            {
+                especialistas = especialistas.Where(e => e.Nome.Contains(nome) || e.Email.Contains(nome));
+            }
+
+            if (!string.IsNullOrEmpty(especialidade))
+            {
+                especialistas = especialistas.Where(e => e.Especialhidade.Contains(especialidade));
+            }
+
+            return View(await especialistas.ToListAsync());
         }
 
 
@@ -53,6 +61,8 @@ namespace WebSiteVozesUnidas.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Avaliacoes = _context.AvaliacaoEspecialistas.Include(u => u.Usuario).Where(a => a.EspecialistaId == id).ToList();
 
             return View(especialhista);
         }

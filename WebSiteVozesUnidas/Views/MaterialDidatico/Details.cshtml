@@ -4,7 +4,7 @@
     ViewData["Title"] = "Detalhes";
 }
 
-<h2 style="text-align:center; margin-top:10px">Detalhes do Material Didático</h2>
+@* <h2 style="text-align:center; margin-top:10px">Detalhes do Material Didático</h2>
 
 <hr />
 
@@ -54,4 +54,43 @@
             </div>
         </div>
     </div>
+</div> *@
+
+<div class="d-flex flex-column my-5">
+
+    <div class="d-flex">
+
+        <div class="card col-12 text-center text-uppercase">
+            <h1>@Model.Titulo</h1>
+        </div>
+
+    </div>
+
+
+    <div class="d-flex card flex-row">
+
+        <div class="col-4 p-5">
+            <img src="~/img/@Model.ImgMaterial" class="col-12 border border-dark" />
+        </div>
+
+        <div class="d-flex col-8 p-5 flex-column justify-content-between">
+
+            <div>
+                <p>@Model.Descricao</p>
+
+            </div>
+            <div>
+                @if (!string.IsNullOrEmpty(Model.LinkYoutube))
+                {
+                    <a class="btn btn-primary col-12" href="https://www.youtube.com/watch?v=@Model.LinkYoutube" target="_blank">Acessar vídeo</a>
+                }
+            </div>
+
+           
+
+        </div>
+
+    </div>
+
 </div>
+

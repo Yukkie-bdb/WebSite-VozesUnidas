@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebSiteVozesUnidas.Models.MaterialDidatico>
+﻿@* @model IEnumerable<WebSiteVozesUnidas.Models.MaterialDidatico>
 
 @{
     ViewData["Title"] = "Materiais Didáticos";
@@ -157,3 +157,87 @@
 <script src="~/js/site.js"></script>
 
 
+ *@
+
+
+ @model IEnumerable<WebSiteVozesUnidas.Models.MaterialDidatico>
+
+@{
+    ViewData["Title"] = "Materiais Didáticos";
+}
+
+@if (User.IsInRole("ADM"))
+{
+    <button type="submit" value="Criar" style="margin-bottom:10px; border-radius:10px; border: solid; border-width: 1px; background-color:#FFFFFF; width:250px; height:40px; margin:10px">
+        <a asp-action="Create" style="text-decoration:none; color:black">Criar Novo</a>
+    </button>
+}
+
+<div class="d-flex my-5">
+    <ul class="d-flex nav nav-underline justify-content-between border border-1 rounded-pill border-dark p-0 list-unstyled col-12 bg-white">
+        @foreach (var item in ViewBag.categorias)
+        {
+            <li class="nav-item p-2 d-flex justify-content-center align-items-center">
+                <a asp-action="Index" asp-route-categoriaFiltro="@item.Categoria" class="tablink btn text-black">
+                    <h4 style="margin: 0;">@item.Categoria</h4>
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+
+<div class="d-flex flex-wrap">
+
+    @foreach (var item in Model)
+    {
+        <a asp-action="Details" asp-controller="MaterialDidatico" asp-route-id="@item.IdMaterialDidatico" class="card col-12 p-3 border mb-3 text-black text-decoration-none">
+
+            <div class="d-flex">
+                <div class="col-4 align-content-center">
+                    <img src="~/img/@item.ImgMaterial" class="col-12" height="250px" />
+                </div>
+
+
+                <div class="card-body col-7 p-0 ms-3 d-flex flex-column justify-content-between">
+                    <div>
+                        <h3 class="card-title">@item.Titulo</h3>
+                        <p class="card-text">@(item.Descricao.Length > 770 ? item.Descricao.Substring(0, 770) + "..." : item.Descricao)</p>
+                    </div>
+                    @if (!string.IsNullOrEmpty(item.LinkYoutube))
+                    {
+                        <div>
+                            <p class="mb-0">
+                                <span class="fw-bold text-secondary">
+                                    Link:
+                                </span>
+                                <span>
+                                    @item.LinkYoutube
+                                </span>
+                            </p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </a>
+    }
+
+    @if (Model.Count() == 0)
+    {
+        <div class="card col-12 p-3 border text-black text-decoration-none my-5">
+
+            <div class="d-flex justify-content-center">
+
+
+                <div class="card-body col-12 p-0 ms-3 d-flex flex-column justify-content-center">
+
+                        <h3 class="card-title text-center">Nenhum item para essa categoria, tente outra!</h3>
+ 
+                    
+                </div>
+            </div>
+
+        </div>
+    }
+
+</div>

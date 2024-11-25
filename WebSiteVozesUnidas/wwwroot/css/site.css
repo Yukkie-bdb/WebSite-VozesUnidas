@@ -35,9 +35,9 @@ a:hover {
     transition: transform 0.3s ease; /* Animação suave para o efeito */
 }
 
-.card:hover img {
-    transform: scale(1.1); /* Aumenta a imagem em 10% no hover */
-}
+/*.card:hover img {
+    transform: scale(1.1);*/ /* Aumenta a imagem em 10% no hover */
+/*}*/
 
 .card-img-overlay {
     top: auto !important; /* Remover ou ajustar o top-0 */
