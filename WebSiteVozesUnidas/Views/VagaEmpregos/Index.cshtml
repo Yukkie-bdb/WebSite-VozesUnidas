@@ -309,7 +309,9 @@
                         </div>
                         <div>
                             <p class="mb-0 fs-6 text-secondary fw-bold">Descrição:</p>
-                            <p>@item.DescricaoVaga</p>
+                            <p>
+                                @(item.DescricaoVaga.Length > 250 ? item.DescricaoVaga.Substring(0, 250) + "..." : item.DescricaoVaga)
+                            </p>
                         </div>
                         <div class="col-12">
                             <button class="btn btn-outline-danger col-12 px-5">Se candidatar</button>

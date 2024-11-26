@@ -172,7 +172,6 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account
                 user.Portifolio = Input.Portifolio;
                 user.Cidade = Input.Cidade;
                 user.Estado = Input.Estado;
-                user.Habilidades = Input.Habilidades;
                 user.Objetivos = Input.Objetivos;
                 //user.Jornalista = Input.Jornalista;
                 user.CNPJ = Input.CNPJ;

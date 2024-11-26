@@ -100,7 +100,6 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
                 Sobre = user.Sobre,
                 Tipo = user.Tipo,
                 Nascimento = user.Nascimento,
-                Habilidades = user.Habilidades,
                 Objetivos = user.Objetivos,
                 Jornalista = user.Jornalista,
                 CPF = user.CPF,
@@ -188,7 +187,6 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
             user.Sobre = Input.Sobre;
             user.Tipo = Input.Tipo;
             user.Nascimento = Input.Nascimento;
-            user.Habilidades = Input.Habilidades;
             user.Objetivos = Input.Objetivos;
             user.Jornalista = Input.Jornalista;
             user.CPF = Input.CPF;

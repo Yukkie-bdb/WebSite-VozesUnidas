@@ -262,7 +262,7 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: Noticias/Create
-        [Authorize(Roles = "Admin,Jornalista")]
+        [Authorize(Roles = "ADM,Jornalista")]
         public async Task<IActionResult> Create()
         {
             ViewData["CustomHeader"] = "NoticiasHeader";
@@ -324,7 +324,7 @@ namespace WebSiteVozesUnidas.Controllers
 
 
         // GET: Noticias/Edit/5
-        [Authorize(Roles = "Admin,Jornalista")]
+        [Authorize(Roles = "ADM,Jornalista")]
         
         public async Task<IActionResult> Edit(Guid? id)
         {
@@ -419,7 +419,7 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: Noticias/Delete/5
-        [Authorize(Roles = "Admin,Jornalista")]
+        [Authorize(Roles = "ADM,Jornalista")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             ViewData["CustomHeader"] = "NoticiasHeader";

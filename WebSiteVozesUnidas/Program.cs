@@ -100,7 +100,6 @@ internal class Program
                 user.Portifolio = "https://portifolio.com/admin";
                 user.Cidade = "S�o Paulo";
                 user.Estado = "SP";
-                user.Habilidades = new List<string> { "Gerenciamento de Projetos", "Programa��o", "Lideran�a" };
                 user.Objetivos = "Aprimorar as compet�ncias em lideran�a e inova��o";
                 user.CNPJ = "12.345.678/0001-99";
 

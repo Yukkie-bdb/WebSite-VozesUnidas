@@ -16,7 +16,7 @@ namespace WebSiteVozesUnidas.Models
         // Propriedades específicas para PessoaFisica
         public string? CPF { get; set; }
         public DateOnly? Nascimento { get; set; }
-        public List<string> Habilidades { get; set; } = new List<string>();
+        //public List<string> Habilidades { get; set; } = new List<string>();
         public string? Objetivos { get; set; }
         public bool Jornalista { get; set; }
 
