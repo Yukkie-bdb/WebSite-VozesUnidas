@@ -17,25 +17,56 @@
     </p>
 </div>
 
-<h1 class="equipe">Nossa equipe</h1>
-<div class="carousel-wrapper">
-    <div class="carousel-container">
+<h1>Nossa equipe</h1>
+<div class="d-flex flex-wrap col-12 gap-5 justify-content-center align-content-center mb-4">
+    <div class="card col-3">
+        <div class="col-12 justify-content-center d-flex">
+                <img src="~/img/02.jpeg" class="col-10 my-4" />
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+            <h2>Nome e Sobnomre</h2>
+        </div>
 
-        <div class="carousel-side">
-            <button class="carousel-button prev" onclick="prevImage()">&#10094;</button>
-            <img id="prevImage" class="carousel-image-side prev" src="" alt="Imagem Anterior">
+    </div>
+
+    <div class="card col-3">
+        <div class="col-12 justify-content-center d-flex">
+                <img src="~/img/02.jpeg" class="col-10 my-4" />
         </div>
-        <div>
-            <img id="carouselImage" class="carousel-image-central" src="" alt="Imagem Central">
-            <div class="image-info">
-                <div id="imageName" class="image-name">Nome da Imagem</div>
-                <div id="imageDescription" class="image-description">Descrição da Imagem</div>
-            </div>
+        <div class="col-12 d-flex justify-content-center">
+            <h2>Nome e Sobnomre</h2>
         </div>
-        <div class="carousel-side">
-            <img id="nextImage" class="carousel-image-side next" src="" alt="Imagem Próxima">
-            <button class="carousel-button next" onclick="nextImage()">&#10095;</button>
+
+    </div>
+
+    <div class="card col-3">
+        <div class="col-12 justify-content-center d-flex">
+                <img src="~/img/02.jpeg" class="col-10 my-4" />
         </div>
+        <div class="col-12 d-flex justify-content-center">
+            <h2>Nome e Sobnomre</h2>
+        </div>
+
+    </div>
+
+    <div class="card col-3">
+        <div class="col-12 justify-content-center d-flex">
+                <img src="~/img/02.jpeg" class="col-10 my-4" />
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+            <h2>Nome e Sobnomre</h2>
+        </div>
+
+    </div>
+
+    <div class="card col-3">
+        <div class="col-12 justify-content-center d-flex">
+                <img src="~/img/02.jpeg" class="col-10 my-4" />
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+            <h2>Nome e Sobnomre</h2>
+        </div>
+
     </div>
 </div>
 
@@ -55,173 +86,3 @@
         empoderar nossos visitantes e construir um futuro com igualdade de gênero para todos.
     </p>
 </div>
-
-        <style>
-    .carousel-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 50px;
-    }
-
-    .carousel-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        width: 1000px;
-    }
-
-
-    .carousel-image-central {
-        width: 300px;
-        height: 300px;
-        border-radius: 50%;
-        margin: 10px;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-
-
-    .carousel-image-side {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        object-fit: cover;
-        opacity: 0.5;
-        transition: transform 0.5s ease, opacity 0.5s ease;
-    }
-
-    .carousel-button {
-        background-color: dimgray;
-        margin: 10px;
-        color: white;
-        border: none;
-        padding: 10px;
-        height: 30px;
-        cursor: pointer;
-        border-radius: 50%;
-        font-size: 20px;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-        .carousel-button:hover {
-            background-color: black;
-        }
-
-    .carousel-side {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .image-info {
-        text-align: center;
-        margin-top: 10px;
-    }
-
-    .image-name {
-        font-size: 18px;
-        font-weight: bold;
-    }
-
-    .image-description {
-        font-size: 14px;
-        color: black;
-        margin-top: 5px;
-    }
-
-    .other-content {
-        margin-top: 20px;
-        text-align: center;
-    }
-
-    h1 {
-        font-size: 20px;
-        text-align: start;
-        color: black;
-    }
-
-    p {
-        font-size: 15px;
-        text-align: start;
-        margin-bottom: -50px;
-        width: 100%;
-    }
-
-    .tudo {
-        padding: 30px;
-    }
-
-    .text-container {
-        text-align: center;
-        margin-bottom: 100px;
-        margin-top: 50px;
-        padding: 30px;
-    }
-
-    p {
-        font-size: 18px;
-        color: #333;
-        margin: 0;
-        line-height: 1.5;
-    }
-
-        p + p {
-            margin-top: 20px;
-        }
-
-    .equipe {
-        padding: 30px;
-    }
-
-    h1 {
-        font-size: 23px;
-    }
-        </style>
-
-        <script>
-    const images = [
-        { src: '~/img/jean.jpg', name: 'CEO', description: 'renato augusto' },
-        { src: '~/img/luis.jpg', name: 'MESTRE DO MAR', description: 'renato teixeira' },
-        { src: '~/img/henrique.webp', name: 'JOGADOR', description: 'ronaldo' },
-        { src: '~/img/erick.jpg', name: 'PONTA', description: 'renan' },
-        { src: '~/img/pessoa03.jpg', name: 'ESQUERDA', description: 'lula' }
-
-    ];
-
-    let currentImageIndex = 0;
-    const imageElement = document.getElementById('carouselImage');
-    const prevImageElement = document.getElementById('prevImage');
-    const nextImageElement = document.getElementById('nextImage');
-    const imageNameElement = document.getElementById('imageName');
-    const imageDescriptionElement = document.getElementById('imageDescription');
-
-    function showImage(index) {
-        const prevIndex = (index - 1 + images.length) % images.length;
-        const nextIndex = (index + 1) % images.length;
-
-        imageElement.src = images[index].src;
-        prevImageElement.src = images[prevIndex].src;
-        nextImageElement.src = images[nextIndex].src;
-        imageNameElement.textContent = images[index].name;
-        imageDescriptionElement.textContent = images[index].description;
-    }
-
-    function nextImage() {
-        currentImageIndex = (currentImageIndex + 1) % images.length;
-        showImage(currentImageIndex);
-    }
-
-    function prevImage() {
-        currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-        showImage(currentImageIndex);
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        showImage(currentImageIndex);
-    });
-        </script>

@@ -7,246 +7,822 @@
 
 }
 
+<div class="d-flex flex-column">
 
-<div class="d-flex col-12">
-    <div class="d-flex flex-column col-3 justify-content-center align-items-center position-relative border border-1 border-dark shadow">
+    <div class="d-flex card">
 
-        <img id="profileImage" src="@(string.IsNullOrEmpty(Model.Input.Foto) ? Url.Content("~/img/default.jpg") : Url.Content($"~/img/{Model.Input.Foto}"))"
-             class="rounded-circle mb-3"
-             style="width: 24vh; height: 24vh; object-fit: cover; cursor:pointer;" />
+        <div class="bg-info col-12 cardDivTopo"></div>
 
-        @if(Model.Input.Nome != null)
-        {   
-        <p class="mb-1">@Model.Input.Nome</p>
-        }
+        <div class="bg-white col-12 d-flex flex-wrap">
+            <div class="d-flex flex-column col-12 col-md-6 position-relative mb-4">
 
-        @if (Model.Input.Nascimento != null)
-        {
-        <p class="mb-1">@Model.Input.Nascimento</p>
-        }
+                <!-- Ajustar a imagem com margem negativa e não usar position absolute -->
+                <img id="profileImage"
+                     src="@(string.IsNullOrEmpty(Model.Input.Foto) ? Url.Content("~/img/default.jpg") : Url.Content($"~/img/{Model.Input.Foto}"))"
+                     class="rounded-circle ms-3 ms-md-5 shadow"
+                     style="width: 24vh; height: 24vh; object-fit: cover; cursor:pointer; margin-top: -12vh;" />
 
-        @if (Model.Input.Email != null)
-        {
-        <p class="mb-1">@Model.Input.Email</p>
-        }
+                <div class="ms-3 ms-md-5">
+                    <h2 class="mb-3">@Model.Input.Nome</h2>
 
-        <!-- Ícone de três pontos no canto superior direito -->
-        <div class="position-absolute top-0 end-0 m-2">
+                    <p class="mb-0">@(User.IsInRole("Empresa") ? $"{Model.Input.Estado} - {Model.Input.Cidade} - {Model.Input.Funcionarios} Funcionarios" : $"{Model.Input.Estado} - {Model.Input.Cidade}")</p>
+                    @if (User.IsInRole("Jornalista"))
+                    {
+                         <p class="mb-0">Jornalista parceiro certificado.</p>
+                    }
+                    @if (User.IsInRole("Empresa"))
+                    {
+                        <p class="mb-0">Empresa no ramo de @Model.Input.Ramo</p>
+                    }
+                    <a class="text-decoration-none" href="@Model.Input.Portifolio" target="_blank">@Model.Input.Portifolio</a>
 
-            <div class="dropdown-center">
-                <button class="border-0 bg-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                        <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
-                    </svg>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Editar Perfil</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Excluir conta</a></li>
+                    
+                </div>
 
-                </ul>
+            </div>
+            <div class=" col-6 justify-content-end p-3 d-none d-md-flex">
+                @* <div class="me-2">
+                    <button class="btn btn-outline-info"> Enviar Mensagem</button>
+                </div> *@
+                <div class="me-2">
+                    <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#contatoModal"> Informações de Contato</button>
+                </div>
+                <div>
+                    <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#editContatoModal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                        </svg>
+                    </button>
+                </div>
+
             </div>
 
-           
-        </div>
+            <div class=" col-6 justify-content-end p-3 pe-0 d-flex d-md-none position-absolute start-50">
+                <div class="me-2">
 
-        <div class="d-flex flex-row justify-content-between mt-4">
-            <div class="bg-light mx-3" style="width:50px; height:50px;">a</div>
+                    <div class="dropdown d-flex justify-content-center flex-column">
+                        <button class="btn btn-outline-info dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                            <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                            </svg>
+                        </button>
+                        <ul class="dropdown-menu text-center">
+                            <li><button class="btn text-info bg-light" data-bs-toggle="modal" data-bs-target="#contatoModal"> Informações de Contato</button></li>
+                            <li>
+                                <button class="btn text-info" data-bs-toggle="modal" data-bs-target="#editContatoModal">
+                                    Editar Perfil
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                    </svg>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
 
-            <div class="bg-light mx-3" style="width:50px; height:50px;">a</div>
-
-            <div class="bg-light mx-3" style="width:50px; height:50px;">a</div>
+            </div>
         </div>
     </div>
 
-    <div class="col-8 offset-1 border border-1 border-dark shadow p-2">
+    <div class="d-flex card p-3 mt-4">
 
-        <h2>@ViewData["Title"]</h2>
-        <hr />
+        <h2>Sobre</h2>
 
-        <h3>Sobre</h3>
-        <p>@Model.Input.Sobre</p>
+        <hr class="mx-1 mb-1">
 
-        <h3>Objetivo Profissional</h3>
-        <p>@Model.Input.Objetivos</p>
+        <p class="text-break">@Model.Input.Sobre</p>
 
-        <h3>Habilidades</h3>
-        
-        <ul class="habilidades-list">
-            @foreach (var item in Model.Input.Habilidades)
-            {
-                <li>@item</li>
-            }
-        </ul>
-
-
-
-
-        @if (User.IsInRole("Empresa"))
-        {
-        <h3>Vagas de empregos criadas</h3>
-
-        <div class="d-flex flex-wrap justify-content-start mt-4">
-        @foreach(var item in Model.Input.Vagas)
-        {
-                <div class="card col-6  mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Cargo</h5>
-                        <p class="card-text">@item.DescricaoVaga</p>
-                    </div>
-                    <div class="card-footer p-0">
-                        <a class="btn btn-primary col-12" asp-action="VagasCandidatos" asp-controller="VagaEmpregos" asp-route-id="@item.IdVagaEmprego">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-envelope-at-fill" viewBox="0 0 16 16">
-                                <path d="M2 2A2 2 0 0 0 .05 3.555L8 8.414l7.95-4.859A2 2 0 0 0 14 2zm-2 9.8V4.698l5.803 3.546zm6.761-2.97-6.57 4.026A2 2 0 0 0 2 14h6.256A4.5 4.5 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586zM16 9.671V4.697l-5.803 3.546.338.208A4.5 4.5 0 0 1 12.5 8c1.414 0 2.675.652 3.5 1.671" />
-                                <path d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-        }
-        </div>
-        }
-
-         @if (User.IsInRole("PessoaFisica"))
-        {
-        <h3>Vagas candidatadas</h3>
-
-        <div class="d-flex flex-wrap justify-content-start mt-4">
-            @foreach (var item in Model.Input.VagasCandidatadas)
-            {
-                <div class="card col-6 mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Cargo</h5>
-                        <p class="card-text">@item.DescricaoVaga</p>
-                    </div>
-                    <div class="card-footer p-0">
-                        <a class="btn btn-primary col-12" asp-action="Details" asp-controller="VagaEmpregos" asp-route-id="@item.IdVagaEmprego">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-envelope-at-fill" viewBox="0 0 16 16">
-                                <path d="M2 2A2 2 0 0 0 .05 3.555L8 8.414l7.95-4.859A2 2 0 0 0 14 2zm-2 9.8V4.698l5.803 3.546zm6.761-2.97-6.57 4.026A2 2 0 0 0 2 14h6.256A4.5 4.5 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586zM16 9.671V4.697l-5.803 3.546.338.208A4.5 4.5 0 0 1 12.5 8c1.414 0 2.675.652 3.5 1.671" />
-                                <path d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            }
-        </div>
-        }
-    </div>
-</div>
-
-
-@* <h3>@ViewData["Title"]</h3>
-<partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
-    <div class="col-md-6">
-        <form id="profile-form" method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-
-            <!-- Campo Foto -->
-            <div class="form-group mb-3">
-            <label asp-for="Input.Foto" class="control-label"></label>
-                <input asp-for="Input.Foto" type="file" class="form-control" value="Input.Foto" name="imgUp" id="imgUp" style="display:none;"
-                       accept=".jpg,.jpeg,.png, .gif" onchange="validateFileType()"/>
-            <span asp-validation-for="Input.Foto" class="text-danger"></span>
-            </div>
-
-            <!-- Imagem -->
-            <img id="profileImage" src="@(string.IsNullOrEmpty(Model.Input.Foto) ? Url.Content("~/img/default.jpg") : Url.Content($"~/img/{Model.Input.Foto}"))" class="rounded-circle mb-3" style="width: 24vh; height: 24vh; object-fit: cover; cursor:pointer;" />
-
-            <!-- Campo Nome -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Nome" class="form-control" placeholder="Nome" />
-                <label asp-for="Input.Nome">Nome do Usuário</label>
-                <span asp-validation-for="Input.Nome" class="text-danger"></span>
-            </div>
-
-            <!-- Campo Email -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" placeholder="Email" />
-                <label asp-for="Input.Email">Email do Usuário</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-
-            <!-- Campo Email -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Telefone" />
-                <label asp-for="Input.PhoneNumber">Telefone do Usuário</label>
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-            </div>
-
-            <!-- Campo Sobre -->
-            <div class="form-floating mb-3">
-                <textarea asp-for="Input.Sobre" class="form-control" placeholder="Sobre"></textarea>
-                <label asp-for="Input.Sobre">Sobre o Usuário</label>
-                <span asp-validation-for="Input.Sobre" class="text-danger"></span>
-            </div>
-
-            <!-- Campo TipoUsuario -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Tipo" class="form-control" placeholder="Tipo do Usuario" disabled />
-                <label asp-for="Input.Tipo">Tipo de Usuário</label>
-                <span asp-validation-for="Input.Tipo" class="text-danger"></span>
-            </div>
-
-            <!-- Campo Data de Nascimento -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Nascimento" class="form-control" type="date" placeholder="Data de Nascimento" />
-                <label asp-for="Input.Nascimento">Data de Nascimento</label>
-                <span asp-validation-for="Input.Nascimento" class="text-danger"></span>
-            </div>
-
-            <!-- Campo Habilidades -->
-            <div class="form-floating mb-3" id="habilidades-container">
-                @for (int i = 0; i < Model.Input.Habilidades.Count; i++)
+        @if (Model.Input.Sobre == null)
                 {
-                    <div class="habilidade-item">
-                        <input asp-for="Input.Habilidades[i]" class="form-control mb-3" placeholder="Habilidade @i" id="campoHabilidade-@i" />
-                        <button type="button" class="btn btn-danger" onclick="removeHabilidade(this)">Remover</button>
+                    <div class="d-flex justify-content-start my-1">
+
+                    <div class="card">
+                        <h5 class="card-header"></h5>
+                        <div class="card-body">
+               
+                            <p class="card-text">Nada sobre o usuario.</p>
+                        </div>
+                    </div>
+                    </div>
+                }
+
+    </div>
+
+    @if (User.IsInRole("PessoaFisica"))
+                    {
+    <div class="d-flex card p-3 mt-4">
+
+        <h2>Objetivos profissionais</h2>
+
+
+        <hr class="mx-1 mb-1">
+
+        <p class="text-break">@Model.Input.Objetivos</p>
+
+        @if (Model.Input.Objetivos == null)
+                {
+                    <div class="d-flex justify-content-start my-1">
+
+                    <div class="card">
+                        <h5 class="card-header"></h5>
+                        <div class="card-body">
+               
+                            <p class="card-text">Nenhum objetivo informado ainda.</p>
+                        </div>
+                    </div>
+                    </div>
+                }
+
+    </div>
+    }
+
+    <div class="bg-primary col-12 mt-4 d-flex justify-content-center align-items-center card cardDivTopo">
+        <h1 class="text-white">AREA SOCIAL</h1>
+    </div>
+
+
+    <div class="d-flex flex-column flex-lg-row mt-4 gap-3 @(User.IsInRole("Jornalista") ? "" : "order-1")">
+    
+        @if (User.IsInRole("Jornalista"))
+        {
+            
+            <div class="card col-12 col-lg-8 d-flex pb-5">
+
+                <div>
+
+                    <h1 class="text-start mx-3 my-3 text-uppercase">notícias publicadas</h1>
+
+                    <hr class="mx-4"/>
+                </div>
+                <div class="d-flex flex-wrap mx-3">
+
+                    @foreach(var item in Model.Input.Noticias)
+                    {
+                        <a class="d-flex flex-column col-6 col-lg-4 card p-1 justify-content-between mb-3">
+
+                            <div class="d-flex">
+                                <img src="~/img/@item.Imagem" class="w-100"/>
+                            </div>
+
+                            <div class="d-flex">
+                                <h2 class="ms-1">
+                                    @(item.Titulo.Length > 25 ? item.Titulo.Substring(0, 25) + "..." : item.Titulo)
+                                </h2>
+
+                            </div>
+
+                        </a>
+                    }
+
+                    <a class="btn btn-outline-primary col-12 btn-sm text-decoration-none" >Ver mais</a>
+                </div>
+
+
+            </div>
+        }
+
+        <div class="card col d-flex justify-content-start ">
+            <h1 class="text-center my-3">Avaliações</h1>
+            <div class="avaliacoes-container">
+            @foreach(var item in Model.Input.Avaliacoes)
+            {
+                <a asp-action="Details" asp-controller="Especialista" asp-route-id="@item.EspecialistaId" class="text-decoration-none text-black ">
+               <div class="d-flex justify-content-start col  my-3">
+                    <div class="col-5 d-flex justify-content-center align-items-center">
+                        <img src="~/img/@(string.IsNullOrEmpty(item.Especialistas.ImgEspecialista) ? "noImgFound.jpg" : item.Especialistas.ImgEspecialista)" style="border-radius:100px; border:solid; border-width:1px;  object-fit: cover;" width="100" height="100">
+                    </div>
+
+                    <div class="">
+                        <p class="fw-bold mb-0">@item.Especialistas.Nome</p>
+                        <p class="">@item.Descricao</p>
+                        <div class="rating">
+                            
+                            @for (int i = 1; i <= 5; i++) // Alterado para percorrer até 5 (máximo de estrelas)
+                            {
+                                if (i <= item.Estrelas)
+                                {
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gold" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                    </svg>
+                                }
+                               
+                                else
+                                {
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="lightgray" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                    </svg>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                </a>
+            }
+
+             @if (Model.Input.Avaliacoes.Count() == 0)
+                {
+                    <div class="d-flex justify-content-center my-5">
+
+                    <div class="card">
+                        <h5 class="card-header"></h5>
+                        <div class="card-body">
+               
+                            <p class="card-text">Nenhuma avaliaçao feita.</p>
+                        </div>
+                    </div>
                     </div>
                 }
             </div>
+        </div>
 
-            <!-- Botão para adicionar nova habilidade -->
-            <button type="button" class="btn btn-primary" id="addHabilidadeBtn">Adicionar Habilidade</button>
+    </div>
 
+    <div class="d-flex mt-4 card flex-column order-0">
+    <div>
+        <h1 class="text-start mx-3 my-3">Principais Post</h1>
+        <hr class="mx-4"/>
+    </div>
 
-            <!-- Campo Objetivos -->
-            <div class="form-floating mb-3">
-                <textarea asp-for="Input.Objetivos" class="form-control" placeholder="Objetivos"></textarea>
-                <label asp-for="Input.Objetivos">Objetivos Profissionais</label>
-                <span asp-validation-for="Input.Objetivos" class="text-danger"></span>
+    <div class="d-flex flex-wrap justify-content-start m-3 mb-3">
+        @for (int i = 0; i < Model.Input.Posts.Count; i++)
+        {
+            var item = Model.Input.Posts[i];
+            <a class="d-flex flex-column ms-1 col-12 mb-3 p-3 text-black text-decoration-none @(i % 2 == 0 ? "fundo-cheio" : "")" asp-action="Details" asp-controller="Posts" asp-route-id="@item.IdPost">
+
+                 
+
+                <h3>@item.Titulo</h3>
+
+                    <p>@(item.Conteudo.Length > 200 ? item.Conteudo.Substring(0, 200) + "..." : item.Conteudo)</p>
+
+                <div class="col-12 d-flex justify-content-center">
+                        <img src="~/img/@item.Imagem" class="col-8" />
+                </div>
+
+                    <div class="d-flex justify-content-center justify-content-md-start mt-2">
+                        <button class="btn btn-outline-secondary">
+                            <span>@(item.Likes?.Count() ?? 0) Likes</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
+                                <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z" />
+                            </svg>
+                        </button>
+
+                        <button class="btn btn-outline-secondary ms-1">
+                            <span>@(item.Comentarios?.Count() ?? 0) Comentarios</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
+                                <path d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
+                            </svg>
+                        </button>
+
+                        
+                    </div>
+
+            </a>
+        }
+
+        @if (!Model.Input.Posts.Any())
+        {
+            <div class="d-flex justify-content-center my-5">
+                <div class="card">
+                    <h5 class="card-header"></h5>
+                    <div class="card-body">
+                        <p class="card-text">Nenhuma publicação feita.</p>
+                    </div>
+                </div>
             </div>
-
-            <!-- Campo Jornalista -->
-            <div class="form-check mb-3">
-                <input asp-for="Input.Jornalista" class="form-check-input" type="checkbox" value="True" disabled />
-                <label asp-for="Input.Jornalista" class="form-check-label">É Jornalista?</label>
-                <span asp-validation-for="Input.Jornalista" class="text-danger"></span>
-            </div>
-
-            <!-- Campo CPF -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.CPF" class="form-control" placeholder="CPF" />
-                <label asp-for="Input.CPF">CPF</label>
-                <span asp-validation-for="Input.CPF" class="text-danger"></span>
-            </div>
-
-            <!-- Campo CNPJ -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.CNPJ" class="form-control" placeholder="CNPJ" />
-                <label asp-for="Input.CNPJ">CNPJ</label>
-                <span asp-validation-for="Input.CNPJ" class="text-danger"></span>
-            </div>
-
-            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
-        </form>
+        }
     </div>
 </div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+</div>
 
+<style>
+
+    .fundo-cheio {
+        background-color: #F8F9FA;
+        box-shadow: 0 0 0 100vmax #F8F9FA;
+        clip-path: inset(0-100vmax);
+    }
+
+    .avaliacoes-container {
+    max-height: 625px; /* Define altura máxima */
+    height: calc(100% - 80px); /* Garante que o espaço seja proporcional à seção de notícias */
+    overflow-y: auto; /* Permite rolagem quando o conteúdo excede o espaço */
+    padding: 10px; /* Espaçamento interno */
+    border: 1px solid #ddd; /* Estilização opcional */
+    border-radius: 5px; /* Estilização opcional */
 }
+</style>
+
+<!-- Modal -->
+<div class="modal fade" id="contatoModal" tabindex="-1" aria-labelledby="contatoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="contatoModalLabel">Informações de contato</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-between align-items-center mb-5">
+                    <h2>@Model.Input.Nome</h2>
+
+                </div>
+
+                <div class="d-flex flex-column">
+
+                    <div class="d-flex mb-3">
+                        <div class="me-2 mt-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-person-badge" viewBox="0 0 16 16">
+                                <path d="M6.5 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1zM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                <path d="M4.5 0A2.5 2.5 0 0 0 2 2.5V14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2.5A2.5 2.5 0 0 0 11.5 0zM3 2.5A1.5 1.5 0 0 1 4.5 1h7A1.5 1.5 0 0 1 13 2.5v10.795a4.2 4.2 0 0 0-.776-.492C11.392 12.387 10.063 12 8 12s-3.392.387-4.224.803a4.2 4.2 0 0 0-.776.492z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="fw-bold mb-1">Link Perfil</p>
+                            <p>Algo do usuario</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mb-3">
+                        <div class="me-2 mt-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16">
+                                <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="fw-bold mb-1">Sites</p>
+                            <p><a href="@Model.Input.Portifolio" target="_blank">@Model.Input.Portifolio</a> <span class="fs-6 text-secondary">(Portifólio)</span></p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mb-3">
+                        <div class="me-2 mt-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-pin-map-fill" viewBox="0 0 16 16">
+                              <path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8z"/>
+                              <path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="fw-bold mb-1">Local</p>
+                            <p>@Model.Input.Estado - @Model.Input.Cidade</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mb-3">
+                        <div class="me-2 mt-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
+                                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="fw-bold mb-1">Telefone</p>
+                            <p>@(string.IsNullOrEmpty(Model.Input.PhoneNumber) ? "Não cadastrado" : Model.Input.PhoneNumber)</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mb-3">
+                        <div class="me-2 mt-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="fw-bold mb-1">Email</p>
+                            <p>@Model.Input.Email</p>
+                        </div>
+                    </div>
+
+                    @if (User.IsInRole("Jornalista"))
+                    {
+                        <div class="d-flex mb-3">
+                            <div class="me-2 mt-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-cake2" viewBox="0 0 16 16">
+                                    <path d="m3.494.013-.595.79A.747.747 0 0 0 3 1.814v2.683q-.224.051-.432.107c-.702.187-1.305.418-1.745.696C.408 5.56 0 5.954 0 6.5v7c0 .546.408.94.823 1.201.44.278 1.043.51 1.745.696C3.978 15.773 5.898 16 8 16s4.022-.227 5.432-.603c.701-.187 1.305-.418 1.745-.696.415-.261.823-.655.823-1.201v-7c0-.546-.408-.94-.823-1.201-.44-.278-1.043-.51-1.745-.696A12 12 0 0 0 13 4.496v-2.69a.747.747 0 0 0 .092-1.004l-.598-.79-.595.792A.747.747 0 0 0 12 1.813V4.3a22 22 0 0 0-2-.23V1.806a.747.747 0 0 0 .092-1.004l-.598-.79-.595.792A.747.747 0 0 0 9 1.813v2.204a29 29 0 0 0-2 0V1.806A.747.747 0 0 0 7.092.802l-.598-.79-.595.792A.747.747 0 0 0 6 1.813V4.07c-.71.05-1.383.129-2 .23V1.806A.747.747 0 0 0 4.092.802zm-.668 5.556L3 5.524v.967q.468.111 1 .201V5.315a21 21 0 0 1 2-.242v1.855q.488.036 1 .054V5.018a28 28 0 0 1 2 0v1.964q.512-.018 1-.054V5.073c.72.054 1.393.137 2 .242v1.377q.532-.09 1-.201v-.967l.175.045c.655.175 1.15.374 1.469.575.344.217.356.35.356.356s-.012.139-.356.356c-.319.2-.814.4-1.47.575C11.87 7.78 10.041 8 8 8c-2.04 0-3.87-.221-5.174-.569-.656-.175-1.151-.374-1.47-.575C1.012 6.639 1 6.506 1 6.5s.012-.139.356-.356c.319-.2.814-.4 1.47-.575M15 7.806v1.027l-.68.907a.94.94 0 0 1-1.17.276 1.94 1.94 0 0 0-2.236.363l-.348.348a1 1 0 0 1-1.307.092l-.06-.044a2 2 0 0 0-2.399 0l-.06.044a1 1 0 0 1-1.306-.092l-.35-.35a1.935 1.935 0 0 0-2.233-.362.935.935 0 0 1-1.168-.277L1 8.82V7.806c.42.232.956.428 1.568.591C3.978 8.773 5.898 9 8 9s4.022-.227 5.432-.603c.612-.163 1.149-.36 1.568-.591m0 2.679V13.5c0 .006-.012.139-.356.355-.319.202-.814.401-1.47.576C11.87 14.78 10.041 15 8 15c-2.04 0-3.87-.221-5.174-.569-.656-.175-1.151-.374-1.47-.575-.344-.217-.356-.35-.356-.356v-3.02a1.935 1.935 0 0 0 2.298.43.935.935 0 0 1 1.08.175l.348.349a2 2 0 0 0 2.615.185l.059-.044a1 1 0 0 1 1.2 0l.06.044a2 2 0 0 0 2.613-.185l.348-.348a.94.94 0 0 1 1.082-.175c.781.39 1.718.208 2.297-.426" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="fw-bold mb-1">Data de Nascimento</p>
+                                <p>@Model.Input.Nascimento</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="modal-footer">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="editContatoModal" tabindex="-1" aria-labelledby="editContatoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+<form method="post">
+
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editContatoModalLabel">Editar Informações do Perfil</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-between align-items-center">
+                </div>
+
+                <div class="d-flex flex-column">
+
+                    <div class="d-flex mb-3 ">
+                       
+                        <div class="col-4">
+                            <p class="fw-bold mb-1 text-secondary mb-3">Nome</p>
+                            <p>
+                                 <button class="btn text-primary p-0 col-12 text-start" type="button" id="email" data-bs-toggle="modal" data-bs-target="#nomeEditModal" Onclick="closeModal('editContatoModal')">
+                                     @Model.Input.Nome
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                         <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5" />
+                                         <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
+                                     </svg>
+                                 </button>                                        
+                            </p>
+                        </div>
+
+                            <div class="col-4">
+                                <p class="fw-bold mb-1 text-secondary mb-3">Email</p>
+                                <p>
+                                    <a class=" @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">
+                                        @Model.Input.Email
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5" />
+                                            <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
+                                        </svg>
+                                    </a>
+
+                                </p>
+                            </div>
+
+                            <div class="col-4">
+                                <p class="fw-bold mb-1 text-secondary mb-3">CPF</p>
+                                <p>
+                                    @if (User.IsInRole("PessoaFisica"))
+                                    {
+                                        <button class="btn text-primary p-0 col-12 text-start" type="button" id="email" data-bs-toggle="modal" data-bs-target="#cpfEditModal" Onclick="closeModal('editContatoModal')">
+                                            @Model.Input.CPF
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5" />
+                                                <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
+                                            </svg>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn text-primary p-0 col-12 text-start" type="button" id="email" data-bs-toggle="modal" data-bs-target="#cpfEditModal" Onclick="closeModal('editContatoModal')">
+                                            @Model.Input.CNPJ
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5" />
+                                                <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
+                                            </svg>
+                                        </button>
+                                    }
+                                </p>
+                            </div>
+                    </div>
+
+                    <div class="d-flex mb-3">
+                        <div class="col-12">
+                            <p class="fw-bold mb-1 text-secondary mb-3">Número de telefone</p>
+                            <input asp-for="@Model.Input.PhoneNumber" class="col-12" placeholder="Cadastre um número de Telefone" />
+                        </div>
+                    </div>
+
+                    <div class="d-flex mb-3">
+                        <div class="col-12">
+                            <p class="fw-bold mb-1 text-secondary mb-3">Portfólio</p>
+                            <input asp-for="@Model.Input.Portifolio" class="col-12" placeholder="Cadastre um site como portfólio" />
+                        </div>
+                    </div>
+
+                    <div class="d-flex mb-3">
+                        <div class="col-12">
+                            <p class="fw-bold mb-1 text-secondary mb-3">Sobre</p>
+                            <textarea asp-for=Input.Sobre class="col-12" placeholder="Escrevaa um pouco sobre você">@Model.Input.Sobre</textarea>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mb-3">
+                        <div class="col-6" id="estado">
+                            <p class="fw-bold mb-1 text-secondary mb-3">Estado</p>
+                            <select asp-for="Input.Estado" id="estado-pf" class="form-select" onchange="selecionarEstado(this)" placeholder="Selecione um estado" data-estado-selecionado="@Model.Input.Estado">
+                                <option value="">Selecione um estado</option>
+                            </select>
+                        </div>
+                        <div class="col-6" id="cidade">
+                            <p class="fw-bold mb-1 text-secondary mb-3">Cidade</p>
+                            <select asp-for="Input.Cidade" id="cidade-pf" class="form-select" disabled onchange="selecionarCidade(this)" placeholder="Selecione uma cidade" data-cidade-selecionada="@Model.Input.Cidade">
+                                <option value="">Selecione uma cidade</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mb-3">
+                        <div class="col-12">
+                            <p class="fw-bold mb-1 text-secondary mb-3">Objetivos</p>
+                                <input asp-for="@Model.Input.Objetivos" class="col-12" placeholder="Adicione um Objetivo" />
+                        </div>
+                    </div>
+
+                        <div class="d-flex mb-3">
+                            <div class="col-4" id="dia">
+                                <p class="fw-bold mb-1 text-secondary mb-3">Dia</p>
+                                <select asp-for="Input.NascimentoDia" id="dia-pf" class="form-select" placeholder="Dia">
+                                    <option value="">Selecione o dia</option>
+                                    @for (int i = 1; i <= 31; i++)
+                                    {
+                                        @if (Model.Input.Nascimento != null && Model.Input.Nascimento.Value.Day == i)
+                                        {
+                                            <option value="@i" selected>@i</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-4" id="mes">
+                                <p class="fw-bold mb-1 text-secondary mb-3">Mês</p>
+                                <select asp-for="Input.NascimentoMes" id="mes-pf" class="form-select" placeholder="Mês">
+                                    <option value="">Selecione o mês</option>
+                                    @for (int i = 1; i <= 12; i++)
+                                    {
+                                        @if (Model.Input.Nascimento != null && Model.Input.Nascimento.Value.Month == i)
+                                        {
+                                            <option value="@i" selected>@System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(i)</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i">@System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(i)</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-4" id="ano">
+                                <p class="fw-bold mb-1 text-secondary mb-3">Ano</p>
+                                <select asp-for="Input.NascimentoAno" id="ano-pf" class="form-select" placeholder="Ano">
+                                    <option value="">Selecione o ano</option>
+                                    @for (int i = 1900; i <= DateTime.Now.Year; i++)
+                                    {
+                                        @if (Model.Input.Nascimento != null && Model.Input.Nascimento.Value.Year == i)
+                                        {
+                                            <option value="@i" selected>@i</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="card bg-white d-flex justify-content-center align-content-center mb-4">
+                            <h6 class="d-flex justify-content-center align-content-center text-secondary p-1">O campo data de nascimento deve estar preenchido corretamente.</h6>
+                        </div>
+
+                        <div class="d-flex mb-3">
+                            <div class="col-12">
+                                <a type="submit" class="w-100 btn btn-sm btn-secondary @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Trocar Senha</a>
+
+                            </div>
+                        </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                    <button type="submit" class="w-100 btn btn-lg btn-primary">Salvar</button>
+            </div>
+                </form>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="cpfEditModal" tabindex="-1" aria-labelledby="cpfEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="cpfEditModalLabel">Atualizar CPF</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body my-3">
+
+                    @if (User.IsInRole("PessoaFisica"))
+                    {
+                    <form class="d-flex flex-column justify-content-center align-items-center" asp-page-handler="CpfPostar">
+
+                        <partial name="_StatusMessage" for="StatusMessage" />
+                            <h1 class="text-uppercase">Atualize seu CPF</h1>
+
+                        <div class="form-floating mb-3 col-10">
+                          <input type="text" class="form-control" id="floatingInput" placeholder="" asp-for="Input.CPF" disabled>
+                          <label for="floatingInput">CPF Antingo</label>
+                        </div>
+
+                        <div class="form-floating mb-3 col-10">
+                          <input type="text" class="form-control" id="floatingInput" placeholder="" asp-for="Input.CPFNovo">
+                          <label for="floatingInput" asp-for="Input.CPF">CPF Novo</label>
+                        </div>
+
+                        <button class="btn btn-success col-6">Salvar</button>
+                    </form>
+
+                    }
+                    else
+                    {
+                        <form class="d-flex flex-column justify-content-center align-items-center" asp-page-handler="CnpjPostar">
+
+                            <partial name="_StatusMessage" for="StatusMessage" />
+                                <h1 class="text-uppercase">Atualize seu CNPJ</h1>
+
+                        <div class="form-floating mb-3 col-10">
+                                  <input type="text" class="form-control" id="floatingInput" placeholder="" asp-for="Input.CNPJ" disabled>
+                                  <label for="floatingInput">CNPJ Antingo</label>
+                                </div>
+
+                        <div class="form-floating mb-3 col-10">
+                                  <input type="text" class="form-control" id="floatingInput" placeholder="" asp-for="Input.CNPJNovo">
+                                  <label for="floatingInput" asp-for="Input.CNPJ">CNPJ Novo</label>
+                                </div>
+
+                                <button class="btn btn-success col-6">Salvar</button>
+                        </form>
+
+                    }
+
+                    
+
+
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal NOME -->
+<div class="modal fade" id="nomeEditModal" tabindex="-1" aria-labelledby="nomeEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="nomeEditModalLabel">Atualizar CPF</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body my-3">
+
+                    <form class="d-flex flex-column justify-content-center align-items-center" asp-page-handler="Nome">
+
+                        <partial name="_StatusMessage" for="StatusMessage" />
+                            <h1 class="text-uppercase">Atualize seu Nome</h1>
+
+                        <div class="form-floating mb-3 col-6">
+                          <input type="text" class="form-control" id="floatingInput" placeholder="" asp-for="Input.Nome" disabled>
+                          <label for="floatingInput">Nome Antingo</label>
+                        </div>
+
+                        <div class="form-floating mb-3 col-6">
+                          <input type="text" class="form-control" id="floatingInput" placeholder="" asp-for="Input.Nome">
+                          <label for="floatingInput" asp-for="Input.Nome">Nome Novo</label>
+                        </div>
+
+                        <button class="btn btn-success col-6">Salvar</button>
+                    </form>
+                           
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function closeModal(modalId) {
+        // Obtém a instância da modal pelo ID fornecido e a fecha
+        var modalElement = document.getElementById(modalId);
+        if (modalElement) {
+            var modalInstance = bootstrap.Modal.getInstance(modalElement);
+            if (modalInstance) {
+                modalInstance.hide();
+            }
+        }
+    }
+</script>
+
+<script>
+    let estados = [];
+    let cidades = {};
+
+    // Carregar os estados ao iniciar a página
+    document.addEventListener('DOMContentLoaded', carregarEstados);
+
+    // Função para carregar os estados do IBGE
+    function carregarEstados() {
+        fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome')
+            .then(response => response.json())
+            .then(data => {
+                estados = data.map(estado => ({
+                    id: estado.id,
+                    nome: estado.nome,
+                    sigla: estado.sigla
+                }));
+                preencherSelectEstados();
+            });
+    }
+
+    // Preenche o select de estados
+    function preencherSelectEstados() {
+        const selectEstado = document.getElementById('estado-pf');
+        const estadoSelecionado = selectEstado.getAttribute('data-estado-selecionado'); // Estado atual
+
+        estados.forEach(estado => {
+            const option = document.createElement('option');
+            option.value = estado.nome;
+            option.textContent = `${estado.nome} (${estado.sigla})`;
+
+            if (estado.nome === estadoSelecionado) {
+                option.selected = true; // Marca o estado como selecionado
+                carregarCidades(estado.id); // Carrega as cidades para o estado selecionado
+            }
+
+            selectEstado.appendChild(option);
+        });
+
+        verificarCidadeSelecionada();
+    }
+
+    // Verifica se há uma cidade selecionada e remove o disable se necessário
+    function verificarCidadeSelecionada() {
+        const selectCidade = document.getElementById('cidade-pf');
+        const cidadeSelecionada = selectCidade.getAttribute('data-cidade-selecionada'); // Cidade atual
+
+        if (cidadeSelecionada) {
+            selectCidade.disabled = false; // Remove o disable do select de cidades
+        }
+    }
+
+    // Quando um estado é selecionado, carrega as cidades
+    function selecionarEstado(select) {
+        const estadoNome = select.value;
+        const estadoSelecionado = estados.find(estado => estado.nome === estadoNome);
+
+        if (estadoSelecionado) {
+            carregarCidades(estadoSelecionado.id);
+            document.getElementById('cidade-pf').disabled = false;
+        } else {
+            document.getElementById('cidade-pf').innerHTML = '<option value="">Selecione uma cidade</option>';
+            document.getElementById('cidade-pf').disabled = true;
+        }
+    }
+
+    // Carrega as cidades do estado selecionado
+    function carregarCidades(estadoId) {
+        fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoId}/municipios`)
+            .then(response => response.json())
+            .then(data => {
+                cidades[estadoId] = data.map(cidade => cidade.nome);
+                preencherSelectCidades(estadoId);
+            });
+    }
+
+    // Preenche o select de cidades com base no estado selecionado
+    function preencherSelectCidades(estadoId) {
+        const selectCidade = document.getElementById('cidade-pf');
+        const cidadeSelecionada = selectCidade.getAttribute('data-cidade-selecionada'); // Cidade atual
+
+        selectCidade.innerHTML = '<option value="">Selecione uma cidade</option>';
+        cidades[estadoId].forEach(cidade => {
+            const option = document.createElement('option');
+            option.value = cidade;
+            option.textContent = cidade;
+
+            if (cidade === cidadeSelecionada) {
+                option.selected = true; // Marca a cidade como selecionada
+            }
+
+            selectCidade.appendChild(option);
+        });
+    }
+
+    // Exemplo de função que pode ser usada ao selecionar uma cidade
+    function selecionarCidade(select) {
+        const cidadeSelecionada = select.value;
+        console.log('Cidade selecionada:', cidadeSelecionada);
+    }
+</script>
 
 <!-- JavaScript para o clique na imagem -->
 <script>
@@ -273,39 +849,6 @@
             }
         }
     };
-</script>   
-    
-<script>
-    // Função para remover uma habilidade
-    function removeHabilidade(button) {
-        var habilidadeItem = button.closest('.habilidade-item');
-        habilidadeItem.remove();
 
-        // Reindexa os campos de habilidades restantes
-        var habilidades = document.querySelectorAll('#habilidades-container .habilidade-item');
-        habilidades.forEach((item, index) => {
-            var input = item.querySelector('input');
-            var button = item.querySelector('button');
-            input.setAttribute('id', 'campoHabilidade-' + index);
-            input.setAttribute('name', 'Input.Habilidades[' + index + ']');
-            button.setAttribute('onclick', 'removeHabilidade(this)');
-        });
-    }
 
-    // Função para adicionar uma nova habilidade
-    document.getElementById('addHabilidadeBtn').addEventListener('click', function () {
-        var habilidadesContainer = document.getElementById('habilidades-container');
-
-        // Contador para gerar novos ids para os campos de habilidades
-        var newIndex = habilidadesContainer.getElementsByClassName('habilidade-item').length;
-
-        var newHabilidadeDiv = document.createElement('div');
-        newHabilidadeDiv.classList.add('habilidade-item');
-        newHabilidadeDiv.innerHTML = `
-                    <input name="Input.Habilidades[${newIndex}]" class="form-control mb-3" placeholder="Habilidade ${newIndex}" id="campoHabilidade-${newIndex}" />
-                    <button type="button" class="btn btn-danger" onclick="removeHabilidade(this)">Remover</button>
-                `;
-
-        habilidadesContainer.appendChild(newHabilidadeDiv);
-    });
-</script> *@
+</script>

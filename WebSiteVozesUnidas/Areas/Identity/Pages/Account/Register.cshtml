@@ -77,7 +77,7 @@
     </div>
 
     <!-- Campo Sobre -->
-    <div class="form-floating mb-3 d-none" id="sobre">
+    <div class="form-floating mb-3" id="sobre">
         <textarea asp-for="Input.Sobre" class="form-control" placeholder="Sobre"></textarea>
         <label asp-for="Input.Sobre">Sobre</label>
         <span asp-validation-for="Input.Sobre" class="text-danger"></span>
@@ -119,51 +119,6 @@
         <label asp-for="Input.Objetivos">Objetivos Profissionais</label>
         <span asp-validation-for="Input.Objetivos" class="text-danger"></span>
     </div>
-
-    <!-- Habilidades -->
-    <div>
-        <input class="form-control" id="habilidadeInput" placeholder="Digite uma habilidade" />
-        <button type="button" class="btn btn-primary" onclick="AddHabilidade()">+</button>
-    </div>
-
-    <div>
-        <h5>Habilidades adicionadas:</h5>
-        <ul id="habilidadesList">
-            <!-- As habilidades serão listadas aqui -->
-        </ul>
-    </div>
-
-    <script>
-        // Array para armazenar as habilidades no frontend
-        let habilidades = [];
-
-
-        // Função para adicionar a habilidade à lista
-        function AddHabilidade() {
-            let habilidadeInput = document.getElementById("habilidadeInput");
-            let habilidade = habilidadeInput.value.trim();
-
-            if (habilidade) {
-                //Model.Input.Habilidades.Add(habilidade); // Adiciona a habilidade ao array
-                habilidadeInput.value = ''; // Limpa o campo de input
-
-                // Atualiza a lista de habilidades exibidas
-                UpdateHabilidadesList();
-            }
-        }
-
-        // Função para atualizar a lista de habilidades no HTML
-        function UpdateHabilidadesList() {
-            let listElement = document.getElementById("habilidadesList");
-            listElement.innerHTML = ''; // Limpa a lista antes de atualizar
-
-            habilidades.forEach(function (habilidade, index) {
-                let li = document.createElement('li');
-                li.textContent = habilidade;
-                listElement.appendChild(li);
-            });
-        }
-    </script>
 
     @* <!-- Campo HABILIDADES -->
     <div class="justify-content-between" id="habilidades">
@@ -416,7 +371,6 @@
         let cidade = document.getElementById("cidade");
         let nascimento = document.getElementById("nasciento");
         let objetivos = document.getElementById("objetivos");
-        let habilidades = document.getElementById("habilidades");
         let ramo = document.getElementById("ramo");
         let senha = document.getElementById("senha");
 
@@ -431,10 +385,9 @@
             cpf.classList.remove("d-none");
             nascimento.classList.remove("d-none");
             objetivos.classList.remove("d-none");
-            habilidades.classList.remove("d-none");
 
             cnpj.classList.add("d-none");
-            sobre.classList.add("d-none");
+            // sobre.classList.add("d-none");
             funcionarios.classList.add("d-none");
             ramo.classList.add("d-none");
 
@@ -450,14 +403,12 @@
             cpf.classList.add("d-none");
             nascimento.classList.add("d-none");
             objetivos.classList.add("d-none");
-            habilidades.classList.add("d-none");
 
             cnpj.classList.remove("d-none");
-            sobre.classList.remove("d-none");
+            // sobre.classList.remove("d-none");
             funcionarios.classList.remove("d-none");
             ramo.classList.remove("d-none");
 
-            Input.Tipo = "Empresa";
 
         }
     }

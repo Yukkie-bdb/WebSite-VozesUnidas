@@ -10,19 +10,61 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light  border-bottom box-shadow" style="background-color: #f9f9f9;">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/img/LOGO.png" style="height:42px; width:42px;" alt="Logo" />
-                </a>
+                
 
-                <h1 class="d-block d-md-none">Vozes Unidas</h1>
+                <div class="d-flex d-sm-none w-100 justify-content-between">
+
+                    <div class="d-flex text-secondary">
+
+                    <a class="nav-link mb-0 h5 hover-dark-underline text-black" asp-area="" asp-controller="Noticias" asp-action="Index">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-newspaper" viewBox="0 0 16 16">
+                            <path d="M0 2.5A1.5 1.5 0 0 1 1.5 1h11A1.5 1.5 0 0 1 14 2.5v10.528c0 .3-.05.654-.238.972h.738a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 1 1 0v9a1.5 1.5 0 0 1-1.5 1.5H1.497A1.497 1.497 0 0 1 0 13.5zM12 14c.37 0 .654-.211.853-.441.092-.106.147-.279.147-.531V2.5a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0-.5.5v11c0 .278.223.5.497.5z" />
+                            <path d="M2 3h10v2H2zm0 3h4v3H2zm0 4h4v1H2zm0 2h4v1H2zm5-6h2v1H7zm3 0h2v1h-2zM7 8h2v1H7zm3 0h2v1h-2zm-3 2h2v1H7zm3 0h2v1h-2zm-3 2h2v1H7zm3 0h2v1h-2z" />
+                        </svg>
+                    </a>
+
+                        <a class="nav-link mb-0 h5 hover-dark-underline text-black" asp-area="" asp-controller="Especialista" asp-action="index">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                        </svg>
+                    </a>
+
+                    <a class="nav-link mb-0 h5 hover-dark-underline text-black" asp-area="" asp-controller="MaterialDidatico" asp-action="index">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book-half" viewBox="0 0 16 16">
+                            <path d="M8.5 2.687c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783" />
+                        </svg>
+                    </a>
+
+                        <a class="nav-link mb-0 h5 hover-dark-underline text-black" asp-area="" asp-controller="VagaEmpregos" asp-action="Index">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cone-striped" viewBox="0 0 16 16">
+                            <path d="m9.97 4.88.953 3.811C10.159 8.878 9.14 9 8 9s-2.158-.122-2.923-.309L6.03 4.88C6.635 4.957 7.3 5 8 5s1.365-.043 1.97-.12m-.245-.978L8.97.88C8.718-.13 7.282-.13 7.03.88L6.275 3.9C6.8 3.965 7.382 4 8 4s1.2-.036 1.725-.098m4.396 8.613a.5.5 0 0 1 .037.96l-6 2a.5.5 0 0 1-.316 0l-6-2a.5.5 0 0 1 .037-.96l2.391-.598.565-2.257c.862.212 1.964.339 3.165.339s2.303-.127 3.165-.339l.565 2.257z" />
+                        </svg>
+                    </a>
+
+                        <a class="nav-link mb-0 h5 hover-dark-underline text-black" asp-area="" asp-controller="Posts" asp-action="Index">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-text" viewBox="0 0 16 16">
+                            <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z" />
+                            <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8m0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5" />
+                        </svg>
+                    </a>
+
+                        <a class="nav-link mb-0 h5 hover-dark-underline text-black" asp-area="" asp-controller="Home" asp-action="Privacy">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-person-fill" viewBox="0 0 16 16">
+                            <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2m-1 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-3 4c2.623 0 4.146.826 5 1.755V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1.245C3.854 11.825 5.377 11 8 11" />
+                        </svg>
+                    </a>
+                    </div>
 
 
-                <!-- Botão para abrir/fechar o menu lateral (visível apenas em telas pequenas) -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sideMenu" aria-controls="sideMenu" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+
+                    <!-- Botão para abrir/fechar o menu lateral (visível apenas em telas pequenas) -->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sideMenu" aria-controls="sideMenu" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                </div>
 
 
                 <div class="navbar-collapse collapse d-sm-inline-flex w-100">
@@ -68,7 +110,7 @@
             <div class="offcanvas-body">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="Home" asp-action="Index">Home</a> 
                     </li>
                     <li class="nav-item">
                         <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="Noticias" asp-action="Index">Notícias</a>
@@ -111,13 +153,21 @@
 
 
     @{
-        // Renderiza o header adicional, se especificado
-        var customHeader = ViewData["CustomHeader"] as string;
-        if (!string.IsNullOrEmpty(customHeader))
-        {
-            Html.RenderPartial($"~/Views/Shared/_{customHeader}.cshtml");
+        // // Renderiza o header adicional, se especificado
+        // var customHeader = ViewData["CustomHeader"] as string;
 
-        }
+        // if (!string.IsNullOrEmpty(customHeader))
+        // {
+        //     Html.RenderPartial($"~/Views/Shared/_{customHeader}.cshtml");
+
+        // }
+        // else
+        // {
+        //     Html.RenderPartial($"~/Views/Shared/_HomeHeader.cshtml");
+
+        // }
+
+        Html.RenderPartial($"~/Views/Shared/_HomeHeader.cshtml");
     }
 
     @* <header>

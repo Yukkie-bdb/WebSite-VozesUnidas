@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebSiteVozesUnidas.Data;
 
@@ -11,9 +12,11 @@ using WebSiteVozesUnidas.Data;
 namespace WebSiteVozesUnidas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241125235100_habilidadesRMV")]
+    partial class habilidadesRMV
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -367,14 +370,19 @@ namespace WebSiteVozesUnidas.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("Id")
-                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("IdPost")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("PostIdPost")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("Publicacao")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("comentario")
                         .IsRequired()
@@ -382,9 +390,9 @@ namespace WebSiteVozesUnidas.Migrations
 
                     b.HasKey("IdComentario");
 
-                    b.HasIndex("Id");
+                    b.HasIndex("PostIdPost");
 
-                    b.HasIndex("IdPost");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("tbComentario", (string)null);
                 });
@@ -428,20 +436,25 @@ namespace WebSiteVozesUnidas.Migrations
                     b.Property<Guid?>("ComentarioIdComentario")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ComentarioIdPost")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("Id")
-                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("IdComentario")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UsuarioId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("IdLikeComen");
 
                     b.HasIndex("ComentarioIdComentario");
 
-                    b.HasIndex("Id");
+                    b.HasIndex("ComentarioIdPost");
 
-                    b.HasIndex("IdComentario");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("tbLikeComen", (string)null);
                 });
@@ -453,17 +466,22 @@ namespace WebSiteVozesUnidas.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("Id")
-                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("IdPost")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("PostIdPost")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("IdLikesPost");
 
-                    b.HasIndex("Id");
+                    b.HasIndex("PostIdPost");
 
-                    b.HasIndex("IdPost");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("tbLikesPost", (string)null);
                 });
@@ -765,15 +783,13 @@ namespace WebSiteVozesUnidas.Migrations
 
             modelBuilder.Entity("WebSiteVozesUnidas.Models.Comentario", b =>
                 {
-                    b.HasOne("WebSiteVozesUnidas.Models.ApplicationUser", "Usuario")
-                        .WithMany("Comentarios")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("WebSiteVozesUnidas.Models.Post", "Post")
                         .WithMany("Comentarios")
-                        .HasForeignKey("IdPost");
+                        .HasForeignKey("PostIdPost");
+
+                    b.HasOne("WebSiteVozesUnidas.Models.ApplicationUser", "Usuario")
+                        .WithMany("Comentarios")
+                        .HasForeignKey("UsuarioId");
 
                     b.Navigation("Post");
 
@@ -786,15 +802,13 @@ namespace WebSiteVozesUnidas.Migrations
                         .WithMany("LikeComens")
                         .HasForeignKey("ComentarioIdComentario");
 
-                    b.HasOne("WebSiteVozesUnidas.Models.ApplicationUser", "Usuario")
-                        .WithMany("LikeComens")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("WebSiteVozesUnidas.Models.Post", "Comentario")
                         .WithMany()
-                        .HasForeignKey("IdComentario");
+                        .HasForeignKey("ComentarioIdPost");
+
+                    b.HasOne("WebSiteVozesUnidas.Models.ApplicationUser", "Usuario")
+                        .WithMany("LikeComens")
+                        .HasForeignKey("UsuarioId");
 
                     b.Navigation("Comentario");
 
@@ -803,15 +817,13 @@ namespace WebSiteVozesUnidas.Migrations
 
             modelBuilder.Entity("WebSiteVozesUnidas.Models.LikesPost", b =>
                 {
-                    b.HasOne("WebSiteVozesUnidas.Models.ApplicationUser", "Usuario")
-                        .WithMany("LikesPosts")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("WebSiteVozesUnidas.Models.Post", "Post")
                         .WithMany("Likes")
-                        .HasForeignKey("IdPost");
+                        .HasForeignKey("PostIdPost");
+
+                    b.HasOne("WebSiteVozesUnidas.Models.ApplicationUser", "Usuario")
+                        .WithMany("LikesPosts")
+                        .HasForeignKey("UsuarioId");
 
                     b.Navigation("Post");
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebSiteVozesUnidas.Models
 {
@@ -38,8 +39,12 @@ namespace WebSiteVozesUnidas.Models
     {
         public Guid IdLikesPost { get; set; }
         public Guid? IdPost { get; set; }
+
+        [ForeignKey(nameof(IdPost))]
         public Post? Post { get; set; }
         public Guid? Id { get; set; }
+
+        [ForeignKey(nameof(Id))]
         public ApplicationUser? Usuario { get; set; }
     }
 }

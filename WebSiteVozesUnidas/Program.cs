@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using WebSiteVozesUnidas.Data;
@@ -9,6 +10,7 @@ internal class Program
     private static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
 
         // Add services to the container.
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -100,7 +102,6 @@ internal class Program
                 user.Portifolio = "https://portifolio.com/admin";
                 user.Cidade = "S�o Paulo";
                 user.Estado = "SP";
-                user.Habilidades = new List<string> { "Gerenciamento de Projetos", "Programa��o", "Lideran�a" };
                 user.Objetivos = "Aprimorar as compet�ncias em lideran�a e inova��o";
                 user.CNPJ = "12.345.678/0001-99";
 

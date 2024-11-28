@@ -100,20 +100,33 @@ namespace WebSiteVozesUnidas.Controllers
             ModelState.AddModelError(string.Empty, "Erro ao remover a Role.");
             return NoContent();
         }
-        public async Task<IActionResult> Index(string searchTitle)
+        public async Task<IActionResult> Index(string titulo, DateOnly? antes, DateOnly? depois)
         {
-            ViewData["CustomHeader"] = "NoticiasHeader";
-
             var userid = _signInManager.UserManager.GetUserId(User);
 
             // Carregar todas as notícias antes de filtrar
             var noticias = await _context.Noticias.ToListAsync();
 
             // Filtrar por título, se o parâmetro de busca for informado
-            if (!string.IsNullOrEmpty(searchTitle))
+            if (!string.IsNullOrEmpty(titulo))
             {
-                noticias = noticias.Where(n => n.Titulo.Contains(searchTitle)).ToList(); // Busca parcial no título
+                noticias = noticias.Where(n => n.Titulo.Contains(titulo)).ToList(); // Busca parcial no título
             }
+
+            /// Filtrar por data, se os parâmetros "antes" ou "depois" forem informados
+            if (antes != null)
+            {
+                var antesDateTime = antes.Value.ToDateTime(new TimeOnly(0, 0)); // Converte DateOnly para DateTime
+                noticias = noticias.Where(n => n.Publicacao <= antesDateTime).ToList(); // Antes de
+            }
+
+            if (depois != null)
+            {
+                var depoisDateTime = depois.Value.ToDateTime(new TimeOnly(23, 59, 59)); // Converte DateOnly para DateTime (final do dia)
+                noticias = noticias.Where(n => n.Publicacao >= depoisDateTime).ToList(); // Depois de
+            }
+
+
 
             // Obter as notícias de acordo com a quantidade solicitada
             var noticiasExibidas = noticias.ToList();
@@ -140,10 +153,11 @@ namespace WebSiteVozesUnidas.Controllers
             //ViewBag.NoticiasCarregadas = count;
             //ViewBag.TotalNoticias = noticias.Count(); // Exibe o total de notícias
 
-            if(searchTitle != null)
+            if(titulo != null)
             {
                 ViewBag.PerguntaOuNao = true;
             }
+
             else
             {
                 ViewBag.PerguntaOuNao = false;
@@ -152,43 +166,13 @@ namespace WebSiteVozesUnidas.Controllers
             return View(noticiasExibidas);
         }
 
-        //VEJA MAIS VEJA MAIS VEJA MAIS VEJA MAIS VEJA MAIS
-        //public async Task<IActionResult> Index(string searchTitle, int count = 7)
-        //{
-        //    ViewData["CustomHeader"] = "NoticiasHeader";
-
-        //    var userid = _signInManager.UserManager.GetUserId(User);
-
-        //    // Carregar todas as notícias antes de filtrar
-        //    var noticias = await _context.Noticias.ToListAsync();
-
-        //    // Filtrar por título, se o parâmetro de busca for informado
-        //    if (!string.IsNullOrEmpty(searchTitle))
-        //    {
-        //        noticias = noticias.Where(n => n.Titulo.Contains(searchTitle)).ToList(); // Busca parcial no título
-        //    }
-
-        //    // Obter as notícias de acordo com a quantidade solicitada
-        //    var noticiasExibidas = noticias.Take(count).ToList();
-
-        //    // Passa o ID do usuário logado para a ViewBag
-        //    if (userid != null)
-        //    {
-        //        var Jornalista = await _context.Users.FirstOrDefaultAsync(x => x.Id.ToString() == userid);
-        //        ViewBag.UserId = userid;
-        //        ViewBag.UserJorn = Jornalista?.Jornalista;
-        //    }
-
-        //    var randomItems = GetRandomItems(3).ToList();
-
-        //    ViewBag.noticiasPrincipais = randomItems; // Exibe as notícias principais
-        //    ViewBag.Noticias = noticiasExibidas;
-        //    ViewBag.NoticiasCarregadas = count;
-        //    ViewBag.TotalNoticias = noticias.Count(); // Exibe o total de notícias
-
-
-        //    return View(noticiasExibidas);
-        //}
+        [HttpPost]
+        public ActionResult IndexPost(string titulo, DateOnly? antes, DateOnly? depois)
+        {
+            // Quando o formulário é enviado, redireciona para a mesma página com os parâmetros
+            return RedirectToAction("Index", new { titulo = titulo, antes = antes, depois = depois });
+        }
+       
         public async Task<IActionResult> NoticiasPessoais (string searchTitle)
         {
             ViewData["CustomHeader"] = "NoticiasHeader";
@@ -262,7 +246,7 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: Noticias/Create
-        [Authorize(Roles = "Admin,Jornalista")]
+        [Authorize(Roles = "ADM,Jornalista")]
         public async Task<IActionResult> Create()
         {
             ViewData["CustomHeader"] = "NoticiasHeader";
@@ -324,7 +308,7 @@ namespace WebSiteVozesUnidas.Controllers
 
 
         // GET: Noticias/Edit/5
-        [Authorize(Roles = "Admin,Jornalista")]
+        [Authorize(Roles = "ADM,Jornalista")]
         
         public async Task<IActionResult> Edit(Guid? id)
         {
@@ -419,7 +403,7 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: Noticias/Delete/5
-        [Authorize(Roles = "Admin,Jornalista")]
+        [Authorize(Roles = "ADM,Jornalista")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             ViewData["CustomHeader"] = "NoticiasHeader";

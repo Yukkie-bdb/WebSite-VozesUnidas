@@ -26,21 +26,10 @@ namespace WebSiteVozesUnidas.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var especialistasComMedia = _context.Especialistas
-        .Select(e => new
-        {
-            e.IdEspecialista,
-            e.ImgEspecialista,
-            e.Nome,
-            e.Telefone,
-            e.Email,
-            e.Especialhidade,
-            MediaEstrelas = e.AvaliacoesEspecialistas.Any()
-                ? e.AvaliacoesEspecialistas.Average(a => a.Estrelas)
-                : 0
-        })
-        .OrderByDescending(e => e.MediaEstrelas)
-        .Take(3)  // Limita aos 3 primeiros
+            ViewData["CustomHeader"] = "HomeHeader";
+
+            var especialistasComMedia = _context.Especialistas.Select(e => new{e.IdEspecialista,e.ImgEspecialista,e.Nome,e.Telefone,e.Email,e.Especialhidade,MediaEstrelas = 
+                e.AvaliacoesEspecialistas.Any()? e.AvaliacoesEspecialistas.Average(a => a.Estrelas) : 0 }).OrderByDescending(e => e.MediaEstrelas).Take(3)
         .ToList();
 
             //ViewBag.especialistasList = await _context.Especialistas.OrderBy().Take(3).ToListAsync();
@@ -76,6 +65,8 @@ namespace WebSiteVozesUnidas.Controllers
 
         public IActionResult Privacy()
         {
+            ViewData["CustomHeader"] = "HomeHeader";
+
             return View();
         }
 

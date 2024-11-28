@@ -1,0 +1,102 @@
+﻿<div class="d-flex flex-column my-5">
+
+    <div class="card mb-3">
+        <h1 class="text-center">ADICIONAR ITENS</h1>
+    </div>
+
+    <div class="d-flex flex-wrap">
+        <form asp-controller="Admin" asp-action="CriarNoticia">
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>Noticias</h2>
+                </div>
+                <div class="card-body">
+                    <input type="number" name="itens" min="0" max="10" placeholder="Quantos itens criar?"/>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-success">
+                        Criar
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
+        <form asp-controller="Admin" asp-action="CriarEspecialista">
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>Especialistas</h2>
+                </div>
+                <div class="card-body">
+                    <input type="number" name="itens" placeholder="Quantos itens criar?" />
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-success">
+                        Criar
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
+        <form asp-controller="Admin" asp-action="CriarMaterial">
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>Materiais</h2>
+                </div>
+                <div class="card-body">
+                    <input type="number" name="itens" placeholder="Quantos itens criar?" />
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-success">
+                        Criar
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
+        <form asp-controller="Admin" asp-action="CriarVaga">
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>Vagas de Empregos</h2>
+                </div>
+                <div class="card-body">
+                    <input type="number" name="itens" placeholder="Quantos itens criar?"/>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-success">
+                        Criar
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
+        <form asp-controller="Admin" asp-action="CriarForum">
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>Fórum</h2>
+                </div>
+                <div class="card-body">
+                    <input type="number" name="itens" placeholder="Quantos itens criar?" />
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-success">
+                        Criar
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+

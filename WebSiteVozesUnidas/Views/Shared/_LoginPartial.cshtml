@@ -35,25 +35,30 @@
         </li>
 
         <li class="d-flex d-md-none col text-start m-3 ">
-            <a class="d-flex text-black align-items-center " asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-box-arrow-right ms-1" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
-                    <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
-                </svg>
+            <div class="d-flex text-black align-items-center " asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button class="btn p-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                            <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                        </svg>
 
-                <span class="fw-bold text-secondary h6 mb-0 ms-2">Sair</span>
-            </a>
+                        <span class="fw-bold text-secondary h6 mb-0 ms-2">Sair</span>
+                    </button>
+                </form>
+            </div>
         </li>
         
 
         <!-- Button trigger modal -->
-        <button type="button" class="btn d-none d-md-block" data-bs-toggle="modal" data-bs-target="#perfilModal">
+        <a type="button" class="btn d-none d-md-block text-decoration-none" asp-area="Identity" asp-page="/Account/Manage/Index">
 
             <img src="~/img/@fotoUser" alt="Foto Usuario" class="rounded-circle me-1" style="width: 4vh; height: 4vh; object-fit: cover;" />
 
             <span class="fw-bold text-secondary d-none d-lg-inline">@user.UserName</span>
 
-        </button>
+        </a>
        
 
         <!-- First Modal -->
@@ -76,7 +81,7 @@
                     </div>
                     <div>
                         <span>Cargo:</span>
-                        <span></span>
+                        <span></span> 
                     </div>
                     <div class="modal-footer border-0 justify-content-center d-flex flex-column">
                         <button type="button" class="btn btn-primary px-5">
@@ -90,7 +95,7 @@
                 </div>
             </div>
         </div>
-
+    
         <!-- Second Modal for Larger Image -->
         <div class="modal fade" id="imgUserModal" tabindex="-1" aria-labelledby="imgUserModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -102,7 +107,7 @@
             </div>
         </div>
 
- 
+    
     }
     else
     {
