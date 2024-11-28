@@ -77,7 +77,7 @@
     </div>
 
     <!-- Campo Sobre -->
-    <div class="form-floating mb-3 d-none" id="sobre">
+    <div class="form-floating mb-3" id="sobre">
         <textarea asp-for="Input.Sobre" class="form-control" placeholder="Sobre"></textarea>
         <label asp-for="Input.Sobre">Sobre</label>
         <span asp-validation-for="Input.Sobre" class="text-danger"></span>
@@ -387,7 +387,7 @@
             objetivos.classList.remove("d-none");
 
             cnpj.classList.add("d-none");
-            sobre.classList.add("d-none");
+            // sobre.classList.add("d-none");
             funcionarios.classList.add("d-none");
             ramo.classList.add("d-none");
 
@@ -405,7 +405,7 @@
             objetivos.classList.add("d-none");
 
             cnpj.classList.remove("d-none");
-            sobre.classList.remove("d-none");
+            // sobre.classList.remove("d-none");
             funcionarios.classList.remove("d-none");
             ramo.classList.remove("d-none");
 

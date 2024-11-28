@@ -4,13 +4,20 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.CodeAnalysis.Elfie.Model;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Hosting;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using NuGet.Packaging;
 using SQLitePCL;
 using WebSiteVozesUnidas.Data;
@@ -69,17 +76,31 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
             public string Foto { get; set; }
             public string Nome { get; set; }
             public string Email { get; set; }
+            public string Ramo { get; set; }
             public string Sobre { get; set; }
+            public string Estado { get; set; }
+            public string Cidade { get; set; }
+            public string Portifolio { get; set; }
             public TipoUsuario Tipo { get; set; }
             public DateOnly? Nascimento { get; set; }
+            public int? NascimentoDia { get; set; }
+            public int? NascimentoMes { get; set; }
+            public int? NascimentoAno { get; set; }
             public List<string> Habilidades { get; set; } = new List<string>();
             public string Objetivos { get; set; }
             public bool Jornalista { get; set; }
             public string CPF { get; set; }
+            public string CPFNovo { get; set; }
             public string CNPJ { get; set; }
+            public string CNPJNovo { get; set; }
             public int Funcionarios { get; set; }
             public List<VagaEmprego> Vagas { get; set; }
             public List<VagaEmprego> VagasCandidatadas { get; set; }
+            public List<AvaliacaoEspecialista> Avaliacoes { get; set; }
+            public List<Noticia> Noticias { get; set; }
+            public List<Post> Posts { get; set; }
+            public int Comentarios { get; set; }
+
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -103,21 +124,17 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
                 Objetivos = user.Objetivos,
                 Jornalista = user.Jornalista,
                 CPF = user.CPF,
-                CNPJ = user.CNPJ
+                CNPJ = user.CNPJ,
+                Estado = user.Estado,
+                Cidade = user.Cidade,
+                Portifolio = user.Portifolio,
+                Ramo = user.Ramo,
+
             };
 
-            Input.Vagas = _context.VagaEmpregos.Where(a => a.UsuarioId == user.Id).ToList();
-
-            // Obtemos os IDs das vagas para as quais o usuário se candidatou
-            var vagasCandidatadasIds = _context.CandidatoVagas
-                .Where(a => a.UsuarioId == user.Id)
-                .Select(a => a.VagaEmpregoId)  // Seleciona apenas o IdVagaEmprego
-                .ToList();
-
-            // Usamos os IDs das vagas para buscar as vagas no contexto de VagaEmpregos
-            Input.VagasCandidatadas = _context.VagaEmpregos
-                .Where(a => vagasCandidatadasIds.Contains(a.IdVagaEmprego))
-                .ToList();
+            Input.Avaliacoes = _context.AvaliacaoEspecialistas.Include(u => u.Especialistas).Where(u => u.UsuarioId == user.Id).ToList();
+            Input.Noticias = _context.Noticias.Where(u => u.Id == user.Id).OrderBy(u => u.Publicacao).Take(6).ToList();
+            Input.Posts = _context.Posts.Where(u => u.Id == user.Id).Include(p => p.Likes).Include(o => o.Comentarios).OrderByDescending(u => u.Likes.Count()).Take(3).ToList();
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -140,11 +157,11 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            if (!ModelState.IsValid)
-            {
-                await LoadAsync(user);
-                return Page();
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    await LoadAsync(user);
+            //    return Page();
+            //}
 
             // Se houver uma ImagemPerfil existente, excluí-la
             if (Input.Foto != null)
@@ -182,15 +199,39 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
             //Input.Habilidades = user.Habilidades;
 
             // Atualizar todas as propriedades
-            user.UserName = Input.Nome;
-            user.Email = Input.Email;
+            //user.UserName = Input.Nome;
+            //user.Email = Input.Email;
             user.Sobre = Input.Sobre;
-            user.Tipo = Input.Tipo;
+            //user.Tipo = Input.Tipo;
             user.Nascimento = Input.Nascimento;
             user.Objetivos = Input.Objetivos;
-            user.Jornalista = Input.Jornalista;
-            user.CPF = Input.CPF;
-            user.CNPJ = Input.CNPJ;
+            //user.Jornalista = Input.Jornalista;
+            //user.CPF = Input.CPF;
+            //user.CNPJ = Input.CNPJ;
+            user.Estado = Input.Estado;
+            user.Cidade = Input.Cidade;
+            user.Portifolio = Input.Portifolio;
+
+            // Se o usuário não preencher a data, deixar Nascimento como null
+            if (Input.NascimentoAno.HasValue && Input.NascimentoMes.HasValue && Input.NascimentoDia.HasValue)
+            {
+                try
+                {
+                    user.Nascimento = new DateOnly(Input.NascimentoAno.Value, Input.NascimentoMes.Value, Input.NascimentoDia.Value);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    // Se a data for inválida (como um dia de mês inexistente), você pode definir uma mensagem de erro
+                    StatusMessage = "A data de nascimento informada é inválida.";
+                }
+            }
+            else
+            {
+                // Se não for fornecida uma data completa, manter o Nascimento como null
+                user.Nascimento = null;
+            }
+
+
 
             // Atualizar o telefone separadamente
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
@@ -215,5 +256,90 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
+
+        public async Task<IActionResult> OnPostCpfPostar()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            if (Input.CPFNovo != user.CPF)
+            {
+                user.CPF = Input.CPFNovo;
+
+                await _userManager.UpdateAsync(user);
+                await _signInManager.RefreshSignInAsync(user);
+                return RedirectToPage();
+            }
+
+            StatusMessage = "CPF não alterado, igual ao anterior!!.";
+            return RedirectToPage();
+
+        }
+            public async Task<IActionResult> OnPostCnpjPostar()
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                }
+
+            if (Input.CNPJNovo != user.CNPJ)
+            {
+                user.CNPJ = Input.CNPJNovo;
+
+                await _userManager.UpdateAsync(user);
+                    await _signInManager.RefreshSignInAsync(user);
+                    return RedirectToPage();
+                }
+
+            StatusMessage = "CNPJ não alterado, igual ao anterior!!.";
+            return RedirectToPage();
+
+        }
+
+        public async Task<IActionResult> OnPostNome()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            if (!string.IsNullOrEmpty(Input.Nome))
+            {
+                // Verificar se já existe um usuário com o mesmo nome
+                var existingUser = await _userManager.FindByNameAsync(Input.Nome);
+
+                if (existingUser != null && existingUser.Id != user.Id) // Checar se o nome pertence a outro usuário
+                {
+                    StatusMessage = "Este nome já está em uso por outro usuário.";
+                    return RedirectToPage();
+                }
+
+                // Atualizar o nome se ele não estiver em uso
+                user.UserName = Input.Nome;
+
+                var updateResult = await _userManager.UpdateAsync(user);
+                if (updateResult.Succeeded)
+                {
+                    await _signInManager.RefreshSignInAsync(user);
+                    StatusMessage = "Nome alterado com sucesso!";
+                }
+                else
+                {
+                    StatusMessage = "Erro ao tentar alterar o nome.";
+                }
+
+                return RedirectToPage();
+            }
+
+            StatusMessage = "Nome não alterado!";
+            return RedirectToPage();
+        }
+
+
     }
 }

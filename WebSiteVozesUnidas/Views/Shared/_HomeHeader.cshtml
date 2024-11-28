@@ -1,0 +1,120 @@
+﻿@{
+    var title = ViewData["Title"] != null ? ViewData["Title"] : "Voezs Unidas";
+    var color = ViewData["Color"] != null ? ViewData["Title"] : "bg-white";
+}
+<header class="sticky-top">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 @color">
+        <div class="container-fluid text-white justify-content-start justify-content-md-center d-flex flex-row">
+
+            <div class="col col-md-3 d-flex">
+                <button class="bg-white btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateralHeader" aria-controls="menuLateralHeader">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="border-end  ms-2 me-3" ></div>
+
+                
+            </div>
+
+            <div class="col-6 text-center">
+                <a asp-action="Index" asp-controller="Home" class="text-decoration-none text-black">
+                    <h1>
+                        @title
+                    </h1>
+                </a>
+            </div>
+
+
+            <div class="col col-sm-3 d-flex justify-content-end">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/img/LOGO.png" style="height:42px; width:42px;" alt="Logo" />
+                </a>
+            </div>
+
+        </div>
+
+    </nav>
+</header>
+
+
+
+<div class="offcanvas offcanvas-start w-auto justify-content-between pe-md-5" tabindex="-1" id="menuLateralHeader" aria-labelledby="menuLateralHeaderLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="menuLateralHeaderLabel">Menu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="Noticias" asp-action="Index">Top Notícias</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="Especialista" asp-action="Index">Especialistas em Destaques</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="Posts" asp-action="index">Topicos em Destaques</a>
+            </li>
+        </ul>
+    </div>
+    <hr class="mx-4" />
+    <div class="offcanvas-body">
+        <ul class="navbar-nav ">
+            <li class="nav-item">
+                <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="Home" asp-action="Index">Minhas Candidaturas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="Noticias" asp-action="Index">Minhas Noticias</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="Noticias" asp-action="Index">Meus Posts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="Noticias" asp-action="Index">Meus Posts Likados</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="Noticias" asp-action="Index">Minhas avaliações</a>
+            </li>
+        </ul>
+    </div>
+    <hr class="mx-4"/>
+    <div class="offcanvas-body">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="CandidatosJornalistas" asp-action="Index">Quer virar um Jornalista?</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="Noticias" asp-action="Index">Fazer parte da STAFF</a>
+            </li>
+        </ul>
+    </div>
+    @if (User.IsInRole("ADM"))
+    {
+         <hr class="mx-4"/>
+    <div class="offcanvas-body">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                    <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="Admin" asp-action="Index">Menu ADM</a>
+            </li>
+        </ul>
+    </div>
+    }
+
+    <hr class="mx-4" />
+    <div class="offcanvas-body">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button class="btn p-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                            <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                        </svg>
+
+                        <span class="fw-bold text-secondary h6 mb-0 ms-2">Sair</span>
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
+
+</div>

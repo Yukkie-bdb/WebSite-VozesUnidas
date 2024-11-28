@@ -39,6 +39,35 @@
         </ul>
     </div>
 }
+    <h1 class="text-center text-uppercase fw-light mb-3">Pesquisar Notícias</h1>
+
+<form class="d-flex flex-wrap justify-content-between" asp-action="IndexPost" asp-controller="Noticias">
+
+
+    <div class="col-12 col-md-8 gap-1 d-flex flex-wrap">
+
+        <div class="form-floating mb-3 col-12 col-md">
+            <input type="text" class="form-control" id="floatingInput" placeholder="Titulo da noticia" name="titulo">
+            <label for="floatingInput" name="titulo">Titulo</label>
+        </div>
+
+        <div class="form-floating mb-3 col-12 col-md-4">
+            <input type="date" class="form-control" id="floatingInput" placeholder="Titulo da noticia" name="antes">
+            <label for="floatingInput" name="antes">Antes de</label>
+        </div>
+
+        <div class="form-floating mb-3 col-12 col-md-4">
+            <input type="date" class="form-control" id="floatingInput" placeholder="Titulo da noticia" name="depois">
+            <label for="floatingInput" name="depois">Depos de</label>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-3 d-flex">
+        <button class="btn btn-primary col-12 mb-3">Buscar</button>
+
+    </div>
+
+</form>
 
 @if (ViewBag.PerguntaOuNao == true)
 {

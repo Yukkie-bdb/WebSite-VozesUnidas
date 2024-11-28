@@ -1,39 +1,51 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
     background-color: #f9f9f9;
 }
 
-a{
+a {
     text-decoration: none;
 }
 
-a:hover {
-    text-decoration: underline;
+    a:hover {
+        text-decoration: underline;
+    }
+
+.cardDivTopo {
+    height: 100px;
 }
+
+@media (min-width: 768px) {
+    .cardDivTopo {
+        height: 200px;
+    }
+}
+
 .card {
     overflow: hidden; /* Garante que a imagem não ultrapasse os limites do card */
 }
-.card img {
-    transition: transform 0.3s ease; /* Animação suave para o efeito */
-}
+
+    .card img {
+        transition: transform 0.3s ease; /* Animação suave para o efeito */
+    }
 
 /*.card:hover img {
     transform: scale(1.1);*/ /* Aumenta a imagem em 10% no hover */
@@ -56,14 +68,18 @@ a:hover {
     .MenorCancelarNoticia {
         width: 10%;
     }
+
     .Img0 {
-        height: 250px!important ;
+        height: 250px !important;
     }
+
     .Img1 {
-        height: 250px!important;
+        height: 250px !important;
     }
+
     .Img2 {
     }
+
     .Letratas {
         font-size: calc(1.325rem + .3vw);
     }
