@@ -1,7 +1,7 @@
 ﻿@using System.Linq
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "PÁGINA INICIAL";
 
     var noticiasList = ViewBag.noticiasList;
 }
@@ -152,6 +152,9 @@
 
 </div>
 
+@if (ViewBag.noticiasList.Count != 0)    
+{
+    
 <div class="d-flex flex-column fundo-cheio justify-content-center p-3">
     <h2 class="text-center text-white">Principais Noticias</h2>
 
@@ -235,7 +238,10 @@
         </button>
     </div>
 </div>
+}
 
+@if (ViewBag.especialistasList.Count != 0)
+{
 <h2 class="text-center text-black mt-5  text-shadow-2">Nossos melhores Especialista</h2>
 
 <div class="d-flex flex-column flex-lg-row justify-content-evenly mt-5 align-items-center">
@@ -281,8 +287,10 @@
     }
 
 </div>
+}
 
-
+@if (ViewBag.CategoriasComMateriais.Count != 0)
+{
 
 <div class="d-flex flex-column my-5 p-3 fundo-cheio">
 
@@ -344,8 +352,10 @@
     <a class="col-12 btn btn-light mb-5" asp-action="Index" asp-controller="MaterialDidatico">Ver Mais</a>
 
 </div>
+}
 
-
+@if (ViewBag.empregos.Count != 0)
+{
 <div class="d-flex flex-column my-5 ">
 
     <h1 class="text-center text-black mt-5 mb-5  text-shadow-2">Vagas de empregos</h1>
@@ -383,6 +393,7 @@
     </div>
 
 </div>
+}
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

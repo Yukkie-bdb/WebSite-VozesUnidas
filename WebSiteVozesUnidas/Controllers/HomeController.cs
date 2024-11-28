@@ -28,8 +28,17 @@ namespace WebSiteVozesUnidas.Controllers
         {
             ViewData["CustomHeader"] = "HomeHeader";
 
-            var especialistasComMedia = _context.Especialistas.Select(e => new{e.IdEspecialista,e.ImgEspecialista,e.Nome,e.Telefone,e.Email,e.Especialhidade,MediaEstrelas = 
-                e.AvaliacoesEspecialistas.Any()? e.AvaliacoesEspecialistas.Average(a => a.Estrelas) : 0 }).OrderByDescending(e => e.MediaEstrelas).Take(3)
+            var especialistasComMedia = _context.Especialistas.Select(e => new
+            {
+                e.IdEspecialista,
+                e.ImgEspecialista,
+                e.Nome,
+                e.Telefone,
+                e.Email,
+                e.Especialhidade,
+                MediaEstrelas =
+                e.AvaliacoesEspecialistas.Any() ? e.AvaliacoesEspecialistas.Average(a => a.Estrelas) : 0
+            }).OrderByDescending(e => e.MediaEstrelas).Take(3)
         .ToList();
 
             //ViewBag.especialistasList = await _context.Especialistas.OrderBy().Take(3).ToListAsync();

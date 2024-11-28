@@ -2,7 +2,7 @@
 @model IEnumerable<WebSiteVozesUnidas.Models.VagaEmprego>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "EMPREGOS";
     var modelVaga = new FiltroVagaEmprgoNovo();
 }
 
@@ -72,6 +72,9 @@
 
 <div class="d-flex flex-column">
 
+    @if (ViewBag.vagasRecomendadas.Count != 0)
+    {
+
     <div class="fundo-cheio3 py-3">
 
         <h1 class="mb-4 text-center d-flex justify-content-center bg-white align-items-center p-2">
@@ -138,10 +141,11 @@
             </button>
         </div>
     </div>
+    }
 
    
 
-    <div class="d-flex flex-column mt-5">
+    <div class="d-flex flex-column">
 
         <h1 class="text-center mb-3 text-uppercase">Busque por vagas</h1>
 
@@ -323,9 +327,20 @@
         }
         @if (Model.Count() == 0)
         {
-            <h3 class="text-secondary">Não há vagas</h3>
-            <h1>Não há vagas com base no seu filtro</h1>
-            <h3 class="text-secondary">Não há vagas</h3>
+            <div class="card col-12 p-3 border text-black text-decoration-none my-5">
+
+                <div class="d-flex justify-content-center">
+
+
+                    <div class="card-body col-12 p-0 ms-3 d-flex flex-column justify-content-center">
+
+                        <h3 class="card-title text-center text-uppercase fw-light">Sem cadastro de vagas, volte mais tarde!</h3>
+
+
+                    </div>
+                </div>
+
+            </div>
         }
     </div>
 

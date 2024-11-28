@@ -1,10 +1,9 @@
 ﻿@model IEnumerable<WebSiteVozesUnidas.Models.Noticia>
 @{
-    ViewData["Title"] = "Notícias";
-
-    // var noticias = ViewBag.Noticias as List<WebSiteVozesUnidas.Models.Noticia>; // Substitua YourNamespace.Noticia pelo modelo correto.
-    // int noticiasCarregadas = ViewBag.NoticiasCarregadas;
-    // int totalNoticias = ViewBag.TotalNoticias;
+    ViewData["Title"] = "NOTÍCIAS";
+    ViewData["Color"] = "bg-primary";
+    ViewData["Controller"] = "Noticias";
+    ViewData["fonteColor"] = "text-white";
 }
 
 @if (User.IsInRole("Jornalista"))
@@ -146,7 +145,12 @@ else
     {
         if (ViewBag.PerguntaOuNao == false)
         {
-            <h1 class="fw-bold justify-content-center d-flex my-4">Não há notícias atualmente.</h1>
+            <div class="card d-flex my-5">
+                <div class="card-header"></div>
+                <div class="card-body">
+                    <h1 class="text-uppercase text-center">Não ha atualmente notícias cadastradas no site.</h1>
+                </div>
+            </div>
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿@{
     var title = ViewData["Title"] != null ? ViewData["Title"] : "Voezs Unidas";
-    var color = ViewData["Color"] != null ? ViewData["Title"] : "bg-white";
+    var color = ViewData["Color"] != null ? ViewData["Color"] : "bg-white";
+    var controller = ViewData["Controller"] != null ? ViewData["Controller"] : "Home";
+    var fColor = ViewData["fonteColor"] != null ? ViewData["fonteColor"] : "text-dark";
 }
 <header class="sticky-top">
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 @color">
@@ -17,16 +19,16 @@
             </div>
 
             <div class="col-6 text-center">
-                <a asp-action="Index" asp-controller="Home" class="text-decoration-none text-black">
-                    <h1>
+                <a asp-action="Index" asp-controller="@controller" class="@fColor text-decoration-none text-black">
+                    <h1 class="fw-lighter text-uppercase">
                         @title
                     </h1>
                 </a>
             </div>
 
 
-            <div class="col col-sm-3 d-flex justify-content-end">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+            <div class="col col-sm-3 d-flex justify-content-end ">
+                <a class="me-2 shadow" asp-area="" asp-controller="Home" asp-action="Index">
                     <img src="~/img/LOGO.png" style="height:42px; width:42px;" alt="Logo" />
                 </a>
             </div>

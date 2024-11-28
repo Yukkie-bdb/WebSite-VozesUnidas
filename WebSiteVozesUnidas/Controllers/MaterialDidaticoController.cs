@@ -24,11 +24,23 @@ namespace WebSiteVozesUnidas.Controllers
         // GET: MaterialDidatico
         public async Task<IActionResult> Index(string? categoriaFiltro)
         {
-            ViewBag.categorias = _context.CategoriaMaterials.ToList();
+            ViewBag.Categorias = _context.CategoriaMaterials.ToList();
 
             var vozesDbContext = _context.MaterialDidaticos.Include(m => m.Categoria).AsQueryable();
 
-            var primeiraCategoria = vozesDbContext.Distinct().Select(o => o.Categoria.Categoria).First().ToString();
+            var primeiraCategoria = vozesDbContext
+                .Distinct()
+                .Select(o => o.Categoria.Categoria)
+                .FirstOrDefault(); // Retorna null se a coleção estiver vazia
+
+            if (primeiraCategoria != null)
+            {
+                ViewBag.PrimeiraCategoria = primeiraCategoria.ToString();
+            }
+            else
+            {
+                ViewBag.PrimeiraCategoria = "Nenhuma categoria encontrada.";
+            }
 
             if (!string.IsNullOrEmpty(categoriaFiltro))
             {

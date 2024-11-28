@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<WebSiteVozesUnidas.Models.Post>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Fórum";
+    ViewData["Color"] = "bg-secondary";
+    ViewData["Controller"] = "Posts";
 }
 
 <div class="col-12 d-flex">
@@ -49,6 +51,24 @@
 
 
 
+        }
+
+        @if (Model.Count() == 0)
+        {
+            <div class="card col p-3 border justify-content-center text-black text-decoration-none me-3 my-5">
+
+                <div class="d-flex col-12 justify-content-center">
+
+
+                    <div class="card-body col-12 p-0 d-flex flex-column justify-content-center">
+
+                        <h3 class="card-title text-center text-uppercase fw-light">Nenhum post feito ainda, seja o primeiro!</h3>
+
+
+                    </div>
+                </div>
+
+            </div>
         }
 
     </div>
