@@ -195,6 +195,31 @@
 
 }
 
+@if (User.IsInRole("ADM"))
+{
+
+    <div class="dropup-center dropup position-fixed bottom-0 end-0 m-3" style="z-index:99">
+
+        <button class="btn btn-dark rounded-circle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-plus-circle mb-1 mt-2" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+            </svg>
+        </button>
+        <ul class="dropdown-menu" style="min-width: auto;">
+
+            <li class="my-2">
+                <a class="dropdown-item text-center" asp-action="Create" asp-controller="Especialista">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-person-fill-add text-success" viewBox="0 0 16 16">
+                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                        <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4" />
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </div>
+}
+
 <div class="d-flex card text-center my-3">
 
     <h1 >Descubra alguns de nossos melhores especialista</h1>
