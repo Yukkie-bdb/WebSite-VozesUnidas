@@ -28,7 +28,7 @@
                     @Html.DisplayFor(modelItem => item.Motivo)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Usuario.Id)
+                    <a asp-action="PerfilUsuario" asp-controller="Home" asp-route-id="@item.Usuario.Id"> @Html.DisplayFor(modelItem => item.Usuario.UserName)</a>
                 </td>
 
                 <td>

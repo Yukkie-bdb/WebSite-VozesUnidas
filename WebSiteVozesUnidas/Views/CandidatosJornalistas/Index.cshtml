@@ -27,8 +27,8 @@
                 @Html.DisplayFor(modelItem => item.Motivo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Usuario.Id)
-            </td>
+                    <a asp-action="PerfilUsuario" asp-controller="Home" asp-route-id="@item.Usuario.Id"> @Html.DisplayFor(modelItem => item.Usuario.UserName)</a>
+                </td>
            
             <td>
                     <a class="btn btn-success" asp-action="approve" asp-route-id="@item.UsuarioId">

@@ -233,7 +233,7 @@ namespace WebSiteVozesUnidas.Controllers
                     // Remove o candidato da lista
                     _context.CandidatosJornalistass.Remove(candidato);
                     await _context.SaveChangesAsync();
-                    await _signInManager.RefreshSignInAsync(usuario);
+                    //await _signInManager.RefreshSignInAsync(usuario);
 
                     return RedirectToAction("Index"); // ou a página de onde veio
                 }

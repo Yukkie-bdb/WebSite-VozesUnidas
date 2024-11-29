@@ -32,19 +32,19 @@ namespace WebSiteVozesUnidas.Controllers
                 return Redirect("/Identity/Account/Login");
             }
 
-            if (User.IsInRole("PessoaFisica"))
-            {
                 var userId = _userManager.GetUserId(User);
 
-                var vagasCandidatas2 = _context.CandidatoVagas.Include(u => u.Usuario)
-                    .Where(c => c.UsuarioId == Guid.Parse(userId))  // Filtra pelas candidaturas do usuário
-                    .Select(c => c.VagaEmprego)                       // Seleciona as vagas relacionadas
-                    .ToList();
+            if (User.IsInRole("PessoaFisica"))
+            {
 
-                return View((IEnumerable<VagaEmprego>)vagasCandidatas2); // Ajustado para IEnumerable
+                var vagasCandidatas2 = await _context.CandidatoVagas.Include(c => c.Usuario).Where(u => u.UsuarioId == Guid.Parse(userId))
+                    .Select(o => o.VagaEmprego).ToListAsync();
+
+
+                return View(vagasCandidatas2); // Ajustado para IEnumerable
             }
 
-            var vagasCandidatas = _context.VagaEmpregos.Include(c => c.Usuario);
+            var vagasCandidatas = _context.VagaEmpregos.Include(c => c.Usuario).Where(u => u.UsuarioId == Guid.Parse(userId));
 
             return View(await vagasCandidatas.ToListAsync());
         }
