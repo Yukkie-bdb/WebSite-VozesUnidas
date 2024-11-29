@@ -12,33 +12,28 @@ using WebSiteVozesUnidas.Models;
 
 namespace WebSiteVozesUnidas.Controllers
 {
-    public class CandidatosJornalistasController : Controller
+    public class CandidatosAdminsController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public CandidatosJornalistasController(ApplicationDbContext context, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public CandidatosAdminsController(ApplicationDbContext context, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _signInManager = signInManager;
             _userManager = userManager;
         }
 
-        // GET: CandidatosJornalistas
+        // GET: CandidatosAdmins
         [Authorize(Roles = "ADM")]
         public async Task<IActionResult> Index()
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return Redirect("/Identity/Account/Login");
-            }
-
-            var applicationDbContext = _context.CandidatosJornalistass.Include(c => c.Usuario);
+            var applicationDbContext = _context.CandidatosAdminss.Include(c => c.Usuario);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: CandidatosJornalistas/Details/5
+        // GET: CandidatosAdmins/Details/5
         [Authorize(Roles = "ADM")]
         public async Task<IActionResult> Details(Guid? id)
         {
@@ -47,19 +42,18 @@ namespace WebSiteVozesUnidas.Controllers
                 return NotFound();
             }
 
-            var candidatosJornalistas = await _context.CandidatosJornalistass
+            var candidatosAdmins = await _context.CandidatosAdminss
                 .Include(c => c.Usuario)
-                .FirstOrDefaultAsync(m => m.IdCandidatosJornalistas == id);
-            if (candidatosJornalistas == null)
+                .FirstOrDefaultAsync(m => m.IdCandidatosAdmins == id);
+            if (candidatosAdmins == null)
             {
                 return NotFound();
             }
 
-            return View(candidatosJornalistas);
+            return View(candidatosAdmins);
         }
 
-        // GET: CandidatosJornalistas/Create
-        [Authorize(Roles = "PessoaFisica")]
+        // GET: CandidatosAdmins/Create
         public IActionResult Create()
         {
             if (!User.Identity.IsAuthenticated)
@@ -71,13 +65,12 @@ namespace WebSiteVozesUnidas.Controllers
             return View();
         }
 
-        // POST: CandidatosJornalistas/Create
+        // POST: CandidatosAdmins/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "PessoaFisica")]
-        public async Task<IActionResult> Create([Bind("IdCandidatosJornalistas,Motivo")] CandidatosJornalistas candidatosJornalistas)
+        public async Task<IActionResult> Create([Bind("IdCandidatosAdmins,Motivo")] CandidatosAdmins candidatosJornalistas)
         {
             if (string.IsNullOrEmpty(candidatosJornalistas.Motivo))
             {
@@ -91,11 +84,11 @@ namespace WebSiteVozesUnidas.Controllers
             {
                 var userId = _signInManager.UserManager.GetUserId(User);
 
-                var candidaturas = _context.CandidatosJornalistass.Where(u => u.UsuarioId == Guid.Parse(userId)).ToList();
+                var candidaturas = _context.CandidatosAdminss.Where(u => u.UsuarioId == Guid.Parse(userId)).ToList();
 
                 if (User.IsInRole("Jornalista"))
                 {
-                    TempData["ErrorMessage"] = "Você já é um jornalista parceiro nosso!";
+                    TempData["ErrorMessage"] = "Você é bobo ou o que? Você já é um Admin nosso! Ou vocês está testando o site? Se for isso bom Trabalho";
 
                     ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", candidatosJornalistas.UsuarioId);
                     return View(candidatosJornalistas);
@@ -109,18 +102,19 @@ namespace WebSiteVozesUnidas.Controllers
                 }
 
                 candidatosJornalistas.UsuarioId = Guid.Parse(userId);
-                candidatosJornalistas.IdCandidatosJornalistas = Guid.NewGuid();
+                candidatosJornalistas.IdCandidatosAdmins = Guid.NewGuid();
                 _context.Add(candidatosJornalistas);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Pa Bens, agora espero um Admin verificar a sua candidatura!";
 
-                return View();
+                return RedirectToAction(nameof(Index));
             }
             ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", candidatosJornalistas.UsuarioId);
             return View(candidatosJornalistas);
         }
 
-        // GET: CandidatosJornalistas/Edit/5
+
+        // GET: CandidatosAdmins/Edit/5
         [Authorize(Roles = "ADM")]
         public async Task<IActionResult> Edit(Guid? id)
         {
@@ -129,24 +123,24 @@ namespace WebSiteVozesUnidas.Controllers
                 return NotFound();
             }
 
-            var candidatosJornalistas = await _context.CandidatosJornalistass.FindAsync(id);
-            if (candidatosJornalistas == null)
+            var candidatosAdmins = await _context.CandidatosAdminss.FindAsync(id);
+            if (candidatosAdmins == null)
             {
                 return NotFound();
             }
-            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", candidatosJornalistas.UsuarioId);
-            return View(candidatosJornalistas);
+            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", candidatosAdmins.UsuarioId);
+            return View(candidatosAdmins);
         }
 
-        // POST: CandidatosJornalistas/Edit/5
+        // POST: CandidatosAdmins/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "ADM")]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IdCandidatosJornalistas,Motivo,UsuarioId")] CandidatosJornalistas candidatosJornalistas)
+        public async Task<IActionResult> Edit(Guid id, [Bind("IdCandidatosAdmins,Motivo,UsuarioId")] CandidatosAdmins candidatosAdmins)
         {
-            if (id != candidatosJornalistas.IdCandidatosJornalistas)
+            if (id != candidatosAdmins.IdCandidatosAdmins)
             {
                 return NotFound();
             }
@@ -155,12 +149,12 @@ namespace WebSiteVozesUnidas.Controllers
             {
                 try
                 {
-                    _context.Update(candidatosJornalistas);
+                    _context.Update(candidatosAdmins);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CandidatosJornalistasExists(candidatosJornalistas.IdCandidatosJornalistas))
+                    if (!CandidatosAdminsExists(candidatosAdmins.IdCandidatosAdmins))
                     {
                         return NotFound();
                     }
@@ -171,11 +165,11 @@ namespace WebSiteVozesUnidas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", candidatosJornalistas.UsuarioId);
-            return View(candidatosJornalistas);
+            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", candidatosAdmins.UsuarioId);
+            return View(candidatosAdmins);
         }
 
-        // GET: CandidatosJornalistas/Delete/5
+        // GET: CandidatosAdmins/Delete/5
         [Authorize(Roles = "ADM")]
         public async Task<IActionResult> Delete(Guid? id)
         {
@@ -184,54 +178,54 @@ namespace WebSiteVozesUnidas.Controllers
                 return NotFound();
             }
 
-            var candidatosJornalistas = await _context.CandidatosJornalistass
+            var candidatosAdmins = await _context.CandidatosAdminss
                 .Include(c => c.Usuario)
-                .FirstOrDefaultAsync(m => m.IdCandidatosJornalistas == id);
-            if (candidatosJornalistas == null)
+                .FirstOrDefaultAsync(m => m.IdCandidatosAdmins == id);
+            if (candidatosAdmins == null)
             {
                 return NotFound();
             }
 
-            return View(candidatosJornalistas);
+            return View(candidatosAdmins);
         }
 
-        // POST: CandidatosJornalistas/Delete/5
+        // POST: CandidatosAdmins/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "ADM")]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var candidatosJornalistas = await _context.CandidatosJornalistass.FindAsync(id);
-            if (candidatosJornalistas != null)
+            var candidatosAdmins = await _context.CandidatosAdminss.FindAsync(id);
+            if (candidatosAdmins != null)
             {
-                _context.CandidatosJornalistass.Remove(candidatosJornalistas);
+                _context.CandidatosAdminss.Remove(candidatosAdmins);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CandidatosJornalistasExists(Guid id)
+        private bool CandidatosAdminsExists(Guid id)
         {
-            return _context.CandidatosJornalistass.Any(e => e.IdCandidatosJornalistas == id);
+            return _context.CandidatosAdminss.Any(e => e.IdCandidatosAdmins == id);
         }
 
         [Authorize(Roles = "ADM")]
         public async Task<IActionResult> approve(Guid id)
         {
-            var candidato = await _context.CandidatosJornalistass.Include(c => c.Usuario).FirstOrDefaultAsync(c => c.UsuarioId == id);
+            var candidato = await _context.CandidatosAdminss.Include(c => c.Usuario).FirstOrDefaultAsync(c => c.UsuarioId == id);
 
             if (candidato != null)
             {
                 var usuario = candidato.Usuario;
 
                 // Adiciona o papel "Jornalista" ao usuário
-                var roleAdded = await _userManager.AddToRoleAsync(usuario, "Jornalista");
+                var roleAdded = await _userManager.AddToRoleAsync(usuario, "ADM");
 
                 if (roleAdded.Succeeded)
                 {
                     // Remove o candidato da lista
-                    _context.CandidatosJornalistass.Remove(candidato);
+                    _context.CandidatosAdminss.Remove(candidato);
                     await _context.SaveChangesAsync();
                     await _signInManager.RefreshSignInAsync(usuario);
 
@@ -250,11 +244,11 @@ namespace WebSiteVozesUnidas.Controllers
         [Authorize(Roles = "ADM")]
         public async Task<IActionResult> Disapprove(Guid id)
         {
-            var candidato = await _context.CandidatosJornalistass.FirstOrDefaultAsync(c => c.UsuarioId == id);
+            var candidato = await _context.CandidatosAdminss.FirstOrDefaultAsync(c => c.UsuarioId == id);
 
             if (candidato != null)
             {
-                _context.CandidatosJornalistass.Remove(candidato);
+                _context.CandidatosAdminss.Remove(candidato);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

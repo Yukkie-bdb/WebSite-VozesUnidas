@@ -7,6 +7,14 @@
 
 }
 
+<partial name="_StatusMessage" for="StatusMessage" class="fixed-bottom" />
+
+<script>
+    setTimeout(function () {
+        document.querySelector('.alert').style.display = 'none';
+    }, 5000); // Tempo em milissegundos (5 segundos)
+</script>
+
 <div class="d-flex flex-column">
 
     <div class="d-flex card">
@@ -25,7 +33,23 @@
                 <div class="ms-3 ms-md-5">
                     <h2 class="mb-3">@Model.Input.Nome</h2>
 
-                    <p class="mb-0">@(User.IsInRole("Empresa") ? $"{Model.Input.Estado} - {Model.Input.Cidade} - {Model.Input.Funcionarios} Funcionarios" : $"{Model.Input.Estado} - {Model.Input.Cidade}")</p>
+                    <p class="mb-0">
+                        @if (User.IsInRole("Empresa"))
+                        {
+                            var estado = string.IsNullOrEmpty(Model.Input.Estado) ? "Estado não informado" : Model.Input.Estado;
+                            var cidade = string.IsNullOrEmpty(Model.Input.Cidade) ? "Cidade não informada" : Model.Input.Cidade;
+                            var funcionarios = (Model.Input.Funcionarios == 0) ? "Funcionários não informados" : $"{Model.Input.Funcionarios} Funcionários";
+
+                            @($"{estado} - {cidade} - {funcionarios}")
+                        }
+                        else
+                        {
+                            var estado = string.IsNullOrEmpty(Model.Input.Estado) ? "Estado não informado" : Model.Input.Estado;
+                            var cidade = string.IsNullOrEmpty(Model.Input.Cidade) ? "Cidade não informada" : Model.Input.Cidade;
+
+                            @($"{estado} - {cidade}")
+                        }
+                    </p>
                     @if (User.IsInRole("Jornalista"))
                     {
                          <p class="mb-0">Jornalista parceiro certificado.</p>
@@ -464,28 +488,56 @@
                             </div>
 
                             <div class="col-4">
-                                <p class="fw-bold mb-1 text-secondary mb-3">CPF</p>
+                                <p class="fw-bold mb-1 text-secondary mb-3">
+                                   @(User.IsInRole("PessoaFisica") ? "CPF" : "CNPJ")
+                                </p>
                                 <p>
                                     @if (User.IsInRole("PessoaFisica"))
-                                    {
-                                        <button class="btn text-primary p-0 col-12 text-start" type="button" id="email" data-bs-toggle="modal" data-bs-target="#cpfEditModal" Onclick="closeModal('editContatoModal')">
-                                            @Model.Input.CPF
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5" />
-                                                <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
-                                            </svg>
-                                        </button>
-                                    }
-                                    else
-                                    {
-                                        <button class="btn text-primary p-0 col-12 text-start" type="button" id="email" data-bs-toggle="modal" data-bs-target="#cpfEditModal" Onclick="closeModal('editContatoModal')">
-                                            @Model.Input.CNPJ
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5" />
-                                                <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
-                                            </svg>
-                                        </button>
-                                    }
+                                        {
+                                            if (string.IsNullOrEmpty(Model.Input.CPF))
+                                            {
+                                                <button class="btn text-primary p-0 col-12 text-start" type="button" id="email" data-bs-toggle="modal" data-bs-target="#cpfEditModal" Onclick="closeModal('editContatoModal')">
+                                                    CPF não cadastrado
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5" />
+                                                        <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
+                                                    </svg>
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn text-primary p-0 col-12 text-start" type="button" id="email" data-bs-toggle="modal" data-bs-target="#cpfEditModal" Onclick="closeModal('editContatoModal')">
+                                                    @Model.Input.CPF
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5" />
+                                                        <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
+                                                    </svg>
+                                                </button>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (string.IsNullOrEmpty(Model.Input.CNPJ))
+                                            {
+                                                <button class="btn text-primary p-0 col-12 text-start" type="button" id="email" data-bs-toggle="modal" data-bs-target="#cpfEditModal" Onclick="closeModal('editContatoModal')">
+                                                    CNPJ não cadastrado
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                                                <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5" />
+                                                                <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
+                                                            </svg>
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn text-primary p-0 col-12 text-start" type="button" id="email" data-bs-toggle="modal" data-bs-target="#cpfEditModal" Onclick="closeModal('editContatoModal')">
+                                                    @Model.Input.CNPJ
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5" />
+                                                        <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
+                                                    </svg>
+                                                </button>
+                                            }
+                                        }
                                 </p>
                             </div>
                     </div>
@@ -615,7 +667,9 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="cpfEditModalLabel">Atualizar CPF</h1>
+                <h1 class="modal-title fs-5" id="cpfEditModalLabel">
+                    @(User.IsInRole("PessoaFisica") ? "Atualizar CPF" : "Atualizar CNPJ")
+                </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body my-3">
@@ -624,8 +678,10 @@
                     {
                     <form class="d-flex flex-column justify-content-center align-items-center" asp-page-handler="CpfPostar">
 
-                        <partial name="_StatusMessage" for="StatusMessage" />
-                            <h1 class="text-uppercase">Atualize seu CPF</h1>
+                            <h1 class="text-uppercase">
+                            @(User.IsInRole("PessoaFisica") ? "Atualize seu CPF" : "Atualize seu CNPJ")
+
+                            </h1>
 
                         <div class="form-floating mb-3 col-10">
                           <input type="text" class="form-control" id="floatingInput" placeholder="" asp-for="Input.CPF" disabled>
@@ -645,7 +701,6 @@
                     {
                         <form class="d-flex flex-column justify-content-center align-items-center" asp-page-handler="CnpjPostar">
 
-                            <partial name="_StatusMessage" for="StatusMessage" />
                                 <h1 class="text-uppercase">Atualize seu CNPJ</h1>
 
                         <div class="form-floating mb-3 col-10">
@@ -686,7 +741,6 @@
 
                     <form class="d-flex flex-column justify-content-center align-items-center" asp-page-handler="Nome">
 
-                        <partial name="_StatusMessage" for="StatusMessage" />
                             <h1 class="text-uppercase">Atualize seu Nome</h1>
 
                         <div class="form-floating mb-3 col-6">

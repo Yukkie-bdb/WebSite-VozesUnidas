@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -214,18 +215,48 @@ namespace WebSiteVozesUnidas.Controllers
                 .Include(a => a.Usuario)
                 .ToListAsync();
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            // Obtém a lista de candidaturas do usuário
-            var candidaturas = await _context.CandidatoVagas.Where(c => c.VagaEmpregoId == id && c.UsuarioId == Guid.Parse(userId)).ToListAsync() ;
+            var userId = _userManager.GetUserId(User);
 
-            // Verifica se o usuário já se candidatou
-            ViewData["Candidatado"] = candidaturas.Any();
+            if (string.IsNullOrEmpty(userId))
+            {
+                ViewData["Candidatado"] = null;
+            }
+            else
+            {
+                // Tenta analisar o userId para Guid de forma segura
+                if (Guid.TryParse(userId, out Guid parsedUserId))
+                {
+                    // Obtém a lista de candidaturas do usuário
+                    var candidaturas = await _context.CandidatoVagas
+                        .Where(c => c.VagaEmpregoId == id && c.UsuarioId == parsedUserId)
+                        .ToListAsync();
+
+                    // Verifica se o usuário já se candidatou
+                    ViewData["Candidatado"] = candidaturas.Any();
+                }
+                else
+                {
+                    // Caso o userId não seja um GUID válido
+                    ViewData["Candidatado"] = null;
+                }
+            }
+
+
+            if(userId != null && Guid.Parse(userId) == id)
+            {
+                ViewBag.dono = true;
+            }
+            else
+            {
+                ViewBag.dono = false;
+            }
 
             return View(vagaEmprego);
         }
 
         // GET: VagaEmpregos/Create
+        [Authorize(Roles = "ADM, Empresa")]
         public IActionResult Create()
         {
             ViewData["CustomHeader"] = "EmpregosHeader";
@@ -239,6 +270,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADM, Empresa")]
         public async Task<IActionResult> Create([Bind("IdVagaEmprego,Cargo,NumeroVagas,HorarioExpediente,Beneficios,Requisitos,RegimeContratacao,DescricaoVaga,Salario,Estado,Cidade,Publicacao,LocalTrabalho")] VagaEmprego vagaEmprego)
         {
             ViewData["CustomHeader"] = "EmpregosHeader";
@@ -258,6 +290,7 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: VagaEmpregos/Edit/5
+        [Authorize(Roles = "ADM, Empresa")]
         public async Task<IActionResult> Edit(Guid? id)
         {
             ViewData["CustomHeader"] = "EmpregosHeader";
@@ -281,6 +314,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADM, Empresa")]
         public async Task<IActionResult> Edit(Guid id, [Bind("IdVagaEmprego,Cargo,NumeroVagas,HorarioExpediente,Beneficios,Requisitos,RegimeContratacao,DescricaoVaga,Salario,Estado,Cidade,Publicacao,UsuarioId")] VagaEmprego vagaEmprego)
         {
             ViewData["CustomHeader"] = "EmpregosHeader";
@@ -315,6 +349,7 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: VagaEmpregos/Delete/5
+        [Authorize(Roles = "ADM, Empresa")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             ViewData["CustomHeader"] = "EmpregosHeader";
@@ -338,6 +373,7 @@ namespace WebSiteVozesUnidas.Controllers
         // POST: VagaEmpregos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADM, Empresa")]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             ViewData["CustomHeader"] = "EmpregosHeader";

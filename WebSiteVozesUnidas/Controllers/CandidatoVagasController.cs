@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -26,9 +27,26 @@ namespace WebSiteVozesUnidas.Controllers
         // GET: CandidatoVagas
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.CandidatoVagas.Include(c => c.Usuario).Include(c => c.VagaEmprego);
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Redirect("/Identity/Account/Login");
+            }
 
-            return View(await applicationDbContext.ToListAsync());
+            if (User.IsInRole("PessoaFisica"))
+            {
+                var userId = _userManager.GetUserId(User);
+
+                var vagasCandidatas2 = _context.CandidatoVagas.Include(u => u.Usuario)
+                    .Where(c => c.UsuarioId == Guid.Parse(userId))  // Filtra pelas candidaturas do usuário
+                    .Select(c => c.VagaEmprego)                       // Seleciona as vagas relacionadas
+                    .ToList();
+
+                return View((IEnumerable<VagaEmprego>)vagasCandidatas2); // Ajustado para IEnumerable
+            }
+
+            var vagasCandidatas = _context.VagaEmpregos.Include(c => c.Usuario);
+
+            return View(await vagasCandidatas.ToListAsync());
         }
 
         // GET: CandidatoVagas/Details/5
@@ -52,7 +70,7 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: CandidatoVagas/Create
-        public IActionResult Create()
+          public IActionResult Create()
         {
             ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id");
             ViewData["VagaEmpregoId"] = new SelectList(_context.VagaEmpregos, "IdVagaEmprego", "IdVagaEmprego");
@@ -176,6 +194,13 @@ namespace WebSiteVozesUnidas.Controllers
 
         public async Task<IActionResult> Candidatar(CandidatoVaga candidatoVaga, Guid Id)
         {
+            // Verifica se o usuário está autenticado
+            if (!User.Identity.IsAuthenticated)
+            {
+                TempData["ErrorMessage"] = "Você precisa estar logado para se candidatar a uma vaga.";
+                return Redirect("/Identity/Account/Login");
+            }
+
             if (ModelState.IsValid)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

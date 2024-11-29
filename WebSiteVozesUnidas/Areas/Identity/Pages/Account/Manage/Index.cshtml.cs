@@ -271,7 +271,9 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
 
                 await _userManager.UpdateAsync(user);
                 await _signInManager.RefreshSignInAsync(user);
+                StatusMessage = "CPF alterado com sucesso!.";
                 return RedirectToPage();
+
             }
 
             StatusMessage = "CPF não alterado, igual ao anterior!!.";
@@ -292,7 +294,9 @@ namespace WebSiteVozesUnidas.Areas.Identity.Pages.Account.Manage
 
                 await _userManager.UpdateAsync(user);
                     await _signInManager.RefreshSignInAsync(user);
-                    return RedirectToPage();
+                StatusMessage = "CNPJ alterado com sucesso!.";
+
+                return RedirectToPage();
                 }
 
             StatusMessage = "CNPJ não alterado, igual ao anterior!!.";

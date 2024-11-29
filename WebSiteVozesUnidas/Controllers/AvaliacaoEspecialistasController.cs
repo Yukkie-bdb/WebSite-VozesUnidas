@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebSiteVozesUnidas.Data;
 using WebSiteVozesUnidas.Models;
+using Xunit.Abstractions;
 
 namespace WebSiteVozesUnidas.Controllers
 {
@@ -97,6 +98,11 @@ namespace WebSiteVozesUnidas.Controllers
             }
             ViewData["EspecialistaId"] = new SelectList(_context.Especialistas, "IdEspecialista", "Nome", avaliacaoEspecialista.EspecialistaId);
             ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "UserName", avaliacaoEspecialista.UsuarioId);
+
+            ViewBag.especialistaNome = _context.Especialistas
+                .Where(o => o.IdEspecialista == avaliacaoEspecialista.EspecialistaId)
+                .Select(o => o.Nome)
+                .SingleOrDefault();  // Usando SingleOrDefault para garantir que apenas um valor seja retornado
             return View(avaliacaoEspecialista);
         }
 
@@ -130,7 +136,7 @@ namespace WebSiteVozesUnidas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index", "Especialista");
+                return RedirectToAction("Details", "Especialista", new { id = avaliacaoEspecialista.EspecialistaId });
             }
             ViewData["EspecialistaId"] = new SelectList(_context.Especialistas, "IdEspecialista", "Nome", avaliacaoEspecialista.EspecialistaId);
             ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "UserName", avaliacaoEspecialista.UsuarioId);

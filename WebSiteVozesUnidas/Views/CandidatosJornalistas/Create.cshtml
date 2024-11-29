@@ -1,36 +1,56 @@
 ﻿@model WebSiteVozesUnidas.Models.CandidatosJornalistas
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Se candidatar a jornalista";
 }
 
-<h1>Create</h1>
 
-<h4>CandidatosJornalistas</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Motivo" class="control-label"></label>
-                <input asp-for="Motivo" class="form-control" />
-                <span asp-validation-for="Motivo" class="text-danger"></span>
-            </div>
-            @* <div class="form-group">
-                <label asp-for="UsuarioId" class="control-label"></label>
-                <select asp-for="UsuarioId" class ="form-control" asp-items="ViewBag.UsuarioId"></select>
-            </div> *@
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+<div class="d-flex flex-column align-items-center">
+
+    <h1 class="fw-normal my-3 text-center">Bem-Vindo, venha fazer parte do nosso time de jornalistas!</h1>
+
+    <p class="col-10">
+        Se você é apaixonado por contar histórias, compartilhar informações relevantes e influenciar positivamente a sociedade, você está no lugar certo! Estamos em busca de jornalistas dedicados, criativos e com visão crítica para se juntar ao nosso time. Se você acredita que tem o perfil e a vontade de impactar com sua escrita, não perca a oportunidade de fazer parte da nossa equipe.
+
+    </p>
+
+    <div class="card d-flex flex-column align-items-center col-12 py-5 my-5">
+
+        <h2 class="text-uppercase fw-lighter mb-3">
+            Se Candidatar
+        </h2>
+
+        <form class="d-flex flex-column align-items-center col-12" asp-action="Create">
+
+            <h3>Nos informe o motivo que te leva a se tornar um jornalista.</h3>
+
+                <div class="col-10">
+
+                    <textarea asp-for="Motivo" class="form-control" placeholder="Escreva aqui seus motivos..." rows="8"></textarea>
+                    <span asp-validation-for="Motivo" class="text-danger"></span>
+
+                </div>
+
+                <div class="form-group mt-3 col-6">
+                    <input type="submit" value="Enviar" class="btn btn-primary col-12" />
+                </div>
+
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success fixed-bottom text-center mb-2" role="alert" style="margin: 0 auto; max-width: 400px;">
+        @TempData["SuccessMessage"]
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger fixed-bottom text-center mb-2" role="alert" style="margin: 0 auto; max-width: 600px;">
+        @TempData["ErrorMessage"]
+    </div>
+}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

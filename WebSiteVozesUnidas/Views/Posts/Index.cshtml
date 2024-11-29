@@ -7,8 +7,36 @@
 }
 
 <div class="col-12 d-flex">
-    <div class="col-10">
-        <div class="me-3">
+    <div class="col-12">
+        <div class="d-flex">
+            <form asp-action="IndexPost" class="d-flex justify-content-between gap-2 col-12">
+
+                <div class="d-flex col-8 gap-2">
+
+                    <div class="form-floating mb-3 col">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="Buscar entre posts" name="titulo">
+                        <label for="floatingInput">Buscar entre posts</label>
+                    </div>
+
+                    <div class="form-floating mb-3 col">
+                        <select class="form-select" id="floatingSelect" name="id">
+                            <option value="">Selecione uma categoria</option>
+                            @foreach (var categoria in ViewBag.Categorias)
+                            {
+                                <option value="@categoria.IdCategoriaPost">@categoria.Nome</option>
+                            }
+                        </select>
+                        <label for="floatingSelect">Categorias</label>
+                    </div>
+                </div>
+
+                <div class="col-3 flex-grow-1 mb-3">
+                    <button class="btn btn-primary col-12 h-100">Pesquisar</button>
+                </div>
+            </form>
+
+        </div>
+        <div class="mb-3">
             <a asp-action="Create" class="text-decoration-none text-black btn w-100 py-3 border-1 border-dark" style="font-size:20px;">Adicionar novo post</a>
         </div>
         @foreach (var item in Model)
@@ -17,36 +45,38 @@
             @if (item.Imagem != null)
             {
                 <a asp-action="Details" asp-route-id="@item.IdPost" class="text-decoration-none text-black">
-                    <div class="d-flex p-2 border border-1 border-dark border pe-4 my-5 me-3" style="border-radius:5px">
-                        <div class="d-flex flex-column col-6 me-2">
-                            <p>
+                    <div class="d-flex p-2 border border-1 border-dark border my-5 " style="border-radius:5px">
+                        <div class="d-flex flex-column col-12 p-2">
+                            <h3 class="fw-bold">
                                 @item.Titulo
-                            </p>
+                            </h3>
                             <p>
                                 @item.SubTituloResumo
                             </p>
+                            <img src="~/img/@item.Imagem" alt="Imagem do Post" class="align-self-center col-8" style="max-height:350px" />
                         </div>
-                        <div class="col-6 ms-2 d-flex justify-content-center bg-light">
-                            <img src="~/img/@item.Imagem" alt="Imagem do Post" class="align-self-center mw-100" style="max-height:250px" />
-                        </div>
+ 
                     </div>
                 </a>
-                
-                
+
+
             }
             else
             {
                 <a asp-action="Details" asp-route-id="@item.IdPost" class="text-decoration-none text-black">
-                    <div class="d-flex w-auto flex-column border col-12 p-2 border-1 border-dark my-5 me-3">
-                        <p>
-                            @item.Titulo
-                        </p>
-                        <p>
-                            @item.SubTituloResumo
-                        </p>
+                    <div class="d-flex p-2 border border-1 border-dark border my-5 " style="border-radius:5px">
+                        <div class="d-flex flex-column col-12 p-2">
+                            <h3 class="fw-bold">
+                                @item.Titulo
+                            </h3>
+                            <p>
+                                @item.SubTituloResumo
+                            </p>
+                        </div>
+
                     </div>
                 </a>
-                
+
             }
 
 
@@ -72,7 +102,7 @@
         }
 
     </div>
-    <div class="col-2 border border-1 border-dark px-4 w-auto" style="border-radius:5px; height:378px">
+    @* <div class="col-2 border border-1 border-dark px-4 w-auto" style="border-radius:5px; height:378px">
         <div>
             <h2 class="text-black fw-bold fst-italic py-2 d-flex justify-content-center">
                 Categorias
@@ -87,7 +117,7 @@
                 </div>
             }
         </div>
-    </div>
+    </div> *@
 </div>
 
 

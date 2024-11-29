@@ -5,7 +5,7 @@
     var listaVagas = ViewData["VagasEmpregos"] as List<WebSiteVozesUnidas.Models.VagaEmprego>;
     var listaCandidatos = ViewData["Candidatos"] as List<WebSiteVozesUnidas.Models.CandidatoVaga>;
 
-    bool candidatado = (bool)ViewData["Candidatado"];
+    bool candidatado = ViewData["Candidatado"] != null && (bool)ViewData["Candidatado"];
 }
 
 <div class="d-flex justify-content-between">
@@ -127,14 +127,11 @@
         @if (!candidatado)
         {
             <form asp-action="Candidatar" asp-controller="CandidatoVagas" asp-route-id="@Model.IdVagaEmprego">
-                <button class="btn btn-danger mt-5 col-12">Me Candidatar</button>
+                <button class="btn btn-danger mt-5 col-12" @(User.IsInRole("Empresa") ? "disabled" : "")>Me Candidatar</button>
             </form>
         }
         else
         {
-            @* <form asp-action="Delete" asp-controller="CandidatoVagas" asp-route-id="@Model.IdVagaEmprego">
-                <button class="btn btn-outline-info mt-5 col-12">Me Descandidatar</button>
-            </form> *@
 
             <button class="btn btn-outline-info mt-5 col-12" data-bs-toggle="modal" data-bs-target="#modalApagarCandidatura">Me Descandidatar</button>
 
@@ -163,7 +160,7 @@
 
         }
 
-        <div class="cards-container">
+        <div class="cards-container h-100">
             @foreach (var item in listaVagas)
             {
                 <div class="d-flex border my-2 shadow p-2 rounded col-12 m-auto"
@@ -198,12 +195,14 @@
                             <p class="px-1 m-0">@item.RegimeContratacao</p>
                         </div>
                         <div class="d-flex">
-                            <p class="fw-bold m-0">Descrição da Vaga:</p>
-                            <p class="px-1 m-0">@item.DescricaoVaga</p>
-                        </div>
-                        <div class="d-flex">
                             <p class="fw-bold m-0">Benefícios:</p>
                             <p class="px-1 m-0">@item.Beneficios</p>
+                        </div>
+                        <div class="d-flex">
+                            <p class="fw-bold m-0">Descrição da Vaga:</p>
+                            <p class="px-1 m-0">
+                                @(item.DescricaoVaga.Length > 100 ? item.DescricaoVaga.Substring(0, 100) + "..." : item.DescricaoVaga)
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -240,6 +239,9 @@
     }, 5000); // Tempo em milissegundos (5 segundos)
 </script>
 
+@if (ViewBag.dono)
+{
+    
 <div class="side-buttons">
     <!-- Botão azul com ícone de prancheta -->
     <a asp-action="Edit" asp-route-id="@Model.IdVagaEmprego" class="side-button btn-primary">
@@ -255,6 +257,7 @@
         </svg>
     </a>
 </div>
+}
 
 
 
@@ -306,23 +309,7 @@
     }
 
     .cards-container {
-        max-height: 500px;
+        max-height: 600px;
         overflow-y: auto;
     }
 </style>
-
-<div>
-    @foreach (var item in listaCandidatos)
-    {
-        @if (item != null)
-        {
-            <img src="~/img/@item.Usuario.Foto" />
-            <p>@item.Usuario.UserName</p>
-        }
-        else
-        {
-            <p>Usuário não encontrado.</p>
-        }
-
-    }
-</div>

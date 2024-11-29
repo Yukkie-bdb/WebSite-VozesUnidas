@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebSiteVozesUnidas.Data;
 
@@ -11,9 +12,11 @@ using WebSiteVozesUnidas.Data;
 namespace WebSiteVozesUnidas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241129071001_AdminTable")]
+    partial class AdminTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -444,6 +447,9 @@ namespace WebSiteVozesUnidas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ComentarioIdComentario")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("Id")
                         .IsRequired()
                         .HasColumnType("uniqueidentifier");
@@ -452,6 +458,8 @@ namespace WebSiteVozesUnidas.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("IdLikeComen");
+
+                    b.HasIndex("ComentarioIdComentario");
 
                     b.HasIndex("Id");
 
@@ -769,7 +777,7 @@ namespace WebSiteVozesUnidas.Migrations
             modelBuilder.Entity("WebSiteVozesUnidas.Models.CandidatosAdmins", b =>
                 {
                     b.HasOne("WebSiteVozesUnidas.Models.ApplicationUser", "Usuario")
-                        .WithMany("CandidatosAdminss")
+                        .WithMany()
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -807,14 +815,18 @@ namespace WebSiteVozesUnidas.Migrations
 
             modelBuilder.Entity("WebSiteVozesUnidas.Models.LikeComen", b =>
                 {
+                    b.HasOne("WebSiteVozesUnidas.Models.Comentario", null)
+                        .WithMany("LikeComens")
+                        .HasForeignKey("ComentarioIdComentario");
+
                     b.HasOne("WebSiteVozesUnidas.Models.ApplicationUser", "Usuario")
                         .WithMany("LikeComens")
                         .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebSiteVozesUnidas.Models.Comentario", "Comentario")
-                        .WithMany("LikeComens")
+                    b.HasOne("WebSiteVozesUnidas.Models.Post", "Comentario")
+                        .WithMany()
                         .HasForeignKey("IdComentario");
 
                     b.Navigation("Comentario");
@@ -897,8 +909,6 @@ namespace WebSiteVozesUnidas.Migrations
                     b.Navigation("AvaliacoesEspecialista");
 
                     b.Navigation("CandidatoVagas");
-
-                    b.Navigation("CandidatosAdminss");
 
                     b.Navigation("CandidatosJornalistass");
 

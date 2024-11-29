@@ -1,0 +1,59 @@
+﻿@model WebSiteVozesUnidas.Models.CandidatosAdmins
+
+@{
+    ViewData["Title"] = "Se candidatar a Admin";
+}
+
+
+<div class="d-flex flex-column align-items-center">
+
+    <h1 class="fw-normal my-3 text-center">Bem-Vindo, venha fazer parte do nosso time de Admininastrores!</h1>
+
+    <p class="col-10">
+        Se você tem habilidades organizacionais, uma visão estratégica e a vontade de contribuir para o crescimento e sucesso de nossa plataforma, você está no lugar certo! Estamos à procura de administradores responsáveis, motivados e com paixão por gerenciar, coordenar e ajudar a manter a integridade do nosso ambiente. Se você se vê como alguém capaz de enfrentar desafios, resolver problemas e liderar com eficácia, junte-se a nós e ajude a moldar o futuro da nossa comunidade!
+
+    </p>
+
+    <div class="card d-flex flex-column align-items-center col-12 py-5 my-5">
+
+        <h2 class="text-uppercase fw-lighter mb-3">
+            Se Candidatar
+        </h2>
+
+        <form class="d-flex flex-column align-items-center col-12" asp-action="Create">
+
+            <h3>Nos informe o motivo que te leva a se tornar um Admin.</h3>
+
+            <div class="col-10">
+
+                <textarea asp-for="Motivo" class="form-control" placeholder="Escreva aqui seus motivos..." rows="8"></textarea>
+                <span asp-validation-for="Motivo" class="text-danger"></span>
+
+            </div>
+
+            <div class="form-group mt-3 col-6">
+                <input type="submit" value="Enviar" class="btn btn-primary col-12" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success fixed-bottom text-center mb-2" role="alert" style="margin: 0 auto; max-width: 400px;">
+        @TempData["SuccessMessage"]
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger fixed-bottom text-center mb-2" role="alert" style="margin: 0 auto; max-width: 600px;">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

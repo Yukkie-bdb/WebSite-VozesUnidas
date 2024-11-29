@@ -1,28 +1,24 @@
 ﻿@model WebSiteVozesUnidas.Models.AvaliacaoEspecialista
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar avaliação";
 }
 
-<h2 style="text-align:center; margin-top:10px">Editar Avaliação</h2>
+<h2 style="text-align:center; margin-top:10px">@ViewBag.especialistaNome</h2>
 
 <hr />
-<div class="row justify-content-center">
+<div class="row justify-content-center my-5">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" asp-controller="AvaliacaoEspecialistas">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="IdAvaliacaoEspecialhis" />
             <input type="hidden" asp-for="UsuarioId" />
+            <input type="hidden" asp-for="EspecialistaId" />
 
             <div class="form-group mb-3">
                 <label asp-for="Descricao" class="control-label"></label>
                 <input asp-for="Descricao" class="form-control" />
                 <span asp-validation-for="Descricao" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="EspecialistaId" class="control-label"></label>
-                <select asp-for="EspecialistaId" class="form-control" asp-items="ViewBag.EspecialistaId"></select>
-                <span asp-validation-for="EspecialistaId" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
                 <label asp-for="Estrelas" class="control-label">Avaliação</label>
@@ -45,6 +41,7 @@
         </form>
     </div>
 </div>
+<hr />
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

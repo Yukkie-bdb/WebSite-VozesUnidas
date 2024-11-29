@@ -50,56 +50,6 @@ namespace WebSiteVozesUnidas.Controllers
             return randomItems;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddRole(string userId, string roleName)
-        {
-            userId = _userManager.GetUserId(User); 
-            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(roleName))
-            {
-                return BadRequest("Usuário ou Role inválido.");
-            }
-
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound("Usuário não encontrado.");
-            }
-
-            var result = await _userManager.AddToRoleAsync(user, roleName);
-            if (result.Succeeded)
-            {
-                return NoContent();
-            }
-
-            ModelState.AddModelError(string.Empty, "Erro ao adicionar a Role.");
-            return NoContent();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> RemoveRole(string userId, string roleName)
-        {
-            userId = _userManager.GetUserId(User);
-
-            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(roleName))
-            {
-                return BadRequest("Usuário ou Role inválido.");
-            }
-
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound("Usuário não encontrado.");
-            }
-
-            var result = await _userManager.RemoveFromRoleAsync(user, roleName);
-            if (result.Succeeded)
-            {
-                return NoContent();
-            }
-
-            ModelState.AddModelError(string.Empty, "Erro ao remover a Role.");
-            return NoContent();
-        }
         public async Task<IActionResult> Index(string titulo, DateOnly? antes, DateOnly? depois)
         {
             var userid = _signInManager.UserManager.GetUserId(User);
@@ -270,6 +220,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADM, Jornalista")]
         public async Task<IActionResult> Create([Bind("IdNoticia,SubTitulo,Titulo,Conteudo,Publicacao,Id")] Noticia noticia, IFormFile imgUp)
         {
             ViewData["CustomHeader"] = "NoticiasHeader";
@@ -309,7 +260,6 @@ namespace WebSiteVozesUnidas.Controllers
 
         // GET: Noticias/Edit/5
         [Authorize(Roles = "ADM,Jornalista")]
-        
         public async Task<IActionResult> Edit(Guid? id)
         {
             ViewData["CustomHeader"] = "NoticiasHeader";
@@ -344,6 +294,7 @@ namespace WebSiteVozesUnidas.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADM, Jornalista")]
         public async Task<IActionResult> Edit(Guid id, [Bind("IdNoticia,Titulo,SubTitulo,Imagem,Conteudo,Publicacao")] Noticia noticia, IFormFile? imgUp)
         {
             var noticinha = await _context.Noticias.AsNoTracking().FirstOrDefaultAsync(n => n.IdNoticia == id);

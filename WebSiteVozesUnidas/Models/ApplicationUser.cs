@@ -35,6 +35,7 @@ namespace WebSiteVozesUnidas.Models
         public IEnumerable<LikeComen>? LikeComens { get; set; }
         public IEnumerable<VagaEmprego>? VagaEmpregos { get; set; }
         public IEnumerable<CandidatosJornalistas>? CandidatosJornalistass { get; set; }
+        public IEnumerable<CandidatosAdmins>? CandidatosAdminss { get; set; }
 
     }
     public enum TipoUsuario

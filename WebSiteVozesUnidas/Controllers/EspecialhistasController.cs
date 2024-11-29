@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +45,12 @@ namespace WebSiteVozesUnidas.Controllers
             return View(await especialistas.ToListAsync());
         }
 
+        [HttpPost]
+        public ActionResult IndexPost(string nome, string especialidade)
+        {
+            // Quando o formulário é enviado, redireciona para a mesma página com os parâmetros
+            return RedirectToAction("Index", new { nome = nome, especialidade = especialidade});
+        }
 
 
 
@@ -64,10 +71,13 @@ namespace WebSiteVozesUnidas.Controllers
 
             ViewBag.Avaliacoes = _context.AvaliacaoEspecialistas.Include(u => u.Usuario).Where(a => a.EspecialistaId == id).ToList();
 
+            ViewBag.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             return View(especialhista);
         }
 
         // GET: Especialista/Create
+        [Authorize(Roles = "ADM")]
         public IActionResult Create()
         {
             return View();
@@ -78,6 +88,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADM")]
         public async Task<IActionResult> Create([Bind("IdEspecialista,Nome,Telefone,Email,Especialhidade,ImgEspecialista, Usuario")] Especialista especialhista, IFormFile imgUp)
         {
             if (ModelState.IsValid)
@@ -111,6 +122,7 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: Especialista/Edit/5
+        [Authorize(Roles = "ADM")]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -131,6 +143,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADM")]
         public async Task<IActionResult> Edit(Guid id, [Bind("IdEspecialista,Nome,Telefone,Email,Especialhidade,ImgEspecialista, Usuario")] Especialista especialhista, IFormFile imgUp)
         {
             if (id != especialhista.IdEspecialista)
@@ -183,6 +196,7 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: Especialista/Delete/5
+        [Authorize(Roles = "ADM")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -203,6 +217,7 @@ namespace WebSiteVozesUnidas.Controllers
         // POST: Especialista/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADM")]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var especialhista = await _context.Especialistas.FindAsync(id);

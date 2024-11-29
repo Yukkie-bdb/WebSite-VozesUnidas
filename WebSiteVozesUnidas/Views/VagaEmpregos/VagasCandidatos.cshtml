@@ -19,7 +19,25 @@
 
       
 
-            <button class="btn btn-success rounded-0">Ver Mais</button>
+            <a class="btn btn-success rounded-0" asp-action="PerfilUsuario" asp-controller="Home" asp-route-id="@item.UsuarioId">Ver Mais</a>
+        </div>
+    }
+
+    @if (Model.Count() == 0)
+    {
+        <div class="card col-12 p-3 border text-black text-decoration-none my-5">
+
+            <div class="d-flex justify-content-center">
+
+
+                <div class="card-body col-12 p-0 ms-3 d-flex flex-column justify-content-center">
+
+                    <h3 class="card-title text-center text-uppercase fw-light">Parece que ninguem se candidatou para essa vaga ainda, tente esperar um pouco mais!</h3>
+
+
+                </div>
+            </div>
+
         </div>
     }
 </div>

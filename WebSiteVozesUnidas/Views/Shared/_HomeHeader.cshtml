@@ -58,11 +58,14 @@
             </li>
         </ul>
     </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        
     <hr class="mx-4" />
     <div class="offcanvas-body">
         <ul class="navbar-nav ">
             <li class="nav-item">
-                <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="Home" asp-action="Index">Minhas Candidaturas</a>
+                <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="CandidatoVagas" asp-action="Index">Minhas Candidaturas</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="Noticias" asp-action="Index">Minhas Noticias</a>
@@ -78,14 +81,16 @@
             </li>
         </ul>
     </div>
+    }
+
     <hr class="mx-4"/>
     <div class="offcanvas-body">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="CandidatosJornalistas" asp-action="Index">Quer virar um Jornalista?</a>
+                <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="CandidatosJornalistas" asp-action="Create">Quer virar um Jornalista?</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="Noticias" asp-action="Index">Fazer parte da STAFF</a>
+                <a class="nav-link mb-0 h5 hover-dark-underline text-secondary" asp-area="" asp-controller="CandidatosAdmins" asp-action="Create">Fazer parte da STAFF</a>
             </li>
         </ul>
     </div>
@@ -101,6 +106,9 @@
     </div>
     }
 
+    @if (User.Identity.IsAuthenticated)
+    {
+        
     <hr class="mx-4" />
     <div class="offcanvas-body">
         <ul class="navbar-nav">
@@ -118,5 +126,6 @@
             </li>
         </ul>
     </div>
+    }
 
 </div>

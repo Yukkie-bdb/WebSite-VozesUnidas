@@ -30,29 +30,39 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: Posts
-        public async Task<IActionResult> Index(Guid? id)
+        public async Task<IActionResult> Index(Guid? id, string titulo)
         {
             ViewData["CustomHeader"] = "ForumHeader";
 
+            // Carrega as categorias para o dropdown
             var Categorias = await _context.CategoriaPosts.ToListAsync();
             ViewBag.Categorias = Categorias;
-            if(id != null)
+
+            // Consulta base para os posts
+            var query = _context.Posts.AsQueryable();
+
+            // Filtra por categoria, se fornecida
+            if (id != null)
             {
-                var tudo = await _context.Posts.ToListAsync();
-                var filtrado = new List<Post>();
-                foreach(var item in tudo)
-                {
-
-                    if(item.IdCategoria == id)
-                    {
-                        filtrado.Add(item);
-                    }
-                }
-                return View(filtrado);
-
+                query = query.Where(item => item.IdCategoria == id);
             }
 
-            return View(await _context.Posts.ToListAsync());
+            // Filtra por título, se fornecido
+            if (!string.IsNullOrWhiteSpace(titulo))
+            {
+                query = query.Where(item => item.Titulo.Contains(titulo));
+            }
+
+            // Executa a consulta final e retorna a View
+            var filtrado = await query.ToListAsync();
+            return View(filtrado);
+        }
+
+        [HttpPost]
+        public ActionResult IndexPost(Guid? id, string titulo)
+        {
+            // Quando o formulário é enviado, redireciona para a mesma página com os parâmetros
+            return RedirectToAction("Index", new { id = id, titulo = titulo });
         }
 
         // GET: Posts/Details/5

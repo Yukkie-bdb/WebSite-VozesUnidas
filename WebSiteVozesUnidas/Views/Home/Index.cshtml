@@ -380,7 +380,10 @@
 
                     <div>
                         <p class="mb-0 fs-6 text-secondary fw-bold">Descrição:</p>
-                        <p>@item.DescricaoVaga</p>
+                        <p>
+                                @(item.DescricaoVaga.Length > 100 ? item.DescricaoVaga.Substring(0, 100) + "..." : item.DescricaoVaga)
+
+                        </p>
                     </div>
 
                     <div class="mt-auto">

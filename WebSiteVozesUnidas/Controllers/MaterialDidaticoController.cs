@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -74,6 +75,7 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: MaterialDidatico/Create
+        [Authorize(Roles = "ADM, Jornalista")]
         public IActionResult Create()
         {
             ViewData["CategoriaId"] = new SelectList(_context.CategoriaMaterials, "IdCategoriaMaterial", "Categoria");
@@ -85,6 +87,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADM, Jornalista")]
         public async Task<IActionResult> Create([Bind("IdMaterialDidatico,Titulo,Descricao,CategoriaId,LinkYoutube")] MaterialDidatico materialDidatico, IFormFile imgUp)
         {
             if (ModelState.IsValid)
@@ -118,6 +121,7 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: MaterialDidatico/Edit/5
+        [Authorize(Roles = "ADM, Jornalista")]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -139,6 +143,7 @@ namespace WebSiteVozesUnidas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADM, Jornalista")]
         public async Task<IActionResult> Edit(Guid id, [Bind("IdMaterialDidatico,Titulo,Descricao,CategoriaId,ImgMaterial,LinkYoutube")] MaterialDidatico materialDidatico, IFormFile imgUp)
         {
             if (id != materialDidatico.IdMaterialDidatico)
@@ -200,6 +205,7 @@ namespace WebSiteVozesUnidas.Controllers
         }
 
         // GET: MaterialDidatico/Delete/5
+        [Authorize(Roles = "ADM, Jornalista")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -220,6 +226,7 @@ namespace WebSiteVozesUnidas.Controllers
 
         // POST: MaterialDidatico/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "ADM, Jornalista")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {

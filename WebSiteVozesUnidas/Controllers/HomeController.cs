@@ -90,7 +90,16 @@ namespace WebSiteVozesUnidas.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        public async Task<IActionResult> PerfilUsuario(Guid id)
+        {
+            var user = _context.Users.Where(u => u.Id == id).FirstOrDefault();
 
+            ViewBag.Avaliacoes = _context.AvaliacaoEspecialistas.Include(u => u.Especialistas).Where(u => u.UsuarioId == user.Id).ToList();
+            ViewBag.Noticias = _context.Noticias.Where(u => u.Id == user.Id).OrderBy(u => u.Publicacao).Take(6).ToList();
+            ViewBag.Posts = _context.Posts.Where(u => u.Id == user.Id).Include(p => p.Likes).Include(o => o.Comentarios).OrderByDescending(u => u.Likes.Count()).Take(3).ToList();
+
+            return View(user);
+        }
 
     }
 }

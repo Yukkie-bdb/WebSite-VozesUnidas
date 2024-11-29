@@ -24,7 +24,7 @@ namespace WebSiteVozesUnidas.Models
         public Guid? IdComentario { get; set; }
 
         [ForeignKey(nameof(IdComentario))]
-        public Post? Comentario { get; set; }
+        public Comentario? Comentario { get; set; }
         public Guid? Id { get; set; }
 
         [ForeignKey(nameof(Id))]
